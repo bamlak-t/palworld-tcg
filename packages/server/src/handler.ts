@@ -7,7 +7,7 @@ import {
   apply,
   createGame,
   getLegalActions,
-  TRIAL_DECKS,
+  validateDeck,
   viewFor,
   type Action,
   type GameView,
@@ -21,8 +21,9 @@ const CODE_ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // no 0/O or 1/I
 const CODE_LENGTH = 6;
 
 export type Request =
-  | { op: 'create'; name: string; avatarId: string; deckId: string }
-  | { op: 'join'; code: string; name: string; avatarId: string; deckId?: string }
+  | { op: 'create'; name: string; avatarId: string; deck: string[] }
+  /** deck is only needed (and checked) if you get a player seat. */
+  | { op: 'join'; code: string; name: string; avatarId: string; deck?: string[] }
   | { op: 'view'; code: string; seatToken: string; sinceVersion?: number }
   | { op: 'action'; code: string; seatToken: string; action: Action; expectedVersion: number }
   | { op: 'leave'; code: string; seatToken: string };
@@ -111,8 +112,11 @@ function checkProfile(name: unknown, avatarId: unknown) {
   if (typeof avatarId !== 'string' || !/^[a-z]{1,16}$/.test(avatarId)) bad('Invalid avatar.');
 }
 
-function checkDeck(deckId: unknown): asserts deckId is keyof typeof TRIAL_DECKS {
-  if (typeof deckId !== 'string' || !(deckId in TRIAL_DECKS)) bad('Unknown deck.');
+/** Decks come from the client, so the server enforces the deck rules itself (§6.1). */
+function checkDeck(deck: unknown): asserts deck is string[] {
+  if (!Array.isArray(deck) || deck.length > 100 || !deck.every((id) => typeof id === 'string')) bad('Invalid deck.');
+  const problems = validateDeck(deck as string[]);
+  if (problems.length > 0) bad(`Illegal deck: ${problems[0]}`);
 }
 
 function newCode(random: () => number) {
@@ -126,7 +130,7 @@ const normaliseCode = (code: unknown) => {
 
 async function create(req: Extract<Request, { op: 'create' }>, deps: Deps): Promise<SessionInfo> {
   checkProfile(req.name, req.avatarId);
-  checkDeck(req.deckId);
+  checkDeck(req.deck);
   return deps.store.transaction(async (tx) => {
     await tx.deleteStaleSessions(STALE_HOURS);
     let session: SessionRow | null = null;
@@ -140,7 +144,7 @@ async function create(req: Extract<Request, { op: 'create' }>, deps: Deps): Prom
       role: 'p1',
       displayName: req.name.trim(),
       avatarId: req.avatarId,
-      deckId: req.deckId,
+      deck: req.deck,
     });
     return { ...(await info(tx, session!, member)), seatToken: member.seatToken };
   });
@@ -157,7 +161,7 @@ async function join(req: Extract<Request, { op: 'join' }>, deps: Deps): Promise<
 
     let role: Role;
     if (!hasP2 && session.status === 'waiting') {
-      checkDeck(req.deckId);
+      checkDeck(req.deck);
       role = 'p2';
     } else if (members.filter((m) => m.role === 'spectator').length < MAX_SPECTATORS) {
       role = 'spectator';
@@ -170,15 +174,15 @@ async function join(req: Extract<Request, { op: 'join' }>, deps: Deps): Promise<
       role,
       displayName: req.name.trim(),
       avatarId: req.avatarId,
-      deckId: role === 'p2' ? req.deckId! : null,
+      deck: role === 'p2' ? req.deck! : null,
     });
 
     if (role === 'p2' && p1) {
       // Both seats filled: deal the game.
       const seed = Math.floor(deps.random() * 2 ** 31);
       const { state } = createGame(seed, [
-        { name: p1.displayName, deck: [...TRIAL_DECKS[p1.deckId as keyof typeof TRIAL_DECKS].cards] },
-        { name: member.displayName, deck: [...TRIAL_DECKS[member.deckId as keyof typeof TRIAL_DECKS].cards] },
+        { name: p1.displayName, deck: p1.deck! },
+        { name: member.displayName, deck: member.deck! },
       ]);
       await tx.updateSession(session.id, { status: 'playing', state, version: state.version });
       Object.assign(session, { status: 'playing', state, version: state.version });

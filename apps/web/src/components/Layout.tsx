@@ -1,4 +1,4 @@
-import { NavLink, Outlet } from 'react-router';
+import { NavLink, Outlet, useLocation } from 'react-router';
 import { SettingsDialog } from '@/components/SettingsDialog';
 import { cn } from '@/lib/utils';
 import { HelpDialog } from '@/components/HelpDialog';
@@ -11,6 +11,7 @@ const navClass = ({ isActive }: { isActive: boolean }) =>
   );
 
 export function Layout() {
+  const { pathname } = useLocation();
   return (
     <div className="min-h-dvh">
       <header className="sticky top-0 z-20 border-b bg-background/85 backdrop-blur">
@@ -18,11 +19,12 @@ export function Layout() {
           <span className="mr-2 font-display text-base font-bold tracking-wide whitespace-nowrap text-primary sm:mr-4 sm:text-lg">
             Palworld TCG
           </span>
-          <NavLink to="/" end className={navClass}>
-            Home
-          </NavLink>
-          <NavLink to="/play" className={navClass}>
+          {/* Play is the home page; local and online games live under /play. */}
+          <NavLink to="/" className={() => navClass({ isActive: pathname === '/' || pathname.startsWith('/play') })}>
             Play
+          </NavLink>
+          <NavLink to="/decks" className={navClass}>
+            Decks
           </NavLink>
           <NavLink to="/cards" className={navClass}>
             Cards

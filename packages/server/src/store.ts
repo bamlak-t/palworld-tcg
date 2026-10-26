@@ -18,7 +18,8 @@ export interface MemberRow {
   seatToken: string;
   displayName: string;
   avatarId: string;
-  deckId: string | null;
+  /** The player's 50 card ids; null for spectators. */
+  deck: string[] | null;
 }
 
 export interface EventBatchRow {

@@ -5,14 +5,15 @@ import type { SessionInfo } from '@pal/server';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Avatar } from '@/components/board/Avatar';
 import { Board } from '@/components/board/Board';
 import { Window } from '@/components/game/Window';
 import { gameApi, gameLink, seats } from '@/game/online';
 import { useOnlineGame } from '@/game/useOnlineGame';
 import { useSettings } from '@/lib/settings';
-import { DECK_OPTIONS, ProfilePicker, type DeckKey } from './PlayPage';
+import { ProfilePicker } from './PlayPage';
+import { DeckSelect } from '@/components/DeckSelect';
+import { expandDeck, useDecks } from '@/lib/decks';
 
 /** /play/:code — join if you don't have a seat yet, then the lobby or the game. */
 export function OnlineGamePage() {
@@ -25,7 +26,8 @@ export function OnlineGamePage() {
 function JoinForm({ code, onJoined }: { code: string; onJoined: (token: string) => void }) {
   const { settings } = useSettings();
   const [profile, setProfile] = useState({ name: settings.playerName, avatarId: settings.avatarId });
-  const [deck, setDeck] = useState<DeckKey>('ETD02');
+  const decks = useDecks();
+  const [deck, setDeck] = useState('trial:ETD02');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -33,7 +35,11 @@ function JoinForm({ code, onJoined }: { code: string; onJoined: (token: string) 
     setBusy(true);
     setError(null);
     try {
-      const info = await gameApi.join(code, { ...profile, name: profile.name.trim() }, deck);
+      const info = await gameApi.join(
+        code,
+        { ...profile, name: profile.name.trim() },
+        expandDeck(decks.all.find((d) => d.id === deck) ?? decks.all[0]!),
+      );
       seats.set(code, info.seatToken!);
       onJoined(info.seatToken!);
     } catch (e) {
@@ -48,19 +54,8 @@ function JoinForm({ code, onJoined }: { code: string; onJoined: (token: string) 
       <Window title={`Join game ${code}`} bodyClassName="flex flex-col gap-5">
         <ProfilePicker profile={profile} onChange={setProfile} />
         <div className="flex flex-col gap-1.5">
-          <Label>Your deck (if you get a player seat)</Label>
-          <Select value={deck} onValueChange={(v) => setDeck(v as DeckKey)}>
-            <SelectTrigger className="w-full bg-background/70">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {DECK_OPTIONS.map(([key, d]) => (
-                <SelectItem key={key} value={key}>
-                  {d.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <Label htmlFor="join-deck">Your deck (if you get a player seat)</Label>
+          <DeckSelect value={deck} onChange={setDeck} id="join-deck" />
         </div>
         <Button
           size="lg"
@@ -86,7 +81,7 @@ function OnlineGame({ code, token }: { code: string; token: string }) {
   const leave = async () => {
     await game.leave().catch(() => undefined);
     seats.remove(code);
-    navigate('/play');
+    navigate('/');
   };
 
   if (game.gone) {
@@ -94,7 +89,7 @@ function OnlineGame({ code, token }: { code: string; token: string }) {
     return (
       <Message title="Game not found">
         This game has ended or the link is wrong.{' '}
-        <Link to="/play" className="underline">
+        <Link to="/" className="underline">
           Back to Play
         </Link>
       </Message>
@@ -157,7 +152,7 @@ function OnlineGame({ code, token }: { code: string; token: string }) {
                 <span className="text-sm font-normal text-window-foreground/80">{info.view!.result.reason}</span>
               </span>
               <Button asChild size="sm" className="bg-window-trim text-window-trim-foreground hover:bg-window-trim/85">
-                <Link to="/play">Back to Play</Link>
+                <Link to="/">Back to Play</Link>
               </Button>
             </Window>
           )}

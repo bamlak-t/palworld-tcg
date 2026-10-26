@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest';
+import { TRIAL_DECKS } from '@pal/engine';
 import { handle, MAX_SPECTATORS, memoryStore, type Request, type SessionInfo } from './index.ts';
+
+const ETD01 = [...TRIAL_DECKS.ETD01.cards];
+const ETD02 = [...TRIAL_DECKS.ETD02.cards];
 
 function setup() {
   const store = memoryStore();
@@ -26,15 +30,15 @@ function setup() {
 
 async function startedGame() {
   const t = setup();
-  const host = await t.ok({ op: 'create', name: 'Alice', avatarId: 'woolly', deckId: 'ETD01' });
-  const guest = await t.ok({ op: 'join', code: host.code, name: 'Bob', avatarId: 'ember', deckId: 'ETD02' });
+  const host = await t.ok({ op: 'create', name: 'Alice', avatarId: 'woolly', deck: ETD01 });
+  const guest = await t.ok({ op: 'join', code: host.code, name: 'Bob', avatarId: 'ember', deck: ETD02 });
   return { ...t, host, guest };
 }
 
 describe('sessions', () => {
   it('creates a waiting game with a 6-character code and gives the host seat p1', async () => {
     const { ok } = setup();
-    const host = await ok({ op: 'create', name: 'Alice', avatarId: 'woolly', deckId: 'ETD01' });
+    const host = await ok({ op: 'create', name: 'Alice', avatarId: 'woolly', deck: ETD01 });
     expect(host.code).toMatch(/^[A-HJ-NP-Z2-9]{6}$/);
     expect(host.status).toBe('waiting');
     expect(host.role).toBe('p1');
@@ -53,13 +57,13 @@ describe('sessions', () => {
 
   it('accepts codes in any case and with spaces', async () => {
     const { ok } = setup();
-    const host = await ok({ op: 'create', name: 'A', avatarId: 'woolly', deckId: 'ETD01' });
+    const host = await ok({ op: 'create', name: 'A', avatarId: 'woolly', deck: ETD01 });
     const guest = await ok({
       op: 'join',
       code: ` ${host.code.toLowerCase()} `,
       name: 'B',
       avatarId: 'ember',
-      deckId: 'ETD02',
+      deck: ETD02,
     });
     expect(guest.role).toBe('p2');
   });
@@ -76,14 +80,21 @@ describe('sessions', () => {
     expect(full).toEqual({ status: 409, body: { error: 'This game is full.' } });
   });
 
+  it('rejects decks that break the deck rules', async () => {
+    const { call } = setup();
+    const tooMany = [...ETD01.slice(0, 45), ...Array(5).fill('ETD01-002')];
+    const r = await call({ op: 'create', name: 'A', avatarId: 'woolly', deck: tooMany });
+    expect(r.status).toBe(400);
+    expect((r.body as { error: string }).error).toMatch(/At most 4 copies/);
+    expect((await call({ op: 'create', name: 'A', avatarId: 'woolly', deck: ETD01.slice(0, 49) })).status).toBe(400);
+  });
+
   it('rejects unknown codes, decks and bad names', async () => {
     const { call } = setup();
-    expect((await call({ op: 'join', code: 'ZZZZZZ', name: 'A', avatarId: 'woolly', deckId: 'ETD01' })).status).toBe(
-      404,
-    );
-    expect((await call({ op: 'create', name: 'A', avatarId: 'woolly', deckId: 'NOPE' })).status).toBe(400);
-    expect((await call({ op: 'create', name: '   ', avatarId: 'woolly', deckId: 'ETD01' })).status).toBe(400);
-    expect((await call({ op: 'create', name: 'A'.repeat(25), avatarId: 'woolly', deckId: 'ETD01' })).status).toBe(400);
+    expect((await call({ op: 'join', code: 'ZZZZZZ', name: 'A', avatarId: 'woolly', deck: ETD01 })).status).toBe(404);
+    expect((await call({ op: 'create', name: 'A', avatarId: 'woolly', deck: ['NOPE'] })).status).toBe(400);
+    expect((await call({ op: 'create', name: '   ', avatarId: 'woolly', deck: ETD01 })).status).toBe(400);
+    expect((await call({ op: 'create', name: 'A'.repeat(25), avatarId: 'woolly', deck: ETD01 })).status).toBe(400);
   });
 });
 
@@ -211,7 +222,7 @@ describe('actions', () => {
 describe('leaving', () => {
   it('a host leaving before anyone joins closes the game', async () => {
     const { ok, call } = setup();
-    const host = await ok({ op: 'create', name: 'A', avatarId: 'woolly', deckId: 'ETD01' });
+    const host = await ok({ op: 'create', name: 'A', avatarId: 'woolly', deck: ETD01 });
     await ok({ op: 'leave', code: host.code, seatToken: host.seatToken! } as Request);
     expect((await call({ op: 'view', code: host.code, seatToken: host.seatToken! })).status).toBe(404);
   });

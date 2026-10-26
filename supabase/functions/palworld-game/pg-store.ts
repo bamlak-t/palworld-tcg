@@ -19,7 +19,7 @@ const member = (r: Record<string, unknown>): MemberRow => ({
   seatToken: r.seat_token as string,
   displayName: r.display_name as string,
   avatarId: r.avatar_id as string,
-  deckId: (r.deck_id as string | null) ?? null,
+  deck: (r.deck as string[] | null) ?? null,
 });
 
 function tx(sql: TxSql): Tx {
@@ -56,8 +56,8 @@ function tx(sql: TxSql): Tx {
     },
     async insertMember(m) {
       const [r] = await sql`
-        insert into palworld.members (session_id, role, display_name, avatar_id, deck_id)
-        values (${m.sessionId}, ${m.role}, ${m.displayName}, ${m.avatarId}, ${m.deckId})
+        insert into palworld.members (session_id, role, display_name, avatar_id, deck)
+        values (${m.sessionId}, ${m.role}, ${m.displayName}, ${m.avatarId}, ${m.deck ? sql.json(m.deck) : null})
         returning *`;
       return member(r!);
     },

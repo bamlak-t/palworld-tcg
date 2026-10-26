@@ -1,26 +1,25 @@
 import { useState, type FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router';
 import { Monitor, Users } from 'lucide-react';
-import { TRIAL_DECKS } from '@pal/engine';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Avatar, AVATARS } from '@/components/board/Avatar';
+import { DeckSelect } from '@/components/DeckSelect';
+import { expandDeck, useDecks } from '@/lib/decks';
 import { Window } from '@/components/game/Window';
 import { gameApi, onlineConfigured, seats } from '@/game/online';
 import { useSettings } from '@/lib/settings';
 import { cn } from '@/lib/utils';
-
-export type DeckKey = keyof typeof TRIAL_DECKS;
-export const DECK_OPTIONS = Object.entries(TRIAL_DECKS) as [DeckKey, (typeof TRIAL_DECKS)[DeckKey]][];
 
 /** Pick how to play: an online game (create or join by code) or a game on this screen. */
 export function PlayPage() {
   const navigate = useNavigate();
   const { settings } = useSettings();
   const [profile, setProfile] = useState({ name: settings.playerName, avatarId: settings.avatarId });
-  const [deck, setDeck] = useState<DeckKey>('ETD01');
+  const decks = useDecks();
+  const [deck, setDeck] = useState('trial:ETD01');
+  const deckCards = () => expandDeck(decks.all.find((d) => d.id === deck) ?? decks.all[0]!);
   const [code, setCode] = useState('');
   const [busy, setBusy] = useState<'create' | 'join' | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -46,7 +45,7 @@ export function PlayPage() {
     e.preventDefault();
     const c = code.trim().toUpperCase();
     if (c.length !== 6) return setError('Game codes are 6 characters.');
-    void run('join', () => gameApi.join(c, { ...profile, name }, deck));
+    void run('join', () => gameApi.join(c, { ...profile, name }, deckCards()));
   };
 
   return (
@@ -66,25 +65,14 @@ export function PlayPage() {
         )}
         <ProfilePicker profile={profile} onChange={setProfile} />
         <div className="flex flex-col gap-1.5">
-          <Label>Your deck</Label>
-          <Select value={deck} onValueChange={(v) => setDeck(v as DeckKey)}>
-            <SelectTrigger className="w-full bg-background/70">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {DECK_OPTIONS.map(([key, d]) => (
-                <SelectItem key={key} value={key}>
-                  {d.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <Label htmlFor="play-deck">Your deck</Label>
+          <DeckSelect value={deck} onChange={setDeck} id="play-deck" />
         </div>
         <Button
           size="lg"
           disabled={!ready || !onlineConfigured || busy !== null}
           className="h-10 bg-window-trim text-window-trim-foreground hover:bg-window-trim/85"
-          onClick={() => void run('create', () => gameApi.create({ ...profile, name }, deck))}
+          onClick={() => void run('create', () => gameApi.create({ ...profile, name }, deckCards()))}
         >
           {busy === 'create' ? 'Creating…' : 'Create a game'}
         </Button>

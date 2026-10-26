@@ -35,8 +35,9 @@ export interface Profile {
 }
 
 export const gameApi = {
-  create: (p: Profile, deckId: string) => call<SessionInfo>({ op: 'create', ...p, deckId }),
-  join: (code: string, p: Profile, deckId: string) => call<SessionInfo>({ op: 'join', code, ...p, deckId }),
+  /** deck: the 50 card ids. The server checks the deck rules. */
+  create: (p: Profile, deck: string[]) => call<SessionInfo>({ op: 'create', ...p, deck }),
+  join: (code: string, p: Profile, deck: string[]) => call<SessionInfo>({ op: 'join', code, ...p, deck }),
   view: (code: string, seatToken: string, sinceVersion?: number) =>
     call<SessionInfo>({ op: 'view', code, seatToken, sinceVersion }),
   action: (code: string, seatToken: string, action: Action, expectedVersion: number) =>

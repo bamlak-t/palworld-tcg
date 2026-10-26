@@ -1,22 +1,21 @@
 import { useState } from 'react';
-import { TRIAL_DECKS } from '@pal/engine';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Avatar, AVATARS } from '@/components/board/Avatar';
 import { Board } from '@/components/board/Board';
+import { DeckSelect } from '@/components/DeckSelect';
+import { expandDeck, useDecks } from '@/lib/decks';
 import { Window } from '@/components/game/Window';
 import { useLocalGame, type DeckChoice } from '@/game/useLocalGame';
 import { useSettings } from '@/lib/settings';
 import { cn } from '@/lib/utils';
 
-const DECKS: Record<string, DeckChoice> = TRIAL_DECKS;
-type DeckKey = keyof typeof TRIAL_DECKS;
 type Pair<T> = [T, T];
 interface Setup {
   names: Pair<string>;
-  decks: Pair<DeckKey>;
+  /** Deck ids from the deck list (saved or starter). */
+  decks: Pair<string>;
   avatars: Pair<string>;
 }
 
@@ -34,7 +33,7 @@ function SetupForm({ onStart }: { onStart: (s: Setup) => void }) {
   // Start empty (blank names fall back to "Player 1/2"), unless you've set a name in Settings.
   const savedName = settings.playerName.trim() === 'Player 1' ? '' : settings.playerName.trim();
   const [names, setNames] = useState<Pair<string>>([savedName, '']);
-  const [decks, setDecks] = useState<Pair<DeckKey>>(['ETD01', 'ETD02']);
+  const [decks, setDecks] = useState<Pair<string>>(['trial:ETD01', 'trial:ETD02']);
   const [avatars, setAvatars] = useState<Pair<string>>([
     settings.avatarId,
     AVATARS.find((a) => a.id !== settings.avatarId)!.id,
@@ -75,18 +74,7 @@ function SetupForm({ onStart }: { onStart: (s: Setup) => void }) {
               </div>
               <div className="flex flex-col gap-1.5">
                 <Label>Deck</Label>
-                <Select value={decks[i]} onValueChange={(v) => setDecks((d) => setAt(d, i, v as DeckKey))}>
-                  <SelectTrigger className="w-full bg-background/70">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {Object.entries(DECKS).map(([key, deck]) => (
-                      <SelectItem key={key} value={key}>
-                        {deck.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <DeckSelect value={decks[i]} onChange={(v) => setDecks((d) => setAt(d, i, v))} />
               </div>
             </div>
           </div>
@@ -104,11 +92,16 @@ function SetupForm({ onStart }: { onStart: (s: Setup) => void }) {
 }
 
 function LocalGame({ setup, onQuit }: { setup: Setup; onQuit: () => void }) {
+  const { all } = useDecks();
+  const deckChoice = (id: string): DeckChoice => {
+    const d = all.find((x) => x.id === id) ?? all[0]!;
+    return { name: d.name, cards: expandDeck(d) };
+  };
   const [players] = useState(
     () =>
       [
-        { name: setup.names[0], deck: DECKS[setup.decks[0]]! },
-        { name: setup.names[1], deck: DECKS[setup.decks[1]]! },
+        { name: setup.names[0], deck: deckChoice(setup.decks[0]) },
+        { name: setup.names[1], deck: deckChoice(setup.decks[1]) },
       ] as Pair<{ name: string; deck: DeckChoice }>,
   );
   const game = useLocalGame(players);
