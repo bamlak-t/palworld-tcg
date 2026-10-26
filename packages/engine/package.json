@@ -1,0 +1,11 @@
+{
+  "name": "@pal/engine",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@pal/cards": "*"
+  }
+}

@@ -11,7 +11,7 @@
     "build": "npm run build -w @pal/web",
     "preview": "npm run preview -w @pal/web",
     "sync-cards": "tsx scripts/sync-cards.ts",
-    "typecheck": "tsc -p packages/cards && tsc -p apps/web",
+    "typecheck": "tsc -p packages/cards && tsc -p packages/engine && tsc -p apps/web",
     "test": "vitest run"
   },
   "devDependencies": {
