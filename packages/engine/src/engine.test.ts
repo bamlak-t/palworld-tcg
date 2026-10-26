@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { apply, createGame, getLegalActions, validateDeck, viewFor } from './index.ts';
 import type { Action, GameEvent, GameState, Seat } from './types.ts';
+import { actThrough } from './testkit.ts';
 
 // --- fixtures ---------------------------------------------------------------
 
@@ -29,9 +30,7 @@ function trialDeck(): string[] {
 }
 
 function act(s: GameState, seat: Seat, action: Action): { s: GameState; events: GameEvent[] } {
-  const r = apply(s, seat, action);
-  if (!r.ok) throw new Error(`${action.type} rejected: ${r.error}`);
-  return { s: r.state, events: r.events };
+  return actThrough(s, seat, action);
 }
 
 function reject(s: GameState, seat: Seat, action: Action): string {

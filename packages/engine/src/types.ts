@@ -15,10 +15,29 @@ export type BattleStep = (typeof BATTLE_STEPS)[number];
 /** How long a modifier lasts. */
 export type Duration = 'endOfTurn' | 'endOfBattle' | 'permanent';
 
-/** A change to a card's power or strike, kept with its source so the UI can explain it. */
+export const KEYWORDS = [
+  'assault',
+  'taunt',
+  'stealth',
+  'vigilance',
+  'interrupt',
+  'retaliate',
+  'nocturnal',
+  'breakthrough',
+  'brave',
+  'serious',
+] as const;
+export type Keyword = (typeof KEYWORDS)[number];
+
+/**
+ * A change to a card's power or strike, or a granted keyword, kept with its source so
+ * the UI can explain it.
+ */
 export interface Modifier {
-  stat: 'power' | 'strike';
+  stat: 'power' | 'strike' | 'keyword';
+  /** Ignored for keyword grants. */
   amount: number;
+  keyword?: Keyword;
   /** Human-readable source, e.g. "Brave 300" or "Nocturnal". */
   source: string;
   duration: Duration;
@@ -39,6 +58,10 @@ export interface CardInstance {
   placedAt: number;
   /** Structure this Pal is assigned to (§5.17), if any. */
   assignedTo: string | null;
+  /** Skip standing in the owner's next stand phase (e.g. Crystal Breath). */
+  skipNextStand?: boolean;
+  /** Card whose effect exiled this one (e.g. Hanging Trap), for "the Pal exiled by this card". */
+  exiledBy?: string | null;
 }
 
 export interface PlayerState {
@@ -73,6 +96,40 @@ export interface BattleState {
   target: AttackTarget;
   step: BattleStep;
   blockerId: string | null;
+  /** §5.18: the attack was nullified; no battle damage. */
+  nullified?: boolean;
+}
+
+/** An option in an effect choice. cardId is set when the option is a card. */
+export interface ChoiceOption {
+  id: string;
+  cardId?: string;
+  label?: string;
+}
+
+/** An automatic ability waiting to be played at the next check timing (§10.8). */
+export interface QueuedTrigger {
+  sourceId: string;
+  cardId: string;
+  controller: Seat;
+  trigger: TriggerKind;
+}
+
+export type TriggerKind = 'onDeploy' | 'onAttack' | 'onGraveyard' | 'onLeaveBase' | 'endOfTurn';
+
+/** Which ability of a card is resolving. */
+export type AbilityRef = { kind: 'trigger'; trigger: TriggerKind } | { kind: 'act'; index: number } | { kind: 'event' };
+
+/**
+ * The effect currently resolving. Effects that need a choice suspend; the answer is
+ * recorded and the effect is replayed from the start with the answers so far.
+ */
+export interface Resolution {
+  sourceId: string;
+  cardId: string;
+  controller: Seat;
+  ability: AbilityRef;
+  answers: string[][];
 }
 
 /** A decision the engine is waiting on. Options are always listed by the engine. */
@@ -80,7 +137,17 @@ export type PendingChoice =
   | { kind: 'chooseFirstPlayer'; seat: Seat }
   | { kind: 'mulligan'; seat: Seat }
   | { kind: 'block'; seat: Seat; options: string[] }
-  | { kind: 'overload'; seat: Seat; candidates: string[]; mustKeep: string[]; keepCount: number };
+  | { kind: 'overload'; seat: Seat; candidates: string[]; mustKeep: string[]; keepCount: number }
+  | { kind: 'quickStep'; seat: Seat }
+  | {
+      kind: 'effectChoice';
+      seat: Seat;
+      prompt: string;
+      sourceCardId: string;
+      options: ChoiceOption[];
+      min: number;
+      max: number;
+    };
 
 export interface GameState {
   /** Bumped on every applied action; used for optimistic locking. */
@@ -98,6 +165,13 @@ export interface GameState {
   nightUntilTurn: number | null;
   /** Counter for CardInstance.placedAt. */
   placementCounter: number;
+  /** Automatic abilities waiting for the next check timing. */
+  triggers: QueuedTrigger[];
+  resolving: Resolution | null;
+  /** §4.11: events being resolved sit here until they go to the graveyard. */
+  resolutionZone: string[];
+  /** Once-per-turn ability uses this turn, keyed "instanceId:abilityIndex". */
+  usedThisTurn: string[];
   result: { winner: Seat | null; reason: string } | null;
 }
 
@@ -109,8 +183,21 @@ export type Action =
   | { type: 'attack'; attackerId: string; target: AttackTarget }
   | { type: 'block'; blockerId: string | null }
   | { type: 'chooseOverload'; keep: string[] }
+  | { type: 'activate'; sourceId: string; index: number; cost?: CostChoice }
+  | { type: 'passQuick' }
+  | { type: 'answer'; choice: string[] }
   | { type: 'endTurn' }
   | { type: 'concede' };
+
+/** Choices made while paying an ability's cost, sent with the activate action. */
+export interface CostChoice {
+  /** Pal to assign for "[Assign 1 Pal]". */
+  assignId?: string;
+  /** Cards discarded from hand for discard costs. */
+  discardIds?: string[];
+  /** Which alternative to pay when the cost says "OR". */
+  option?: number;
+}
 
 /** Something that happened, for animation and the action log. */
 export type GameEvent =
@@ -129,8 +216,26 @@ export type GameEvent =
   | { type: 'milled'; seat: Seat; instanceId: string; cardId: string; lucky: boolean }
   | { type: 'damageCancelled'; seat: Seat; luckyId: string }
   | { type: 'lifeLost'; seat: Seat; amount: number; life: number }
-  | { type: 'destroyed'; instanceId: string; cardId: string; reason: 'lethal' | 'overload' }
+  | { type: 'destroyed'; instanceId: string; cardId: string; reason: 'lethal' | 'overload' | 'effect' }
   | { type: 'battleEnded' }
+  | { type: 'attackNullified'; byCardId: string }
+  | { type: 'abilityActivated'; seat: Seat; instanceId: string; cardId: string; index: number }
+  | { type: 'triggered'; instanceId: string; cardId: string; trigger: TriggerKind }
+  | { type: 'damageDealt'; sourceId: string; targetId: string; amount: number }
+  | { type: 'modified'; instanceId: string; stat: Modifier['stat']; amount: number; keyword?: Keyword; source: string }
+  | { type: 'resourceGained'; seat: Seat; resource: 'material' | 'ingredient'; amount: number }
+  | { type: 'resourceSpent'; seat: Seat; resource: 'material' | 'ingredient'; amount: number }
+  | { type: 'lifeGained'; seat: Seat; amount: number; life: number }
+  | { type: 'assigned'; palId: string; structureId: string }
+  | { type: 'rested'; instanceId: string }
+  | { type: 'stood'; instanceId: string }
+  | { type: 'deployed'; instanceId: string; cardId: string; seat: Seat }
+  | { type: 'discarded'; seat: Seat; instanceId: string; cardId: string }
+  | { type: 'exiled'; instanceId: string; cardId: string }
+  | { type: 'putOnDeck'; seat: Seat }
+  | { type: 'revealed'; seat: Seat; instanceId: string; cardId: string }
+  | { type: 'returnedToHand'; seat: Seat; instanceId: string; cardId: string }
+  | { type: 'nightStarted'; untilTurn: number }
   | { type: 'turnEnded'; seat: Seat }
   | { type: 'gameOver'; winner: Seat | null; reason: string };
 

@@ -31,6 +31,8 @@ export interface GameView {
   battle: BattleState | null;
   pending: PendingChoice | null;
   night: boolean;
+  /** Event cards currently resolving (public, §4.11). */
+  resolving: CardInstance[];
   result: GameState['result'];
   players: [PlayerView, PlayerView];
 }
@@ -64,9 +66,19 @@ export function viewFor(s: GameState, viewer: Viewer): GameView {
     firstSeat: s.firstSeat,
     phase: s.phase,
     battle: s.battle,
-    pending: s.pending,
+    pending: redactPending(s.pending, viewer),
     night: s.nightUntilTurn !== null,
+    resolving: cards(s.resolutionZone),
     result: s.result,
     players: [playerView(0), playerView(1)],
   };
+}
+
+/**
+ * Effect choices can list hidden cards (e.g. the chooser's hand), so only the chooser sees
+ * the options. Everyone else just sees who is choosing and why.
+ */
+function redactPending(p: PendingChoice | null, viewer: Viewer): PendingChoice | null {
+  if (p?.kind !== 'effectChoice' || p.seat === viewer) return p;
+  return { ...p, options: [] };
 }

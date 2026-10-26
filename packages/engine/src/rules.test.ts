@@ -4,6 +4,7 @@
 import { describe, expect, it } from 'vitest';
 import { apply, createGame, getLegalActions } from './index.ts';
 import type { Action, GameState, Seat } from './types.ts';
+import { actThrough } from './testkit.ts';
 
 const LUCKY = ['ETD01-001', 'ETD01-007', 'ETD01-017', 'ETD01-018'];
 const NORMAL_PALS = [
@@ -34,9 +35,7 @@ function newGame(seed = 1) {
 }
 
 function act(s: GameState, seat: Seat, action: Action): GameState {
-  const r = apply(s, seat, action);
-  if (!r.ok) throw new Error(`${action.type} rejected: ${r.error}`);
-  return r.state;
+  return actThrough(s, seat, action).s;
 }
 
 function err(s: GameState, seat: Seat, action: Action): string {
