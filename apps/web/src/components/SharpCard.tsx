@@ -34,7 +34,7 @@ export function SharpCard({
   return (
     <div
       className={cn(
-        'relative overflow-hidden rounded-[4%/3%]',
+        '@container relative overflow-hidden rounded-[4%/3%]',
         landscape ? 'aspect-[400/286]' : 'aspect-[400/559]',
         className,
       )}
@@ -87,7 +87,7 @@ function FittedText({ text, style }: { text: string; style: React.CSSProperties 
   }, [text]);
 
   return (
-    <div ref={boxRef} className="absolute overflow-hidden rounded-[2px]" style={style}>
+    <div ref={boxRef} className="absolute overflow-hidden rounded-[1.8cqw]" style={style}>
       <CardText text={text} className="rounded-none bg-transparent px-[4%] py-[3%] leading-snug" />
     </div>
   );

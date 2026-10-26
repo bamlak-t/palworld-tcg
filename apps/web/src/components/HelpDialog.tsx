@@ -2,12 +2,23 @@ import { useState, type ReactNode } from 'react';
 import { CircleHelp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import {
+  BattleFigure,
+  BoardFigure,
+  CardTypesFigure,
+  DamageFigure,
+  KeywordFigure,
+  SoulsFigure,
+  TurnFigure,
+  WinFigure,
+} from '@/components/HelpFigures';
 import { cn } from '@/lib/utils';
 
 /** How to play, in short sections. The full rules summary lives in docs/RULES.md. */
-const SECTIONS: { id: string; title: string; body: ReactNode }[] = [
+const SECTIONS: { id: string; title: string; figure?: ReactNode; body: ReactNode }[] = [
   {
     id: 'win',
+    figure: <WinFigure />,
     title: 'How to win',
     body: (
       <>
@@ -29,6 +40,7 @@ const SECTIONS: { id: string; title: string; body: ReactNode }[] = [
   },
   {
     id: 'turn',
+    figure: <TurnFigure />,
     title: 'Your turn',
     body: (
       <>
@@ -55,6 +67,7 @@ const SECTIONS: { id: string; title: string; body: ReactNode }[] = [
   },
   {
     id: 'souls',
+    figure: <SoulsFigure />,
     title: 'Souls & resources',
     body: (
       <>
@@ -76,6 +89,7 @@ const SECTIONS: { id: string; title: string; body: ReactNode }[] = [
   },
   {
     id: 'cards',
+    figure: <CardTypesFigure />,
     title: 'Card types',
     body: (
       <>
@@ -101,6 +115,7 @@ const SECTIONS: { id: string; title: string; body: ReactNode }[] = [
   },
   {
     id: 'battle',
+    figure: <BattleFigure />,
     title: 'Battle',
     body: (
       <>
@@ -130,6 +145,7 @@ const SECTIONS: { id: string; title: string; body: ReactNode }[] = [
   },
   {
     id: 'damage',
+    figure: <DamageFigure />,
     title: 'Damage & Lucky Pals',
     body: (
       <>
@@ -146,6 +162,7 @@ const SECTIONS: { id: string; title: string; body: ReactNode }[] = [
   },
   {
     id: 'keywords',
+    figure: <KeywordFigure />,
     title: 'Keywords',
     body: (
       <dl className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1">
@@ -173,6 +190,7 @@ const SECTIONS: { id: string; title: string; body: ReactNode }[] = [
   },
   {
     id: 'app',
+    figure: <BoardFigure />,
     title: 'Using the board',
     body: (
       <ul>
@@ -219,6 +237,7 @@ export function HelpDialog() {
           </nav>
           <article className="prose-sm min-w-0 flex-1 space-y-2 text-sm leading-relaxed [&_li]:ml-5 [&_ol]:list-decimal [&_ol]:space-y-1 [&_ul]:list-disc [&_ul]:space-y-1">
             <h3 className="font-display text-lg font-bold">{section.title}</h3>
+            {section.figure}
             {section.body}
           </article>
         </div>

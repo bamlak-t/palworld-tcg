@@ -4,11 +4,8 @@ import { CARD_FEATURES, cardDb, type CardDef } from '@pal/cards';
 export type FeatureMode = 'has' | 'lacks';
 export type Range = [number, number];
 export type SortKey = 'number' | 'name' | 'cost' | 'power' | 'strike';
-/** Structures are printed landscape, so they get their own view instead of sharing a grid. */
-export type CardView = 'cards' | 'structures';
 
 export interface CardFilters {
-  view: CardView;
   query: string;
   sets: string[];
   kinds: string[];
@@ -31,8 +28,7 @@ const maxOf = (pick: (c: CardDef) => number | null) => Math.max(0, ...browsableC
 
 export const FILTER_OPTIONS = {
   sets: uniqueSorted(browsableCards.flatMap((c) => c.sets)),
-  /** Kinds shown in the "cards" view; structures have their own view. */
-  kinds: ['Pal', 'Gear', 'Event'],
+  kinds: ['Pal', 'Structure', 'Gear', 'Event'],
   colors: ['Red', 'Blue', 'Green', 'Purple'],
   elements: uniqueSorted(browsableCards.flatMap((c) => c.elements)),
   work: uniqueSorted(browsableCards.flatMap((c) => c.workSuitability)),
@@ -43,7 +39,6 @@ export const FILTER_OPTIONS = {
 };
 
 export const DEFAULT_FILTERS: CardFilters = {
-  view: 'cards',
   query: '',
   sets: [],
   kinds: [],
@@ -76,10 +71,9 @@ export function applyFilters(f: CardFilters): CardDef[] {
 
   const results = browsableCards.filter(
     (c) =>
-      (c.kind === 'Structure') === (f.view === 'structures') &&
       (!q || c.name.toLowerCase().includes(q) || c.text.toLowerCase().includes(q) || c.id.toLowerCase().includes(q)) &&
       anyOf(f.sets, c.sets) &&
-      (f.view === 'structures' || anyOf(f.kinds, [c.kind])) &&
+      anyOf(f.kinds, [c.kind]) &&
       (!f.subKind || c.subKind === f.subKind) &&
       anyOf(f.colors, c.color ? [c.color] : []) &&
       anyOf(f.elements, c.elements) &&
@@ -105,7 +99,7 @@ export function applyFilters(f: CardFilters): CardDef[] {
   return results.sort((a, b) => sorters[f.sort](a, b) || a.id.localeCompare(b.id));
 }
 
-/** Number of filter groups that differ from the defaults (for the "Filters (3)" badge). The view isn't a filter. */
+/** Number of filter groups that differ from the defaults (for the "Filters (3)" badge). */
 export function countActiveFilters(f: CardFilters): number {
   const d = DEFAULT_FILTERS;
   return (
@@ -124,6 +118,3 @@ export function countActiveFilters(f: CardFilters): number {
     ].filter(Boolean).length + Object.keys(f.features).length
   );
 }
-
-export const countInView = (view: CardView) =>
-  browsableCards.filter((c) => (c.kind === 'Structure') === (view === 'structures')).length;

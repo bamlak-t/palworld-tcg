@@ -8,7 +8,8 @@ import { Avatar, AVATARS } from '@/components/board/Avatar';
 import { Board } from '@/components/board/Board';
 import { Window } from '@/components/game/Window';
 import { useLocalGame, type DeckChoice } from '@/game/useLocalGame';
-import { BOARD_SKINS, getSkin } from '@/lib/skins';
+import { Link } from 'react-router';
+import { useSettings } from '@/lib/settings';
 import { cn } from '@/lib/utils';
 
 const DECKS: Record<string, DeckChoice> = TRIAL_DECKS;
@@ -30,9 +31,13 @@ export function LocalPlayPage() {
 }
 
 function SetupForm({ onStart }: { onStart: (s: Setup) => void }) {
-  const [names, setNames] = useState<Pair<string>>(['Player 1', 'Player 2']);
+  const { settings } = useSettings();
+  const [names, setNames] = useState<Pair<string>>([settings.playerName || 'Player 1', 'Player 2']);
   const [decks, setDecks] = useState<Pair<DeckKey>>(['ETD01', 'ETD02']);
-  const [avatars, setAvatars] = useState<Pair<string>>(['woolly', 'ember']);
+  const [avatars, setAvatars] = useState<Pair<string>>([
+    settings.avatarId,
+    AVATARS.find((a) => a.id !== settings.avatarId)!.id,
+  ]);
   return (
     <div className="mx-auto max-w-xl py-8">
       <Window title="Local game" bodyClassName="flex flex-col gap-6">
@@ -106,7 +111,7 @@ function LocalGame({ setup, onQuit }: { setup: Setup; onQuit: () => void }) {
       ] as Pair<{ name: string; deck: DeckChoice }>,
   );
   const game = useLocalGame(players);
-  const [skinId, setSkinId] = useState(() => getSkin(null).id);
+  const { skin } = useSettings();
   const result = game.view.result;
 
   return (
@@ -116,18 +121,9 @@ function LocalGame({ setup, onQuit }: { setup: Setup; onQuit: () => void }) {
           Viewing as <span className="font-semibold text-foreground">{game.view.players[game.seat].name}</span>
         </span>
         <div className="ml-auto flex items-center gap-2">
-          <Select value={skinId} onValueChange={setSkinId}>
-            <SelectTrigger size="sm" className="w-40" aria-label="Board skin">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {BOARD_SKINS.map((s) => (
-                <SelectItem key={s.id} value={s.id}>
-                  {s.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <Link to="/settings" className="text-sm text-muted-foreground hover:text-foreground">
+            Skin: <span className="font-medium text-foreground">{skin.name}</span>
+          </Link>
           <Button size="sm" variant="outline" onClick={game.restart}>
             New game
           </Button>
@@ -167,7 +163,7 @@ function LocalGame({ setup, onQuit }: { setup: Setup; onQuit: () => void }) {
         legal={game.legal}
         dispatch={game.dispatch}
         batches={game.batches}
-        skin={getSkin(skinId)}
+        skin={skin}
         avatars={setup.avatars}
       />
     </div>

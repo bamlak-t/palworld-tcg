@@ -53,6 +53,8 @@ export function StatusBar({ view, prompt, action }: { view: GameView; prompt?: R
         {prompt ?? <span className="font-display text-base font-bold tracking-wide md:text-lg">{stage}</span>}
       </div>
       {dots}
+      {/* On phones the stage wraps to its own row, so the line runs from the turn to the action. */}
+      <span aria-hidden className="h-0 min-w-4 flex-1 border-t-2 border-dotted border-board-ink/45 md:hidden" />
       <div className="flex shrink-0 items-center gap-2">{action}</div>
     </div>
   );

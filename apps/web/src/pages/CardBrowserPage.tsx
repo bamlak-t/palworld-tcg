@@ -1,4 +1,4 @@
-import { useMemo, useState, type CSSProperties } from 'react';
+import { useMemo, useState } from 'react';
 import { SlidersHorizontal } from 'lucide-react';
 import { cardDb, imageUrl, type CardDef } from '@pal/cards';
 import { Badge } from '@/components/ui/badge';
@@ -9,13 +9,13 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/co
 import { CardFilterPanel } from '@/components/CardFilterPanel';
 import { CardText } from '@/components/CardText';
 import { SharpCard } from '@/components/SharpCard';
+import { CardFace } from '@/components/game/CardFace';
 import {
   applyFilters,
+  browsableCards,
   countActiveFilters,
-  countInView,
   DEFAULT_FILTERS,
   type CardFilters,
-  type CardView,
   type SortKey,
 } from '@/lib/cardFilters';
 import { cn } from '@/lib/utils';
@@ -27,15 +27,6 @@ const SORTS: [SortKey, string][] = [
   ['power', 'Power (high → low)'],
   ['strike', 'Strike (high → low)'],
 ];
-
-/**
- * Card tiles fill --cols columns (5 when there's room). Structure tiles are scaled up to
- * 650/400 of a card tile's width, keeping their landscape proportions (400×286).
- */
-const TILE_WIDTH: Record<CardView, string> = {
-  cards: 'var(--card-w)',
-  structures: 'calc(var(--card-w) * 650 / 400)',
-};
 
 const COLOR_CLASS: Record<string, string> = {
   Red: 'bg-pal-red text-white',
@@ -53,7 +44,6 @@ export function CardBrowserPage() {
 
   const results = useMemo(() => applyFilters(filters), [filters]);
   const active = countActiveFilters(filters);
-  const structures = filters.view === 'structures';
 
   return (
     <div className="flex gap-8">
@@ -84,14 +74,10 @@ export function CardBrowserPage() {
           </Sheet>
 
           <p className="text-sm text-muted-foreground">
-            {results.length} of {countInView(filters.view)} {structures ? 'structures' : 'cards'}
+            {results.length} of {browsableCards.length} cards
           </p>
           {active > 0 && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setFilters({ ...DEFAULT_FILTERS, view: filters.view, sort: filters.sort })}
-            >
+            <Button variant="ghost" size="sm" onClick={() => setFilters({ ...DEFAULT_FILTERS, sort: filters.sort })}>
               Clear filters
             </Button>
           )}
@@ -115,27 +101,17 @@ export function CardBrowserPage() {
         {results.length === 0 ? (
           <p className="py-16 text-center text-muted-foreground">No cards match these filters.</p>
         ) : (
+          // Every card shares the portrait shape; structures show their art half (see CardFace).
           <div className="@container">
-            <ul
-              className="flex flex-wrap gap-3 [--cols:2] @md:[--cols:3] @2xl:[--cols:4] @3xl:[--cols:5]"
-              style={{ '--card-w': 'calc((100cqw - (var(--cols) - 1) * 0.75rem) / var(--cols))' } as CSSProperties}
-            >
+            <ul className="grid grid-cols-2 gap-3 @md:grid-cols-3 @2xl:grid-cols-4 @3xl:grid-cols-5">
               {results.map((c) => (
-                <li key={c.id} style={{ width: TILE_WIDTH[filters.view] }}>
+                <li key={c.id}>
                   <button
                     onClick={() => setSelected(c)}
                     className="group block w-full overflow-hidden rounded-lg ring-primary transition hover:ring-2 focus-visible:ring-2 focus-visible:outline-none"
                     title={c.name}
                   >
-                    <img
-                      src={imageUrl(c)}
-                      alt={c.name}
-                      loading="lazy"
-                      className={cn(
-                        'w-full bg-muted object-cover transition group-hover:scale-[1.02]',
-                        structures ? 'aspect-[400/286]' : 'aspect-[400/559]',
-                      )}
-                    />
+                    <CardFace card={c} className="aspect-[400/559] bg-muted transition group-hover:scale-[1.02]" />
                   </button>
                 </li>
               ))}

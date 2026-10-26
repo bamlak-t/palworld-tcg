@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Slider } from '@/components/ui/slider';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
-import { FILTER_OPTIONS, type CardFilters, type CardView, type FeatureMode, type Range } from '@/lib/cardFilters';
+import { FILTER_OPTIONS, type CardFilters, type FeatureMode, type Range } from '@/lib/cardFilters';
 import { cn } from '@/lib/utils';
 
 type Update = <K extends keyof CardFilters>(key: K, value: CardFilters[K]) => void;
@@ -15,32 +15,8 @@ type Update = <K extends keyof CardFilters>(key: K, value: CardFilters[K]) => vo
 const FEATURE_GROUPS = ['Ability', 'Timing', 'Resource', 'Keyword'] as const;
 
 export function CardFilterPanel({ filters, update }: { filters: CardFilters; update: Update }) {
-  const structures = filters.view === 'structures';
   return (
     <div className="flex flex-col gap-5">
-      <ToggleGroup
-        type="single"
-        variant="outline"
-        spacing={0}
-        value={filters.view}
-        onValueChange={(v) => v && update('view', v as CardView)}
-        aria-label="Card view"
-        className="w-full"
-      >
-        <ToggleGroupItem
-          value="cards"
-          className="flex-1 px-2 text-[13px] data-[state=on]:bg-primary data-[state=on]:text-primary-foreground"
-        >
-          Pals, Gear &amp; Events
-        </ToggleGroupItem>
-        <ToggleGroupItem
-          value="structures"
-          className="flex-1 px-2 text-[13px] data-[state=on]:bg-primary data-[state=on]:text-primary-foreground"
-        >
-          Structures
-        </ToggleGroupItem>
-      </ToggleGroup>
-
       <Section label="Search">
         <div className="relative">
           <Search className="pointer-events-none absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-muted-foreground" />
@@ -53,31 +29,27 @@ export function CardFilterPanel({ filters, update }: { filters: CardFilters; upd
         </div>
       </Section>
 
-      {!structures && (
-        <MultiChips
-          label="Type"
-          options={FILTER_OPTIONS.kinds}
-          value={filters.kinds}
-          onChange={(v) => update('kinds', v)}
-        />
-      )}
+      <MultiChips
+        label="Type"
+        options={FILTER_OPTIONS.kinds}
+        value={filters.kinds}
+        onChange={(v) => update('kinds', v)}
+      />
 
-      {!structures && (
-        <Section label="Pal rarity">
-          <ToggleGroup
-            type="single"
-            variant="outline"
-            size="sm"
-            spacing={0}
-            value={filters.subKind || 'any'}
-            onValueChange={(v) => update('subKind', v === 'any' || !v ? '' : (v as CardFilters['subKind']))}
-          >
-            <ToggleGroupItem value="any">Any</ToggleGroupItem>
-            <ToggleGroupItem value="Normal Pal">Normal</ToggleGroupItem>
-            <ToggleGroupItem value="Lucky Pal">Lucky</ToggleGroupItem>
-          </ToggleGroup>
-        </Section>
-      )}
+      <Section label="Pal rarity">
+        <ToggleGroup
+          type="single"
+          variant="outline"
+          size="sm"
+          spacing={0}
+          value={filters.subKind || 'any'}
+          onValueChange={(v) => update('subKind', v === 'any' || !v ? '' : (v as CardFilters['subKind']))}
+        >
+          <ToggleGroupItem value="any">Any</ToggleGroupItem>
+          <ToggleGroupItem value="Normal Pal">Normal</ToggleGroupItem>
+          <ToggleGroupItem value="Lucky Pal">Lucky</ToggleGroupItem>
+        </ToggleGroup>
+      </Section>
 
       <MultiChips
         label="Colour"
@@ -85,14 +57,14 @@ export function CardFilterPanel({ filters, update }: { filters: CardFilters; upd
         value={filters.colors}
         onChange={(v) => update('colors', v)}
       />
-      {!structures && (
-        <MultiChips
-          label="Element"
-          options={FILTER_OPTIONS.elements}
-          value={filters.elements}
-          onChange={(v) => update('elements', v)}
-        />
-      )}
+
+      <MultiChips
+        label="Element"
+        options={FILTER_OPTIONS.elements}
+        value={filters.elements}
+        onChange={(v) => update('elements', v)}
+      />
+
       <MultiChips
         label="Work suitability"
         options={FILTER_OPTIONS.work}
@@ -108,21 +80,20 @@ export function CardFilterPanel({ filters, update }: { filters: CardFilters; upd
         onChange={(v) => update('cost', v)}
       />
       <RangeFilter
-        label={structures ? 'Durability' : 'Power'}
+        label="Power / durability"
         max={FILTER_OPTIONS.maxPower}
         step={100}
         value={filters.power}
         onChange={(v) => update('power', v)}
       />
-      {!structures && (
-        <RangeFilter
-          label="Strike"
-          max={FILTER_OPTIONS.maxStrike}
-          step={1}
-          value={filters.strike}
-          onChange={(v) => update('strike', v)}
-        />
-      )}
+
+      <RangeFilter
+        label="Strike"
+        max={FILTER_OPTIONS.maxStrike}
+        step={1}
+        value={filters.strike}
+        onChange={(v) => update('strike', v)}
+      />
 
       <Separator />
 

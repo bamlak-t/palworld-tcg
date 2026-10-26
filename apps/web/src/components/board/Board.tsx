@@ -290,7 +290,7 @@ export function Board({
   const handSize = mobile ? 'sm' : 'md';
   // Centre the hand when it fits; scroll sideways (instead of clipping) when it doesn't.
   const myHand = (
-    <div data-testid="my-hand" className="min-h-28 overflow-x-auto pt-3 pb-1 md:min-h-36 md:overflow-visible">
+    <div data-testid="my-hand" className="overflow-x-auto overflow-y-hidden pt-5 pb-4 md:overflow-visible">
       <div className="mx-auto flex w-max px-2">
         {(me.hand ?? []).map((c, i, all) => {
           const offset = i - (all.length - 1) / 2;
@@ -309,7 +309,7 @@ export function Board({
   );
   // Face down, same size as yours, with the arc mirrored as if seen from across the table.
   const theirHand = (
-    <div className="overflow-x-auto pb-3 md:overflow-visible">
+    <div className="overflow-x-auto overflow-y-hidden pt-1 pb-4 md:overflow-visible">
       <div className="mx-auto flex w-max px-2">
         {Array.from({ length: them.handCount }, (_, i) => {
           const offset = i - (them.handCount - 1) / 2;
