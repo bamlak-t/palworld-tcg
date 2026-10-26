@@ -11,8 +11,11 @@
     "build": "npm run build -w @pal/web",
     "preview": "npm run preview -w @pal/web",
     "sync-cards": "tsx scripts/sync-cards.ts",
-    "typecheck": "tsc -p packages/cards && tsc -p packages/engine && tsc -p apps/web",
-    "test": "vitest run"
+    "typecheck": "tsc -p packages/cards && tsc -p packages/engine && tsc -p packages/server && tsc -p apps/web",
+    "test": "vitest run",
+    "db:apply": "tsx scripts/db-apply.ts",
+    "build:function": "tsx scripts/build-function.ts",
+    "deploy:function": "tsx scripts/build-function.ts && npx -y supabase@2.122.0 functions deploy palworld-game --no-verify-jwt --use-api"
   },
   "devDependencies": {
     "@types/node": "^24.0.0",
