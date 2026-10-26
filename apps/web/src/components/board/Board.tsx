@@ -136,6 +136,7 @@ export function Board({
   batches,
   skin,
   avatars,
+  readOnly,
 }: {
   view: GameView;
   seat: Seat;
@@ -145,12 +146,14 @@ export function Board({
   skin: BoardSkin;
   /** Avatar id per seat. */
   avatars: [string, string];
+  /** Spectating: no prompts or actions, but cards can still be inspected. */
+  readOnly?: boolean;
 }) {
   const mobile = useIsMobile();
   const opp: Seat = seat === 0 ? 1 : 0;
   const me = view.players[seat];
   const them = view.players[opp];
-  const idx = useMemo(() => indexLegal(legal), [legal]);
+  const idx = useMemo(() => indexLegal(readOnly ? [] : legal), [legal, readOnly]);
   const last = batches.at(-1);
   const cues = useMemo(() => cuesFrom(last, seat), [last, seat]);
 
@@ -182,7 +185,7 @@ export function Board({
     dispatch(a);
   };
 
-  const pending = view.pending?.seat === seat ? view.pending : null;
+  const pending = !readOnly && view.pending?.seat === seat ? view.pending : null;
   const blockOptions = pending?.kind === 'block' ? pending.options : [];
   const targetIds = new Set(
     targeting ? (idx.attacks.get(targeting) ?? []).flatMap((t) => (t.kind === 'card' ? [t.id] : [])) : [],
@@ -419,12 +422,14 @@ export function Board({
         <GameLog batches={batches} />
       </div>
 
-      <PendingDialog
-        view={view}
-        seat={seat}
-        dispatch={send}
-        onInspect={({ id, cardId }) => setInspect(findInstance(view, id) ?? looseCard(id, cardId, seat))}
-      />
+      {!readOnly && (
+        <PendingDialog
+          view={view}
+          seat={seat}
+          dispatch={send}
+          onInspect={({ id, cardId }) => setInspect(findInstance(view, id) ?? looseCard(id, cardId, seat))}
+        />
+      )}
       <CardInspector instance={inspect} onClose={() => setInspect(null)} />
 
       <Dialog open={!!costPick} onOpenChange={(o) => !o && setCostPick(null)}>

@@ -54,7 +54,7 @@ export function HomePage() {
         </p>
         <div className="mt-6 flex justify-center gap-2">
           <Button asChild size="lg">
-            <Link to="/play/local">Play a local game</Link>
+            <Link to="/play">Play</Link>
           </Button>
           <Button asChild size="lg" variant="outline">
             <Link to="/cards">Browse all cards</Link>

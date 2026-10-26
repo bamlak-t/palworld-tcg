@@ -23,9 +23,7 @@ async function getJson<T>(url: string): Promise<T> {
 async function fetchAllCards(): Promise<RawCard[]> {
   const items: RawCard[] = [];
   for (let page = 1; ; page++) {
-    const data = await getJson<{ total: number; items: RawCard[] }>(
-      `${API}/list?page=${page}&per_page=${PER_PAGE}`,
-    );
+    const data = await getJson<{ total: number; items: RawCard[] }>(`${API}/list?page=${page}&per_page=${PER_PAGE}`);
     items.push(...data.items);
     if (data.items.length === 0 || items.length >= data.total) break;
   }
@@ -47,7 +45,8 @@ async function detectFrames(cards: CardDatabase['cards']) {
       const res = await fetch(IMAGE_BASE + printing.picture);
       if (!res.ok) throw new Error(`${res.status} for ${printing.picture}`);
       const png = PNG.sync.read(Buffer.from(await res.arrayBuffer()));
-      printing.frame = parchmentFraction(png.data, png.width, png.height, box) >= FULL_ART_THRESHOLD ? 'standard' : 'fullArt';
+      printing.frame =
+        parchmentFraction(png.data, png.width, png.height, box) >= FULL_ART_THRESHOLD ? 'standard' : 'fullArt';
     }
   };
   await Promise.all(Array.from({ length: 8 }, worker));
@@ -78,6 +77,8 @@ for (const w of warnings) console.warn(`warning: ${w}`);
 const byKind = Object.entries(
   cards.reduce<Record<string, number>>((acc, c) => ({ ...acc, [c.kind]: (acc[c.kind] ?? 0) + 1 }), {}),
 );
-console.log(`${raw.length} printings -> ${cards.length} unique cards (${byKind.map(([k, n]) => `${n} ${k}`).join(', ')})`);
+console.log(
+  `${raw.length} printings -> ${cards.length} unique cards (${byKind.map(([k, n]) => `${n} ${k}`).join(', ')})`,
+);
 console.log(`${fullArt} full-art printings (no text overlay)`);
 console.log(`wrote ${OUT}`);

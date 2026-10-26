@@ -21,7 +21,7 @@ export function Layout() {
           <NavLink to="/" end className={navClass}>
             Home
           </NavLink>
-          <NavLink to="/play/local" className={navClass}>
+          <NavLink to="/play" className={navClass}>
             Play
           </NavLink>
           <NavLink to="/cards" className={navClass}>
