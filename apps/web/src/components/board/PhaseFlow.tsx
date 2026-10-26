@@ -44,12 +44,9 @@ export function PhaseFlow({ phase, battleStep }: { phase: GameView['phase']; bat
                 <li
                   key={step}
                   aria-current={battleStep === step ? 'step' : undefined}
-                  className={cn(
-                    'text-[11px]',
-                    battleStep === step ? 'font-bold text-orange-300' : 'text-hud-foreground/60',
-                  )}
+                  className={cn('text-[11px]', battleStep === step ? 'font-bold text-board-ink' : 'text-board-ink/60')}
                 >
-                  {stepLabel}
+                  {battleStep === step ? `▸ ${stepLabel}` : stepLabel}
                 </li>
               ))}
             </ol>

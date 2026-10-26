@@ -159,6 +159,7 @@ export function Board({
   const [costPick, setCostPick] = useState<{ card: CardInstance; index: number; costs: CostChoice[] } | null>(null);
   const [reveal, setReveal] = useState<Reveal | null>(null);
   const [inspect, setInspect] = useState<CardInstance | null>(null);
+  const phaseShown = useAutoPhaseSteps(view.phase, last);
 
   // Clear transient UI whenever the game moves on.
   useEffect(() => {
@@ -335,11 +336,11 @@ export function Board({
       onClick={() => send({ type: 'attack', attackerId: targeting!, target: { kind: 'player', seat: opp } })}
       className="relative rounded-full"
     >
-      <Avatar avatarId={avatars[opp]} size={mobile ? 48 : 100} glow />
+      <Avatar avatarId={avatars[opp]} size={mobile ? 44 : 64} glow />
       <Swords className="absolute -right-1 -bottom-1 size-5 rounded-full bg-orange-500 p-0.5 text-white" />
     </button>
   ) : (
-    <Avatar avatarId={avatars[opp]} size={mobile ? 48 : 100} />
+    <Avatar avatarId={avatars[opp]} size={mobile ? 44 : 64} />
   );
 
   return (
@@ -362,6 +363,16 @@ export function Board({
 
             <StatusBar
               view={view}
+              action={
+                <Button
+                  size="sm"
+                  className="bg-hud-border text-hud hover:bg-hud-border/85"
+                  disabled={!idx.canEndTurn}
+                  onClick={() => send({ type: 'endTurn' })}
+                >
+                  End turn
+                </Button>
+              }
               prompt={
                 targeting || pending?.kind === 'block' || pending?.kind === 'quickStep' ? (
                   <BoardPrompt
@@ -376,13 +387,13 @@ export function Board({
 
             <PlayerArea
               player={me}
-              phase={view.phase}
+              phase={phaseShown}
               battleStep={battle?.step}
               baseCards={me.base.map((c) => (
                 <div key={c.id}>{renderCard(c, seat)}</div>
               ))}
               hand={myHand}
-              avatar={<Avatar avatarId={avatars[seat]} size={mobile ? 48 : 100} />}
+              avatar={<Avatar avatarId={avatars[seat]} size={mobile ? 44 : 64} />}
               onInspect={setInspect}
             />
 
@@ -394,14 +405,6 @@ export function Board({
                 onClick={() => send({ type: 'soulDraw' })}
               >
                 {mobile ? 'Draw (3 souls)' : 'Rest 3 souls: draw'}
-              </Button>
-              <Button
-                size="sm"
-                className="bg-hud-border text-hud hover:bg-hud-border/85"
-                disabled={!idx.canEndTurn}
-                onClick={() => send({ type: 'endTurn' })}
-              >
-                End turn
               </Button>
             </HudBar>
 
@@ -420,11 +423,7 @@ export function Board({
         dispatch={send}
         onInspect={({ id, cardId }) => setInspect(findInstance(view, id) ?? looseCard(id, cardId, seat))}
       />
-      <CardInspector
-        instance={inspect}
-        stats={inspect ? view.stats[inspect.id] : undefined}
-        onClose={() => setInspect(null)}
-      />
+      <CardInspector instance={inspect} onClose={() => setInspect(null)} />
 
       <Dialog open={!!costPick} onOpenChange={(o) => !o && setCostPick(null)}>
         <DialogContent className="sm:max-w-sm">
@@ -443,6 +442,25 @@ export function Board({
       </Dialog>
     </LayoutGroup>
   );
+}
+
+/**
+ * Stand, draw and soul have no decisions, so the engine runs them instantly. When a turn
+ * starts, step the phase list through them briefly so the turn's flow is visible.
+ */
+function useAutoPhaseSteps(phase: GameView['phase'], last: EventBatch | undefined) {
+  const [shown, setShown] = useState(phase);
+  useEffect(() => {
+    if (!last?.events.some((e) => e.type === 'turnStarted')) {
+      setShown(phase);
+      return;
+    }
+    const steps: GameView['phase'][] = ['stand', 'draw', 'soul', phase];
+    setShown(steps[0]!);
+    const timers = steps.slice(1).map((p, i) => setTimeout(() => setShown(p), (i + 1) * 320));
+    return () => timers.forEach(clearTimeout);
+  }, [last, phase]);
+  return shown;
 }
 
 /** Shown in the middle of the status bar when you need to act on something. */
@@ -505,17 +523,19 @@ function GameLog({ batches }: { batches: EventBatch[] }) {
     [batches],
   );
   return (
-    <Window title="Log" className="xl:w-72" bodyClassName="p-0">
-      <ScrollArea className="h-56 xl:h-[640px]">
-        <ol className="divide-y divide-window-foreground/10 text-sm">
-          {lines.map((l) => (
-            <li key={l.key} className="px-4 py-1.5">
-              {l.text}
-            </li>
-          ))}
-          {lines.length === 0 && <li className="px-4 py-2 text-window-foreground/60">Nothing yet.</li>}
-        </ol>
-      </ScrollArea>
-    </Window>
+    <div className="relative xl:w-72 xl:shrink-0">
+      <Window title="Log" className="h-64 xl:absolute xl:inset-0 xl:h-auto" bodyClassName="p-0">
+        <ScrollArea className="h-full">
+          <ol className="divide-y divide-window-foreground/10 text-sm">
+            {lines.map((l) => (
+              <li key={l.key} className="px-4 py-1.5">
+                {l.text}
+              </li>
+            ))}
+            {lines.length === 0 && <li className="px-4 py-2 text-window-foreground/60">Nothing yet.</li>}
+          </ol>
+        </ScrollArea>
+      </Window>
+    </div>
   );
 }

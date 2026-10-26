@@ -66,16 +66,16 @@ export function PlayerArea({
   const base = (
     <div
       data-testid={flipped ? 'opponent-base' : 'my-base'}
-      className="flex min-h-[110px] flex-wrap items-center justify-center gap-2 rounded-xl border border-white/25 bg-white/5 p-2 md:min-h-[150px] md:gap-3"
+      className="flex min-h-[110px] flex-wrap items-center justify-center gap-2 rounded-xl border border-board-ink/25 bg-board-ink/5 p-2 md:min-h-[150px] md:gap-3"
     >
       {baseCards}
-      {baseCards.length === 0 && <span className="text-xs tracking-widest text-white/50 uppercase">Base</span>}
+      {baseCards.length === 0 && <span className="text-xs tracking-widest text-board-ink/50 uppercase">Base</span>}
     </div>
   );
 
   const soulArea = (
-    <div className="flex min-h-10 items-center gap-0.5 rounded-lg border border-white/20 bg-white/5 px-2 py-1 md:px-3">
-      <span className="mr-1 hidden text-[10px] tracking-widest text-white/60 uppercase sm:inline">Soul area</span>
+    <div className="flex min-h-10 items-center gap-0.5 rounded-lg border border-board-ink/20 bg-board-ink/5 px-2 py-1 md:px-3">
+      <span className="mr-1 hidden text-[10px] tracking-widest text-board-ink/60 uppercase sm:inline">Soul area</span>
       {Array.from({ length: player.soulsStanding + player.soulsRested }, (_, i) => {
         const rested = i >= player.soulsStanding;
         return (
@@ -86,29 +86,31 @@ export function PlayerArea({
               className={cn(
                 'h-7 w-5 rounded-[2px] transition-transform duration-300 md:h-9 md:w-[26px]',
                 rested
-                  ? 'rotate-90 opacity-80 ring-1 ring-white/40 grayscale-[60%]'
+                  ? 'rotate-90 opacity-80 ring-1 ring-board-ink/40 grayscale-[60%]'
                   : 'shadow-[0_0_8px] shadow-violet-300/70',
               )}
             />
           </div>
         );
       })}
-      <span className="ml-auto text-xs text-white/70 tabular-nums">
+      <span className="ml-auto text-xs text-board-ink/70 tabular-nums">
         {player.soulsStanding}/{player.soulsStanding + player.soulsRested}
       </span>
     </div>
   );
 
   // The avatar sits beside the hand, on the soul deck side of the mat.
-  const handRow = (
-    <div className={cn('flex items-end gap-3', flipped && 'flex-row-reverse items-start')}>
+  // The avatar sits beside the soul area, on the soul deck side (left for you, right for
+  // the opponent), so the hand below gets the full width.
+  const soulRow = (
+    <div className={cn('flex items-center gap-2', flipped && 'flex-row-reverse')}>
       <div className="shrink-0">{avatar}</div>
-      <div className="min-w-0 flex-1">{hand}</div>
+      <div className="min-w-0 flex-1">{soulArea}</div>
     </div>
   );
 
   const mobileStrip = (
-    <div className="flex flex-wrap items-center gap-2 text-xs text-white/85 md:hidden">
+    <div className="flex flex-wrap items-center gap-2 text-xs text-board-ink/85 md:hidden">
       <MiniPile label="Deck" value={player.deckCount} />
       <MiniPile label="Grave" value={player.graveyard.length} cards={player.graveyard} onInspect={onInspect} />
       <MiniPile label="Exile" value={player.exile.length} cards={player.exile} onInspect={onInspect} />
@@ -121,8 +123,8 @@ export function PlayerArea({
       {left}
       <div className={cn('flex flex-col gap-2', flipped && 'flex-col-reverse')}>
         {base}
-        {soulArea}
-        {handRow}
+        {soulRow}
+        {hand}
         {mobileStrip}
       </div>
       {right}
@@ -136,10 +138,10 @@ function Slot({ label, children, onClick }: { label: string; children?: ReactNod
       type="button"
       onClick={onClick}
       disabled={!onClick}
-      className="relative flex h-[100px] flex-col items-center justify-center gap-1 rounded-lg border border-white/30 bg-white/10 enabled:hover:bg-white/20"
+      className="relative flex h-[100px] flex-col items-center justify-center gap-1 rounded-lg border border-board-ink/30 bg-board-ink/10 enabled:hover:bg-board-ink/20"
     >
       {children}
-      <span className="absolute top-1 left-1.5 text-[9px] tracking-widest text-white/70 uppercase">{label}</span>
+      <span className="absolute top-1 left-1.5 text-[9px] tracking-widest text-board-ink/70 uppercase">{label}</span>
     </button>
   );
 }
@@ -207,7 +209,7 @@ function MiniPile({
         type="button"
         disabled={!clickable}
         onClick={() => setOpen(true)}
-        className="rounded-md bg-black/35 px-2 py-1 enabled:underline enabled:decoration-dotted"
+        className="rounded-md bg-board-ink/10 px-2 py-1 enabled:underline enabled:decoration-dotted"
       >
         {label} <span className="font-bold tabular-nums">{value}</span>
       </button>

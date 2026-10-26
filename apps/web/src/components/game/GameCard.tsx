@@ -1,4 +1,5 @@
 import { imageUrl, type CardDef, type Printing } from '@pal/cards';
+import { Shield } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const RARE = new Set(['SR', 'OSR', 'SSP', 'SP', 'TSR', 'TSP', 'TDR', 'SSS']);
@@ -23,6 +24,10 @@ export interface GameCardProps {
 /**
  * A card as it sits on the board. Rested cards turn sideways and the slot reserves
  * the rotated footprint so neighbours don't overlap.
+ *
+ * Structures are printed landscape, but here every card shares the portrait footprint:
+ * a structure shows the left half of its image (cost, art and name), which is almost
+ * exactly portrait-shaped, plus a durability badge for the part that's cropped off.
  */
 export function GameCard({
   card,
@@ -35,10 +40,9 @@ export function GameCard({
   size = 'md',
   className,
 }: GameCardProps) {
-  const landscape = card?.kind === 'Structure';
-  const short = SIZES[size];
-  const long = Math.round((short * 559) / 400);
-  const [w, h] = landscape ? [long, short] : [short, long];
+  const structure = card?.kind === 'Structure';
+  const w = SIZES[size];
+  const h = Math.round((w * 559) / 400);
   const [slotW, slotH] = rested ? [h, w] : [w, h];
   const p = printing ?? card?.printings[0];
   const rare = !faceDown && p && RARE.has(p.rarity);
@@ -75,7 +79,22 @@ export function GameCard({
         {faceDown || !card ? (
           <div className="card-back size-full rounded-[inherit]" />
         ) : (
-          <img src={imageUrl(p!)} alt={card.name} className="size-full object-cover" draggable={false} />
+          <img
+            src={imageUrl(p!)}
+            alt={card.name}
+            draggable={false}
+            className={structure ? 'h-full w-auto max-w-none' : 'size-full object-cover'}
+          />
+        )}
+        {structure && !faceDown && power != null && (
+          <span
+            className="absolute right-[4%] bottom-[3%] flex items-center gap-0.5 rounded bg-black/75 px-1 font-bold text-white tabular-nums"
+            style={{ fontSize: Math.max(9, w / 9) }}
+            title="Durability"
+          >
+            <Shield className="size-[1em]" />
+            {power}
+          </span>
         )}
       </div>
 

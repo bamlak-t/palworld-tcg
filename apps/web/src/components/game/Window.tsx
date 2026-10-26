@@ -17,7 +17,7 @@ export function Window({
     <div className={cn('corner-cut bg-window-trim p-[2px] shadow-lg [--cut:12px]', className)}>
       <div
         className={cn(
-          'corner-cut h-full bg-gradient-to-b from-window-from to-window-to text-window-foreground [--cut:11px]',
+          'corner-cut flex h-full flex-col bg-gradient-to-b from-window-from to-window-to text-window-foreground [--cut:11px]',
           'shadow-[inset_0_0_0_1px_oklch(1_0_0/0.18)]',
         )}
       >
@@ -26,7 +26,7 @@ export function Window({
             {title}
           </div>
         )}
-        <div className={cn('p-4', bodyClassName)}>{children}</div>
+        <div className={cn('min-h-0 flex-1 p-4', bodyClassName)}>{children}</div>
       </div>
     </div>
   );
