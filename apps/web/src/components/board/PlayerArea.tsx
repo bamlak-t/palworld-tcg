@@ -77,33 +77,43 @@ export function PlayerArea({
   );
 
   const soulArea = (
-    <div className="flex min-h-10 items-center gap-0.5 rounded-lg border border-board-ink/20 bg-board-ink/5 px-2 py-1 md:px-3">
-      <span className="mr-1 hidden text-[10px] tracking-widest text-board-ink/60 uppercase sm:inline">Soul area</span>
-      {Array.from({ length: player.soulsStanding + player.soulsRested }, (_, i) => {
-        const rested = i >= player.soulsStanding;
-        return (
-          <div key={i} className="flex size-7 items-center justify-center md:size-9">
-            <img
-              src={imageUrl(soulCard)}
-              alt={rested ? 'Spent soul' : 'Available soul'}
+    <div className="flex min-h-10 items-center gap-2 rounded-lg border border-board-ink/20 bg-board-ink/5 px-2.5 py-1 md:px-3">
+      <span className="hidden shrink-0 text-[10px] tracking-widest text-board-ink/60 uppercase sm:inline">
+        Soul area
+      </span>
+      {/* Each soul shrinks (overlapping the next) so any number fits beside the count. */}
+      <div className="flex min-w-0 flex-1 items-center pl-1">
+        {Array.from({ length: player.soulsStanding + player.soulsRested }, (_, i) => {
+          const rested = i >= player.soulsStanding;
+          return (
+            <div
+              key={i}
               className={cn(
-                'h-7 w-5 rounded-[2px] transition-transform duration-300 md:h-9 md:w-[26px]',
-                rested
-                  ? 'rotate-90 opacity-80 ring-1 ring-board-ink/40 grayscale-[60%]'
-                  : 'shadow-[0_0_8px] shadow-violet-300/70',
+                'flex h-7 min-w-0 basis-7 items-center md:h-9 md:basis-9',
+                i === player.soulsStanding + player.soulsRested - 1 ? 'shrink-0' : 'shrink',
               )}
-            />
-          </div>
-        );
-      })}
-      <span className="ml-auto text-xs text-board-ink/70 tabular-nums">
+            >
+              <img
+                src={imageUrl(soulCard)}
+                alt={rested ? 'Spent soul' : 'Available soul'}
+                className={cn(
+                  'h-7 w-5 shrink-0 rounded-[2px] transition-transform duration-300 md:h-9 md:w-[26px]',
+                  rested
+                    ? 'rotate-90 opacity-80 ring-1 ring-board-ink/40 grayscale-[60%]'
+                    : 'shadow-[0_0_8px] shadow-violet-300/70',
+                )}
+              />
+            </div>
+          );
+        })}
+      </div>
+      <span className="shrink-0 text-xs text-board-ink/70 tabular-nums">
         {player.soulsStanding}/{player.soulsStanding + player.soulsRested}
       </span>
-      {soulAction && <div className="ml-2 shrink-0">{soulAction}</div>}
+      {soulAction && <div className="shrink-0">{soulAction}</div>}
     </div>
   );
 
-  // The avatar sits beside the hand, on the soul deck side of the mat.
   // The avatar sits beside the soul area, on the soul deck side (left for you, right for
   // the opponent), so the hand below gets the full width.
   const soulRow = (

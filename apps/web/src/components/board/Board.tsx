@@ -60,6 +60,8 @@ interface LegalIndex {
   canEndTurn: boolean;
   canSoulDraw: boolean;
   canPassQuick: boolean;
+  /** Ending the turn is the only thing left to do. */
+  onlyEndTurn: boolean;
 }
 
 function indexLegal(legal: Action[]): LegalIndex {
@@ -70,6 +72,7 @@ function indexLegal(legal: Action[]): LegalIndex {
     canEndTurn: false,
     canSoulDraw: false,
     canPassQuick: false,
+    onlyEndTurn: false,
   };
   for (const a of legal) {
     if (a.type === 'playCard') idx.playable.add(a.cardId);
@@ -84,6 +87,7 @@ function indexLegal(legal: Action[]): LegalIndex {
     else if (a.type === 'soulDraw') idx.canSoulDraw = true;
     else if (a.type === 'passQuick') idx.canPassQuick = true;
   }
+  idx.onlyEndTurn = idx.canEndTurn && legal.every((a) => a.type === 'endTurn');
   return idx;
 }
 
@@ -293,7 +297,7 @@ export function Board({
   const handSize = mobile ? 'sm' : 'md';
   // Centre the hand when it fits; scroll sideways (instead of clipping) when it doesn't.
   const myHand = (
-    <div data-testid="my-hand" className="overflow-x-auto overflow-y-hidden pt-5 pb-4 md:overflow-visible">
+    <div data-testid="my-hand" className="overflow-x-auto overflow-y-hidden pt-[26px] pb-5 md:overflow-visible">
       <div className="mx-auto flex w-max px-2">
         {(me.hand ?? []).map((c, i, all) => {
           const offset = i - (all.length - 1) / 2;
@@ -312,7 +316,7 @@ export function Board({
   );
   // Face down, same size as yours, with the arc mirrored as if seen from across the table.
   const theirHand = (
-    <div className="overflow-x-auto overflow-y-hidden pt-1 pb-4 md:overflow-visible">
+    <div className="overflow-x-auto overflow-y-hidden pt-2.5 pb-5 md:overflow-visible">
       <div className="mx-auto flex w-max px-2">
         {Array.from({ length: them.handCount }, (_, i) => {
           const offset = i - (them.handCount - 1) / 2;
@@ -369,7 +373,10 @@ export function Board({
               action={
                 <Button
                   size="sm"
-                  className="bg-hud-border text-hud hover:bg-hud-border/85"
+                  className={cn(
+                    'bg-hud-border text-hud hover:bg-hud-border/85',
+                    idx.onlyEndTurn && 'ring-2 ring-emerald-500 ring-offset-1 ring-offset-transparent',
+                  )}
                   disabled={!idx.canEndTurn}
                   onClick={() => send({ type: 'endTurn' })}
                 >
