@@ -4,65 +4,91 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Avatar, AVATARS } from '@/components/board/Avatar';
 import { Board } from '@/components/board/Board';
 import { Window } from '@/components/game/Window';
 import { useLocalGame, type DeckChoice } from '@/game/useLocalGame';
 import { BOARD_SKINS, getSkin } from '@/lib/skins';
+import { cn } from '@/lib/utils';
 
 const DECKS: Record<string, DeckChoice> = TRIAL_DECKS;
 type DeckKey = keyof typeof TRIAL_DECKS;
+type Pair<T> = [T, T];
+interface Setup {
+  names: Pair<string>;
+  decks: Pair<DeckKey>;
+  avatars: Pair<string>;
+}
+
+const setAt = <T,>(pair: Pair<T>, i: 0 | 1, value: T): Pair<T> => (i === 0 ? [value, pair[1]] : [pair[0], value]);
 
 /** Hot-seat play: two players share one screen. */
 export function LocalPlayPage() {
-  const [setup, setSetup] = useState<{ names: [string, string]; decks: [DeckKey, DeckKey] } | null>(null);
+  const [setup, setSetup] = useState<Setup | null>(null);
   if (!setup) return <SetupForm onStart={setSetup} />;
-  return (
-    <LocalGame key={JSON.stringify(setup)} names={setup.names} decks={setup.decks} onQuit={() => setSetup(null)} />
-  );
+  return <LocalGame key={JSON.stringify(setup)} setup={setup} onQuit={() => setSetup(null)} />;
 }
 
-function SetupForm({ onStart }: { onStart: (s: { names: [string, string]; decks: [DeckKey, DeckKey] }) => void }) {
-  const [names, setNames] = useState<[string, string]>(['Player 1', 'Player 2']);
-  const [decks, setDecks] = useState<[DeckKey, DeckKey]>(['ETD01', 'ETD02']);
+function SetupForm({ onStart }: { onStart: (s: Setup) => void }) {
+  const [names, setNames] = useState<Pair<string>>(['Player 1', 'Player 2']);
+  const [decks, setDecks] = useState<Pair<DeckKey>>(['ETD01', 'ETD02']);
+  const [avatars, setAvatars] = useState<Pair<string>>(['woolly', 'ember']);
   return (
     <div className="mx-auto max-w-xl py-8">
-      <Window title="Local game" bodyClassName="flex flex-col gap-5">
+      <Window title="Local game" bodyClassName="flex flex-col gap-6">
         <p className="text-sm text-window-foreground/80">
           Two players, one screen. The board turns to whoever has to act next, so look away when it's not your move.
         </p>
         {([0, 1] as const).map((i) => (
-          <div key={i} className="grid grid-cols-2 gap-3">
-            <div className="flex flex-col gap-1.5">
-              <Label className="text-window-foreground/80">Player {i + 1}</Label>
-              <Input
-                value={names[i]}
-                onChange={(e) => setNames((n) => (i === 0 ? [e.target.value, n[1]] : [n[0], e.target.value]))}
-                className="bg-white/90 text-slate-900"
-              />
+          <div key={i} className="flex flex-col gap-2">
+            <div className="grid grid-cols-2 gap-3">
+              <div className="flex flex-col gap-1.5">
+                <Label className="text-window-foreground/80">Player {i + 1}</Label>
+                <Input
+                  value={names[i]}
+                  onChange={(e) => setNames((n) => setAt(n, i, e.target.value))}
+                  className="bg-white/90 text-slate-900"
+                />
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <Label className="text-window-foreground/80">Deck</Label>
+                <Select value={decks[i]} onValueChange={(v) => setDecks((d) => setAt(d, i, v as DeckKey))}>
+                  <SelectTrigger className="w-full bg-white/90 text-slate-900">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {Object.entries(DECKS).map(([key, deck]) => (
+                      <SelectItem key={key} value={key}>
+                        {deck.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
-            <div className="flex flex-col gap-1.5">
-              <Label className="text-window-foreground/80">Deck</Label>
-              <Select
-                value={decks[i]}
-                onValueChange={(v) => setDecks((d) => (i === 0 ? [v as DeckKey, d[1]] : [d[0], v as DeckKey]))}
-              >
-                <SelectTrigger className="w-full bg-white/90 text-slate-900">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {Object.entries(DECKS).map(([key, deck]) => (
-                    <SelectItem key={key} value={key}>
-                      {deck.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+            <div className="flex flex-wrap gap-1.5" role="radiogroup" aria-label={`Player ${i + 1} avatar`}>
+              {AVATARS.map((a) => (
+                <button
+                  key={a.id}
+                  type="button"
+                  role="radio"
+                  aria-checked={avatars[i] === a.id}
+                  title={a.name}
+                  onClick={() => setAvatars((v) => setAt(v, i, a.id))}
+                  className={cn(
+                    'rounded-full transition',
+                    avatars[i] === a.id ? 'scale-110' : 'opacity-55 hover:opacity-100',
+                  )}
+                >
+                  <Avatar avatarId={a.id} size={40} />
+                </button>
+              ))}
             </div>
           </div>
         ))}
         <Button
           className="bg-window-trim text-window-to hover:bg-window-trim/85"
-          onClick={() => onStart({ names: [names[0] || 'Player 1', names[1] || 'Player 2'], decks })}
+          onClick={() => onStart({ names: [names[0] || 'Player 1', names[1] || 'Player 2'], decks, avatars })}
         >
           Start game
         </Button>
@@ -71,21 +97,13 @@ function SetupForm({ onStart }: { onStart: (s: { names: [string, string]; decks:
   );
 }
 
-function LocalGame({
-  names,
-  decks,
-  onQuit,
-}: {
-  names: [string, string];
-  decks: [DeckKey, DeckKey];
-  onQuit: () => void;
-}) {
+function LocalGame({ setup, onQuit }: { setup: Setup; onQuit: () => void }) {
   const [players] = useState(
     () =>
       [
-        { name: names[0], deck: DECKS[decks[0]]! },
-        { name: names[1], deck: DECKS[decks[1]]! },
-      ] as [{ name: string; deck: DeckChoice }, { name: string; deck: DeckChoice }],
+        { name: setup.names[0], deck: DECKS[setup.decks[0]]! },
+        { name: setup.names[1], deck: DECKS[setup.decks[1]]! },
+      ] as Pair<{ name: string; deck: DeckChoice }>,
   );
   const game = useLocalGame(players);
   const [skinId, setSkinId] = useState(() => getSkin(null).id);
@@ -146,6 +164,7 @@ function LocalGame({
         dispatch={game.dispatch}
         batches={game.batches}
         skin={getSkin(skinId)}
+        avatars={setup.avatars}
       />
     </div>
   );

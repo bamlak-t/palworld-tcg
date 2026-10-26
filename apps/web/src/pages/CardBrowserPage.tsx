@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { CardFilterPanel } from '@/components/CardFilterPanel';
 import { CardText } from '@/components/CardText';
+import { SharpCard } from '@/components/SharpCard';
 import {
   applyFilters,
   countActiveFilters,
@@ -152,6 +153,7 @@ export function CardBrowserPage() {
 
 function CardDetail({ card }: { card: CardDef }) {
   const [printing, setPrinting] = useState(card.printings[0]!);
+  const [sharp, setSharp] = useState(true);
 
   const stats: [string, string | number | null][] = [
     ['Type', card.subKind ?? card.kind],
@@ -167,7 +169,10 @@ function CardDetail({ card }: { card: CardDef }) {
     <DialogContent className="max-h-[calc(100dvh-2rem)] overflow-y-auto sm:max-w-3xl">
       <div className="flex flex-col gap-6 sm:flex-row">
         <div className="sm:w-72 sm:shrink-0">
-          <img src={imageUrl(printing)} alt={card.name} className="w-full rounded-lg" />
+          <SharpCard card={card} printing={printing} sharp={sharp} />
+          <Button variant="ghost" size="sm" className="mt-1 w-full" onClick={() => setSharp((v) => !v)}>
+            {sharp ? 'Show original text' : 'Show sharp text'}
+          </Button>
           {card.printings.length > 1 && (
             <div className="mt-2 flex flex-wrap gap-1">
               {card.printings.map((p) => (

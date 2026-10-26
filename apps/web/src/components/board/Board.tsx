@@ -16,9 +16,12 @@ import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { GameCard } from '@/components/game/GameCard';
 import { Window } from '@/components/game/Window';
+import { Avatar } from './Avatar';
 import { HudBar } from './HudBar';
 import { StatusBar } from './StatusBar';
+import { CardInspector } from '@/components/CardInspector';
 import { describeCost, describeEvent } from '@/game/describe';
+import { useIsMobile } from '@/hooks/useIsMobile';
 import type { EventBatch } from '@/game/useLocalGame';
 import { skinStyle, type BoardSkin } from '@/lib/skins';
 import { cn } from '@/lib/utils';
@@ -107,6 +110,7 @@ export function Board({
   dispatch,
   batches,
   skin,
+  avatars,
 }: {
   view: GameView;
   seat: Seat;
@@ -114,7 +118,10 @@ export function Board({
   dispatch: Dispatch;
   batches: EventBatch[];
   skin: BoardSkin;
+  /** Avatar id per seat. */
+  avatars: [string, string];
 }) {
+  const mobile = useIsMobile();
   const opp: Seat = seat === 0 ? 1 : 0;
   const me = view.players[seat];
   const them = view.players[opp];
@@ -126,6 +133,7 @@ export function Board({
   const [targeting, setTargeting] = useState<string | null>(null);
   const [costPick, setCostPick] = useState<{ card: CardInstance; index: number; costs: CostChoice[] } | null>(null);
   const [reveal, setReveal] = useState<Reveal | null>(null);
+  const [inspect, setInspect] = useState<CardInstance | null>(null);
 
   // Clear transient UI whenever the game moves on.
   useEffect(() => {
@@ -168,7 +176,6 @@ export function Board({
     const abilities = idx.abilities.get(c.id) ?? [];
     const canPlay = inHand && idx.playable.has(c.id);
     const canAttack = !inHand && idx.attacks.has(c.id);
-    if (!canPlay && !canAttack && abilities.length === 0) return undefined;
     const def = getCard(c.cardId)!;
     return (
       <div className="flex flex-col">
@@ -198,9 +205,20 @@ export function Board({
             {getScript(c.cardId).acts?.[index]?.label ?? 'Use ability'}
           </MenuItem>
         ))}
+        <MenuItem
+          onSelect={() => {
+            setMenuFor(null);
+            setInspect(c);
+          }}
+        >
+          View card
+        </MenuItem>
       </div>
     );
   };
+
+  const hasActions = (c: CardInstance, inHand: boolean) =>
+    (inHand ? idx.playable.has(c.id) : idx.attacks.has(c.id)) || idx.abilities.has(c.id);
 
   const renderCard = (c: CardInstance, owner: Seat, opts: { inHand?: boolean; size?: 'xs' | 'sm' | 'md' } = {}) => {
     const mine = owner === seat;
@@ -218,14 +236,14 @@ export function Board({
             : 'target'
           : c.assignedTo
             ? 'assigned'
-            : menu
+            : mine && hasActions(c, !!opts.inHand) && !targeting
               ? 'selectable'
               : undefined;
     return (
       <BoardCard
         card={c}
         stats={view.stats[c.id]}
-        size={opts.size ?? 'sm'}
+        size={opts.size ?? (mobile ? 'xs' : 'sm')}
         state={state}
         menu={menu}
         menuOpen={menuFor === c.id}
@@ -235,7 +253,7 @@ export function Board({
             ? () => send({ type: 'attack', attackerId: targeting!, target: { kind: 'card', id: c.id } })
             : isBlocker
               ? () => send({ type: 'block', blockerId: c.id })
-              : undefined
+              : () => setInspect(c)
         }
         motionCue={cues.get(c.id)}
         cueKey={last?.id}
@@ -243,31 +261,67 @@ export function Board({
     );
   };
 
-  const attackPlayerButton = canTargetPlayer && (
-    <Button
-      size="sm"
-      className="mt-1 animate-pulse bg-orange-500 text-white hover:bg-orange-400"
+  const handSize = mobile ? 'sm' : 'md';
+  // Centre the hand when it fits; scroll sideways (instead of clipping) when it doesn't.
+  const myHand = (
+    <div data-testid="my-hand" className="min-h-28 overflow-x-auto pt-3 pb-1 md:min-h-36 md:overflow-visible">
+      <div className="mx-auto flex w-max px-2">
+        {(me.hand ?? []).map((c, i, all) => {
+          const offset = i - (all.length - 1) / 2;
+          return (
+            <div
+              key={c.id}
+              className="-mx-2 shrink-0 transition-transform duration-200 hover:z-10 hover:-translate-y-4"
+              style={{ rotate: `${offset * 3}deg`, translate: `0 ${Math.abs(offset) * 4}px` }}
+            >
+              {renderCard(c, seat, { inHand: true, size: handSize })}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+  const theirHand = (
+    <div className="flex h-10 justify-center overflow-hidden md:h-12">
+      {Array.from({ length: them.handCount }, (_, i) => (
+        <GameCard key={i} faceDown size="xs" className="-mx-2 -translate-y-8" />
+      ))}
+    </div>
+  );
+
+  // The opponent's avatar is the target for attacking the player.
+  const theirAvatar = canTargetPlayer ? (
+    <button
+      type="button"
+      aria-label={`Attack ${them.name}`}
+      title={`Attack ${them.name}`}
       onClick={() => send({ type: 'attack', attackerId: targeting!, target: { kind: 'player', seat: opp } })}
+      className="relative rounded-full"
     >
-      <Swords data-icon="inline-start" /> Attack {them.name}
-    </Button>
+      <Avatar avatarId={avatars[opp]} size={mobile ? 44 : 60} glow />
+      <Swords className="absolute -right-1 -bottom-1 size-5 rounded-full bg-orange-500 p-0.5 text-white" />
+    </button>
+  ) : (
+    <Avatar avatarId={avatars[opp]} size={mobile ? 44 : 60} />
   );
 
   return (
     <LayoutGroup>
       <div className="flex flex-col gap-4 xl:flex-row">
-        <div className="relative min-w-0 flex-1 overflow-x-auto rounded-xl shadow-xl">
-          <div className="relative flex min-w-[900px] flex-col gap-3 p-3" style={skinStyle(skin)}>
-            <HudBar player={them}>{attackPlayerButton}</HudBar>
+        <div className="relative min-w-0 flex-1 overflow-hidden rounded-xl shadow-xl">
+          <div className="relative flex flex-col gap-2 p-2 md:gap-3 md:p-3" style={skinStyle(skin)}>
+            <HudBar player={them} />
 
-            {/* Opponent's hand, face down */}
-            <div className="-mt-1 flex h-12 justify-center overflow-hidden">
-              {Array.from({ length: them.handCount }, (_, i) => (
-                <GameCard key={i} faceDown size="xs" className="-mx-2 -translate-y-8" />
+            <PlayerArea
+              player={them}
+              flipped
+              baseCards={them.base.map((c) => (
+                <div key={c.id}>{renderCard(c, opp)}</div>
               ))}
-            </div>
-
-            <PlayerArea player={them} flipped renderBaseCard={(c) => renderCard(c, opp)} />
+              hand={theirHand}
+              avatar={theirAvatar}
+              onInspect={setInspect}
+            />
 
             <StatusBar
               view={view}
@@ -281,23 +335,17 @@ export function Board({
               }
             />
 
-            <PlayerArea player={me} phase={view.phase} renderBaseCard={(c) => renderCard(c, seat)} />
-
-            {/* Your hand */}
-            <div data-testid="my-hand" className="flex min-h-36 justify-center pt-2">
-              {(me.hand ?? []).map((c, i, all) => {
-                const offset = i - (all.length - 1) / 2;
-                return (
-                  <div
-                    key={c.id}
-                    className="-mx-2 transition-transform duration-200 hover:z-10 hover:-translate-y-4"
-                    style={{ rotate: `${offset * 3}deg`, translate: `0 ${Math.abs(offset) * 4}px` }}
-                  >
-                    {renderCard(c, seat, { inHand: true, size: 'md' })}
-                  </div>
-                );
-              })}
-            </div>
+            <PlayerArea
+              player={me}
+              phase={view.phase}
+              battleStep={battle?.step}
+              baseCards={me.base.map((c) => (
+                <div key={c.id}>{renderCard(c, seat)}</div>
+              ))}
+              hand={myHand}
+              avatar={<Avatar avatarId={avatars[seat]} size={mobile ? 44 : 60} />}
+              onInspect={setInspect}
+            />
 
             <HudBar player={me}>
               <Button
@@ -306,7 +354,7 @@ export function Board({
                 disabled={!idx.canSoulDraw}
                 onClick={() => send({ type: 'soulDraw' })}
               >
-                Rest 3 souls: draw
+                {mobile ? 'Draw (3 souls)' : 'Rest 3 souls: draw'}
               </Button>
               <Button
                 size="sm"
@@ -328,6 +376,11 @@ export function Board({
       </div>
 
       <PendingDialog view={view} seat={seat} dispatch={send} />
+      <CardInspector
+        instance={inspect}
+        stats={inspect ? view.stats[inspect.id] : undefined}
+        onClose={() => setInspect(null)}
+      />
 
       <Dialog open={!!costPick} onOpenChange={(o) => !o && setCostPick(null)}>
         <DialogContent className="sm:max-w-sm">
