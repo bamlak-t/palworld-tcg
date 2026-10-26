@@ -1,0 +1,26 @@
+{
+  "name": "palworld-tcg",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w @pal/web",
+    "build": "npm run build -w @pal/web",
+    "preview": "npm run preview -w @pal/web",
+    "sync-cards": "tsx scripts/sync-cards.ts",
+    "typecheck": "tsc -p packages/cards && tsc -p apps/web",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "tsx": "^4.19.2",
+    "typescript": "~5.7.3",
+    "vitest": "^3.0.5"
+  },
+  "engines": {
+    "node": ">=24"
+  }
+}
