@@ -8,7 +8,6 @@ import { Layout } from './components/Layout.tsx';
 import { HomePage } from './pages/HomePage.tsx';
 import { CardBrowserPage } from './pages/CardBrowserPage.tsx';
 import { LocalPlayPage } from './pages/LocalPlayPage.tsx';
-import { SettingsPage } from './pages/SettingsPage.tsx';
 import { SettingsProvider } from './lib/settings.tsx';
 
 const router = createHashRouter([
@@ -18,7 +17,6 @@ const router = createHashRouter([
       { path: '/', element: <HomePage /> },
       { path: '/cards', element: <CardBrowserPage /> },
       { path: '/play/local', element: <LocalPlayPage /> },
-      { path: '/settings', element: <SettingsPage /> },
     ],
   },
 ]);

@@ -19,43 +19,62 @@ const STEP_NAME = {
   endOfBattle: 'End of battle',
 } as const;
 
-/** Borderless bar between the two halves: turn on the left, the current stage (or a prompt) in the middle, day/night on the right. */
+const Dots = () => <span aria-hidden className="h-0 min-w-3 flex-1 border-t-2 border-dotted border-board-ink/45" />;
+
 /**
- * Borderless bar between the two halves: day/night and the turn on the left, the current
- * stage (or a prompt) in the middle, your main action on the right. A dotted line runs
- * across it, dividing the two halves.
+ * Borderless bar between the two halves: day/night and the turn on the left, the stage in
+ * the centre of the board, your main action on the right, joined by a dotted line. The
+ * outer columns share the leftover width equally, so the stage stays centred whatever is
+ * either side. Prompts take the centre on wide screens and a row of their own on phones.
  */
 export function StatusBar({ view, prompt, action }: { view: GameView; prompt?: ReactNode; action?: ReactNode }) {
   const stage = view.battle ? `Battle · ${STEP_NAME[view.battle.step]}` : PHASE_NAME[view.phase];
-  const dots = (
-    <span aria-hidden className="hidden h-0 min-w-4 flex-1 border-t-2 border-dotted border-board-ink/45 md:block" />
+  const stageText = (
+    <span className="font-display text-sm font-bold tracking-wide whitespace-nowrap md:text-lg">{stage}</span>
   );
   return (
-    <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 px-1 py-1 text-board-ink md:flex-nowrap">
-      <div className="flex shrink-0 items-center gap-2">
-        <span
-          className={cn(
-            'flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold',
-            view.night
-              ? 'bg-indigo-950/80 text-indigo-200 ring-1 ring-indigo-400/50'
-              : 'bg-amber-200/90 text-amber-900',
+    <div className="flex flex-col gap-1 px-1 py-1 text-board-ink">
+      <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 md:gap-3">
+        <div className="flex min-w-0 items-center gap-2">
+          <span
+            title={view.night ? 'Night' : 'Day'}
+            className={cn(
+              'flex shrink-0 items-center gap-1.5 rounded-full p-1.5 text-xs font-semibold md:px-3 md:py-1',
+              view.night
+                ? 'bg-indigo-950/80 text-indigo-200 ring-1 ring-indigo-400/50'
+                : 'bg-amber-200/90 text-amber-900',
+            )}
+          >
+            {view.night ? <Moon className="size-3.5" /> : <Sun className="size-3.5" />}
+            <span className="hidden md:inline">{view.night ? 'Night' : 'Day'}</span>
+          </span>
+          <span className="shrink-0 font-display text-xs tracking-widest uppercase md:text-sm">
+            <span className="md:hidden">T{view.turn}</span>
+            <span className="hidden md:inline">
+              Turn {view.turn} · {view.players[view.activeSeat].name}
+            </span>
+          </span>
+          <Dots />
+        </div>
+
+        <div className="flex min-h-9 items-center justify-center gap-2 text-center">
+          {prompt ? (
+            <>
+              <span className="md:hidden">{stageText}</span>
+              <span className="hidden items-center gap-2 md:flex">{prompt}</span>
+            </>
+          ) : (
+            stageText
           )}
-        >
-          {view.night ? <Moon className="size-3.5" /> : <Sun className="size-3.5" />}
-          {view.night ? 'Night' : 'Day'}
-        </span>
-        <span className="font-display text-xs tracking-widest uppercase md:text-sm">
-          Turn {view.turn} · {view.players[view.activeSeat].name}
-        </span>
+        </div>
+
+        <div className="flex min-w-0 items-center gap-2">
+          <Dots />
+          <div className="flex shrink-0 items-center gap-2">{action}</div>
+        </div>
       </div>
-      {dots}
-      <div className="order-last flex min-h-9 w-full items-center justify-center gap-2 text-center md:order-none md:w-auto md:shrink">
-        {prompt ?? <span className="font-display text-base font-bold tracking-wide md:text-lg">{stage}</span>}
-      </div>
-      {dots}
-      {/* On phones the stage wraps to its own row, so the line runs from the turn to the action. */}
-      <span aria-hidden className="h-0 min-w-4 flex-1 border-t-2 border-dotted border-board-ink/45 md:hidden" />
-      <div className="flex shrink-0 items-center gap-2">{action}</div>
+
+      {prompt && <div className="flex flex-wrap items-center justify-center gap-2 text-center md:hidden">{prompt}</div>}
     </div>
   );
 }

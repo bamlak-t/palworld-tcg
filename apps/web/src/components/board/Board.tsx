@@ -393,20 +393,22 @@ export function Board({
                 <div key={c.id}>{renderCard(c, seat)}</div>
               ))}
               hand={myHand}
+              soulAction={
+                <Button
+                  size="xs"
+                  variant="secondary"
+                  disabled={!idx.canSoulDraw}
+                  onClick={() => send({ type: 'soulDraw' })}
+                  title="Rest 3 souls to draw 1 card (once per turn)"
+                >
+                  Draw · 3 souls
+                </Button>
+              }
               avatar={<Avatar avatarId={avatars[seat]} size={mobile ? 44 : 64} />}
               onInspect={setInspect}
             />
 
-            <HudBar player={me}>
-              <Button
-                size="sm"
-                variant="secondary"
-                disabled={!idx.canSoulDraw}
-                onClick={() => send({ type: 'soulDraw' })}
-              >
-                {mobile ? 'Draw (3 souls)' : 'Rest 3 souls: draw'}
-              </Button>
-            </HudBar>
+            <HudBar player={me} />
 
             <AnimatePresence>
               {reveal && <DamageReveal key={reveal.id} {...reveal} onDone={() => setReveal(null)} />}

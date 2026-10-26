@@ -24,6 +24,7 @@ export function PlayerArea({
   baseCards,
   hand,
   avatar,
+  soulAction,
   onInspect,
 }: {
   player: PlayerView;
@@ -34,6 +35,8 @@ export function PlayerArea({
   baseCards: ReactNode[];
   hand: ReactNode;
   avatar: ReactNode;
+  /** Shown at the end of the soul strip (your "rest 3 souls to draw" button). */
+  soulAction?: ReactNode;
   onInspect: (c: CardInstance) => void;
 }) {
   const piles = (
@@ -96,6 +99,7 @@ export function PlayerArea({
       <span className="ml-auto text-xs text-board-ink/70 tabular-nums">
         {player.soulsStanding}/{player.soulsStanding + player.soulsRested}
       </span>
+      {soulAction && <div className="ml-2 shrink-0">{soulAction}</div>}
     </div>
   );
 

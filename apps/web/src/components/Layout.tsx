@@ -1,6 +1,5 @@
-import { Link, NavLink, Outlet } from 'react-router';
-import { Settings } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { NavLink, Outlet } from 'react-router';
+import { SettingsDialog } from '@/components/SettingsDialog';
 import { cn } from '@/lib/utils';
 import { HelpDialog } from '@/components/HelpDialog';
 import { ThemeToggle } from '@/components/ThemeToggle';
@@ -31,11 +30,7 @@ export function Layout() {
           <div className="ml-auto flex items-center">
             <HelpDialog />
             <ThemeToggle />
-            <Button asChild variant="ghost" size="icon" aria-label="Settings">
-              <Link to="/settings">
-                <Settings />
-              </Link>
-            </Button>
+            <SettingsDialog />
           </div>
         </nav>
       </header>

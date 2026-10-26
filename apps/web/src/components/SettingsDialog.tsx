@@ -1,5 +1,7 @@
 import type { ReactNode } from 'react';
-import { Check, Monitor, Moon, Sun } from 'lucide-react';
+import { Check, Monitor, Moon, Settings, Sun } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Avatar, AVATARS } from '@/components/board/Avatar';
@@ -8,15 +10,31 @@ import { CUSTOM_SKIN_ID, customSkin, useSettings, type CustomSkinColors } from '
 import { useTheme, type Theme } from '@/lib/theme';
 import { cn } from '@/lib/utils';
 
-export function SettingsPage() {
+/** Settings in a dialog, opened from the gear in the header. Saved per browser. */
+export function SettingsDialog() {
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant="ghost" size="icon" aria-label="Settings">
+          <Settings />
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="max-h-[calc(100dvh-2rem)] overflow-y-auto sm:max-w-3xl">
+        <DialogTitle className="font-display text-xl">Settings</DialogTitle>
+        <DialogDescription className="sr-only">Board skin, appearance and your player.</DialogDescription>
+        <SettingsPanel />
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function SettingsPanel() {
   const { settings, update } = useSettings();
   const { theme, setTheme } = useTheme();
   const custom = customSkin(settings.custom);
 
   return (
-    <div className="mx-auto flex max-w-4xl flex-col gap-10 py-4">
-      <h1 className="font-display text-3xl font-bold">Settings</h1>
-
+    <div className="flex flex-col gap-8">
       <Section
         title="Board skin"
         description="The play area's background, player bars and board text. Saved in this browser."
@@ -99,7 +117,7 @@ function Section({ title, description, children }: { title: string; description:
   return (
     <section className="flex flex-col gap-4">
       <div>
-        <h2 className="font-display text-xl font-bold">{title}</h2>
+        <h2 className="font-display text-lg font-bold">{title}</h2>
         <p className="text-sm text-muted-foreground">{description}</p>
       </div>
       {children}

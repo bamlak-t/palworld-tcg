@@ -8,7 +8,6 @@ import { Avatar, AVATARS } from '@/components/board/Avatar';
 import { Board } from '@/components/board/Board';
 import { Window } from '@/components/game/Window';
 import { useLocalGame, type DeckChoice } from '@/game/useLocalGame';
-import { Link } from 'react-router';
 import { useSettings } from '@/lib/settings';
 import { cn } from '@/lib/utils';
 
@@ -32,7 +31,9 @@ export function LocalPlayPage() {
 
 function SetupForm({ onStart }: { onStart: (s: Setup) => void }) {
   const { settings } = useSettings();
-  const [names, setNames] = useState<Pair<string>>([settings.playerName || 'Player 1', 'Player 2']);
+  // Start empty (blank names fall back to "Player 1/2"), unless you've set a name in Settings.
+  const savedName = settings.playerName.trim() === 'Player 1' ? '' : settings.playerName.trim();
+  const [names, setNames] = useState<Pair<string>>([savedName, '']);
   const [decks, setDecks] = useState<Pair<DeckKey>>(['ETD01', 'ETD02']);
   const [avatars, setAvatars] = useState<Pair<string>>([
     settings.avatarId,
@@ -41,37 +42,9 @@ function SetupForm({ onStart }: { onStart: (s: Setup) => void }) {
   return (
     <div className="mx-auto max-w-xl py-8">
       <Window title="Local game" bodyClassName="flex flex-col gap-6">
-        <p className="text-sm text-window-foreground/80">
-          Two players, one screen. The board turns to whoever has to act next, so look away when it's not your move.
-        </p>
         {([0, 1] as const).map((i) => (
-          <div key={i} className="flex flex-col gap-2">
-            <div className="grid grid-cols-2 gap-3">
-              <div className="flex flex-col gap-1.5">
-                <Label className="text-window-foreground/80">Player {i + 1}</Label>
-                <Input
-                  value={names[i]}
-                  onChange={(e) => setNames((n) => setAt(n, i, e.target.value))}
-                  className="bg-white/90 text-slate-900"
-                />
-              </div>
-              <div className="flex flex-col gap-1.5">
-                <Label className="text-window-foreground/80">Deck</Label>
-                <Select value={decks[i]} onValueChange={(v) => setDecks((d) => setAt(d, i, v as DeckKey))}>
-                  <SelectTrigger className="w-full bg-white/90 text-slate-900">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {Object.entries(DECKS).map(([key, deck]) => (
-                      <SelectItem key={key} value={key}>
-                        {deck.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-            <div className="flex flex-wrap gap-1.5" role="radiogroup" aria-label={`Player ${i + 1} avatar`}>
+          <div key={i} className="flex flex-col gap-3">
+            <div className="flex flex-wrap gap-2 py-2" role="radiogroup" aria-label={`Player ${i + 1} avatar`}>
               {AVATARS.map((a) => (
                 <button
                   key={a.id}
@@ -85,13 +58,41 @@ function SetupForm({ onStart }: { onStart: (s: Setup) => void }) {
                     avatars[i] === a.id ? 'scale-110' : 'opacity-55 hover:opacity-100',
                   )}
                 >
-                  <Avatar avatarId={a.id} size={40} />
+                  <Avatar avatarId={a.id} size={44} />
                 </button>
               ))}
+            </div>
+            {/* Theme colours (not fixed white/black) so the fields read well in light and dark. */}
+            <div className="grid grid-cols-2 gap-3">
+              <div className="flex flex-col gap-1.5">
+                <Label htmlFor={`player-${i}`}>Player {i + 1}</Label>
+                <Input
+                  id={`player-${i}`}
+                  value={names[i]}
+                  onChange={(e) => setNames((n) => setAt(n, i, e.target.value))}
+                  className="bg-background/70"
+                />
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <Label>Deck</Label>
+                <Select value={decks[i]} onValueChange={(v) => setDecks((d) => setAt(d, i, v as DeckKey))}>
+                  <SelectTrigger className="w-full bg-background/70">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {Object.entries(DECKS).map(([key, deck]) => (
+                      <SelectItem key={key} value={key}>
+                        {deck.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
           </div>
         ))}
         <Button
+          size="lg"
           className="bg-window-trim text-window-trim-foreground hover:bg-window-trim/85"
           onClick={() => onStart({ names: [names[0] || 'Player 1', names[1] || 'Player 2'], decks, avatars })}
         >
@@ -121,13 +122,10 @@ function LocalGame({ setup, onQuit }: { setup: Setup; onQuit: () => void }) {
           Viewing as <span className="font-semibold text-foreground">{game.view.players[game.seat].name}</span>
         </span>
         <div className="ml-auto flex items-center gap-2">
-          <Link to="/settings" className="text-sm text-muted-foreground hover:text-foreground">
-            Skin: <span className="font-medium text-foreground">{skin.name}</span>
-          </Link>
-          <Button size="sm" variant="outline" onClick={game.restart}>
+          <Button size="lg" className="h-10 px-4 md:h-9" variant="outline" onClick={game.restart}>
             New game
           </Button>
-          <Button size="sm" variant="ghost" onClick={onQuit}>
+          <Button size="lg" className="h-10 px-4 md:h-9" variant="ghost" onClick={onQuit}>
             Quit
           </Button>
         </div>

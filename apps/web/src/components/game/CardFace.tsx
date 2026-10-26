@@ -5,8 +5,8 @@ import { cn } from '@/lib/utils';
 /**
  * A card's face in the shared portrait shape. Structures are printed landscape; they show
  * the left half of the image (cost, art and name), which is almost exactly portrait-shaped,
- * plus a durability badge (top-right, clear of the cost and name) for the part that's
- * cropped off. Fills its container.
+ * plus a durability badge for the part that's cropped off. It sits under the cost on the
+ * left, which stays visible when cards overlap in a fanned hand. Fills its container.
  */
 export function CardFace({
   card,
@@ -33,7 +33,7 @@ export function CardFace({
       />
       {structure && shown != null && (
         <span
-          className="absolute top-[3%] right-[4%] flex items-center gap-[0.15em] rounded-[0.25em] bg-black/75 px-[0.3em] text-[clamp(9px,8cqw,16px)] font-bold text-white tabular-nums"
+          className="absolute top-[16%] left-[4%] flex items-center gap-[0.15em] rounded-[0.25em] bg-black/75 px-[0.3em] text-[clamp(9px,8cqw,16px)] font-bold text-white tabular-nums"
           title="Durability"
         >
           <Shield className="size-[1em]" />

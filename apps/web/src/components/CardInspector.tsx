@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { getCard } from '@pal/cards';
 import type { CardInstance } from '@pal/engine';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
+import { X } from 'lucide-react';
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import { SharpCard } from '@/components/SharpCard';
 
 /**
@@ -29,7 +30,11 @@ export function CardInspector({ instance, onClose }: { instance: CardInstance | 
   return (
     <Dialog open={!!instance} onOpenChange={(o) => !o && onClose()}>
       {def && (
-        <DialogContent className="w-auto max-w-[calc(100vw-1.5rem)] gap-2 p-3 pt-10 sm:max-w-none">
+        // No panel behind the card: it floats on the dimmed page, with solid buttons below it.
+        <DialogContent
+          showCloseButton={false}
+          className="w-auto max-w-[calc(100vw-1.5rem)] gap-3 bg-transparent p-0 shadow-none ring-0 sm:max-w-none"
+        >
           <DialogTitle className="sr-only">{def.name}</DialogTitle>
           <DialogDescription className="sr-only">{def.text}</DialogDescription>
           {/* Portrait and landscape cards get about the same area on screen. */}
@@ -39,13 +44,20 @@ export function CardInspector({ instance, onClose }: { instance: CardInstance | 
             className={landscape ? 'w-[min(560px,calc(100vw-3rem))]' : 'w-[min(340px,calc(100vw-3rem))]'}
           />
           {changes.length > 0 && (
-            <p className="max-w-[min(560px,calc(100vw-3rem))] text-center text-xs text-muted-foreground">
+            <p className="mx-auto max-w-[min(560px,calc(100vw-3rem))] rounded-md bg-background/90 px-2 py-1 text-center text-xs text-muted-foreground">
               {changes.join(' · ')}
             </p>
           )}
-          <Button variant="ghost" size="sm" onClick={() => setSharp((s) => !s)}>
-            {sharp ? 'Show original text' : 'Show sharp text'}
-          </Button>
+          <div className="flex justify-center gap-2">
+            <Button variant="secondary" className="shadow-md" onClick={() => setSharp((s) => !s)}>
+              {sharp ? 'Show original text' : 'Show sharp text'}
+            </Button>
+            <DialogClose asChild>
+              <Button variant="secondary" size="icon" className="shadow-md" aria-label="Close">
+                <X />
+              </Button>
+            </DialogClose>
+          </div>
         </DialogContent>
       )}
     </Dialog>

@@ -3,13 +3,18 @@
  * components so they always match what you see in a game.
  */
 import type { ReactNode } from 'react';
-import { ArrowRight, Shield, Swords } from 'lucide-react';
+import { Shield, Swords } from 'lucide-react';
 import { cardDb, getCard, imageUrl } from '@pal/cards';
 import { GameCard } from '@/components/game/GameCard';
 import { LifeGauge } from '@/components/game/PlayerHud';
+import { PhaseFlow } from '@/components/board/PhaseFlow';
+import { useIsMobile } from '@/hooks/useIsMobile';
 import { cn } from '@/lib/utils';
 
 const card = (id: string) => getCard(id)!;
+
+/** Card size for figures: smaller on phones so each picture fits the dialog. */
+const useCardSize = () => (useIsMobile() ? 'xs' : 'sm');
 const soul = cardDb.cards.find((c) => c.kind === 'Soul')!;
 
 /** Dark panel the figures sit on, so the board components look as they do in a game. */
@@ -18,7 +23,7 @@ function Figure({ children, caption, className }: { children: ReactNode; caption
     <figure className="flex flex-col gap-2">
       <div
         className={cn(
-          'flex flex-wrap items-end justify-center gap-4 rounded-xl bg-gradient-to-b from-[oklch(0.3_0.08_268)] to-[oklch(0.17_0.05_268)] p-4 text-white',
+          'flex flex-wrap items-end justify-center gap-4 rounded-xl bg-gradient-to-b from-[oklch(0.3_0.08_268)] to-[oklch(0.17_0.05_268)] p-4 text-white [&_li]:ml-0 [&_ol]:list-none [&_ol]:space-y-0',
           className,
         )}
       >
@@ -54,22 +59,10 @@ export const WinFigure = () => (
 );
 
 export const TurnFigure = () => (
-  <Figure caption="Stand, Draw and Soul happen automatically. Main is where you play.">
-    <ol className="flex flex-wrap items-center justify-center gap-1.5">
-      {['Stand', 'Draw', 'Soul', 'Main', 'End'].map((p, i) => (
-        <li key={p} className="flex items-center gap-1.5">
-          {i > 0 && <ArrowRight className="size-3.5 text-white/50" />}
-          <span
-            className={cn(
-              'corner-cut px-3 py-1 text-xs font-semibold uppercase [--cut:6px]',
-              p === 'Main' ? 'bg-amber-300 text-slate-900' : 'bg-white/15',
-            )}
-          >
-            {p}
-          </span>
-        </li>
-      ))}
-    </ol>
+  <Figure caption="The phase list on the left of your side of the board. Stand, Draw and Soul happen automatically; Main is where you play.">
+    <div className="w-36">
+      <PhaseFlow phase="main" />
+    </div>
   </Figure>
 );
 
@@ -90,50 +83,59 @@ export const SoulsFigure = () => (
   </Figure>
 );
 
-export const CardTypesFigure = () => (
-  <Figure>
-    {(
-      [
-        ['ETD01-005', 'Pal'],
-        ['ETD01-008', 'Structure'],
-        ['ETD01-010', 'Gear'],
-        ['ETD01-011', 'Event'],
-      ] as const
-    ).map(([id, label]) => (
-      <Labelled key={id} label={label}>
-        <GameCard card={card(id)} size="sm" />
-      </Labelled>
-    ))}
-  </Figure>
-);
+export const CardTypesFigure = () => {
+  const size = useCardSize();
+  return (
+    <Figure>
+      {(
+        [
+          ['ETD01-005', 'Pal'],
+          ['ETD01-008', 'Structure'],
+          ['ETD01-010', 'Gear'],
+          ['ETD01-011', 'Event'],
+        ] as const
+      ).map(([id, label]) => (
+        <Labelled key={id} label={label}>
+          <GameCard card={card(id)} size={size} />
+        </Labelled>
+      ))}
+    </Figure>
+  );
+};
 
-export const BattleFigure = () => (
-  <Figure caption="Grizzbolt attacks a rested Pal. A standing Pal of the defender's can step in to block.">
-    <Labelled label="Attacker">
-      <GameCard card={card('ETD01-001')} size="sm" rested state="attacking" />
-    </Labelled>
-    <Swords className="mb-12 size-6 text-orange-300" />
-    <Labelled label="Target (rested)">
-      <GameCard card={card('ETD02-016')} size="sm" rested state="target" />
-    </Labelled>
-    <Labelled label="Can block">
-      <div className="relative">
-        <GameCard card={card('ETD02-001')} size="sm" state="selectable" />
-        <Shield className="absolute -top-2 -right-2 size-5 rounded-full bg-sky-500 p-0.5 text-white" />
-      </div>
-    </Labelled>
-  </Figure>
-);
-
-export const DamageFigure = () => (
-  <Figure caption="Hit for 3: the third card flipped is a Lucky Pal, so no life is lost.">
-    {(['ETD01-011', 'ETD01-009', 'ETD02-006'] as const).map((id, i) => (
-      <Labelled key={id} label={`Flip ${i + 1}`}>
-        <GameCard card={card(id)} size="sm" state={i === 2 ? 'lucky' : undefined} />
+export const BattleFigure = () => {
+  const size = useCardSize();
+  return (
+    <Figure caption="Grizzbolt attacks a rested Pal. A standing Pal of the defender's can step in to block.">
+      <Labelled label="Attacker">
+        <GameCard card={card('ETD01-001')} size={size} rested state="attacking" />
       </Labelled>
-    ))}
-  </Figure>
-);
+      <Swords className="mb-12 size-6 text-orange-300" />
+      <Labelled label="Target (rested)">
+        <GameCard card={card('ETD02-016')} size={size} rested state="target" />
+      </Labelled>
+      <Labelled label="Can block">
+        <div className="relative">
+          <GameCard card={card('ETD02-001')} size={size} state="selectable" />
+          <Shield className="absolute -top-2 -right-2 size-5 rounded-full bg-sky-500 p-0.5 text-white" />
+        </div>
+      </Labelled>
+    </Figure>
+  );
+};
+
+export const DamageFigure = () => {
+  const size = useCardSize();
+  return (
+    <Figure caption="Hit for 3: the third card flipped is a Lucky Pal, so no life is lost.">
+      {(['ETD01-011', 'ETD01-009', 'ETD02-006'] as const).map((id, i) => (
+        <Labelled key={id} label={`Flip ${i + 1}`}>
+          <GameCard card={card(id)} size={size} state={i === 2 ? 'lucky' : undefined} />
+        </Labelled>
+      ))}
+    </Figure>
+  );
+};
 
 export const KeywordFigure = () => (
   <Figure caption="Foxparks has Interrupt: discard it from your hand during the opponent's attack to cancel it.">
@@ -141,12 +143,12 @@ export const KeywordFigure = () => (
   </Figure>
 );
 
-/** Labelled map of your half of the board, matching the playmat layout. */
+/** Labelled map of your half of the board, matching the current layout. */
 export const BoardFigure = () => {
   const zone = (label: string, className?: string) => (
     <div
       className={cn(
-        'flex items-center justify-center rounded-md border border-white/30 bg-white/10 p-1 text-center text-[10px] font-semibold tracking-wide uppercase',
+        'flex items-center justify-center rounded-md border border-white/30 bg-white/10 p-1 text-center text-[9px] font-semibold tracking-wide uppercase sm:text-[10px]',
         className,
       )}
     >
@@ -155,16 +157,27 @@ export const BoardFigure = () => {
   );
   return (
     <Figure caption="Your side of the board. The opponent's side is the same, turned around." className="block">
-      <div className="mx-auto grid max-w-md grid-cols-[4.5rem_1fr_4.5rem] grid-rows-[auto_auto_auto_auto] gap-1.5">
+      <div className="mx-auto grid max-w-md grid-cols-[3.75rem_1fr_3.75rem] gap-1.5 sm:grid-cols-[4.5rem_1fr_4.5rem]">
+        {zone('☀ Day · Turn · stage · End turn', 'col-span-3 h-7 border-dashed')}
         {zone('Phases', 'row-span-2')}
-        {zone('Base: your Pals, structures and gears', 'h-16')}
+        {zone('Base: Pals, structures, gears', 'h-14')}
         {zone('Exile')}
-        {zone('Avatar · Soul area (your souls)', 'h-9')}
+        <div className="flex items-center gap-1.5">
+          <span className="flex size-9 shrink-0 items-center justify-center rounded-full border border-white/40 bg-white/15 text-[8px] uppercase">
+            You
+          </span>
+          {zone('Soul area · Draw (3 souls)', 'h-9 flex-1')}
+        </div>
         {zone('Deck')}
-        {zone('Soul deck', 'h-12')}
-        {zone('Your hand', 'h-12')}
-        {zone('Graveyard', 'h-12')}
-        {zone('Your bar: name, life, Material, Ingredient', 'col-span-3 h-8 border-amber-300/70')}
+        {zone('Soul deck', 'h-14')}
+        {zone('Your hand', 'h-14')}
+        {zone('Graveyard', 'h-14')}
+        <div className="col-span-3 grid grid-cols-2 gap-1 rounded-md border border-amber-300/70 bg-white/10 p-1.5 text-[9px] font-semibold uppercase sm:text-[10px]">
+          <span>Name</span>
+          <span className="text-right">Life</span>
+          <span />
+          <span className="text-right">Material · Ingredient</span>
+        </div>
       </div>
     </Figure>
   );
