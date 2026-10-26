@@ -1,0 +1,277 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+@import '@fontsource-variable/geist';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-pal-red: #d9534f;
+  --color-pal-blue: #3b82f6;
+  --color-pal-green: #22a35a;
+  --color-pal-purple: #8b5cf6;
+  --font-display: 'Oxanium', ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Card text is printed black on parchment, like the physical cards, in both themes. */
+@theme inline {
+  --color-parchment: var(--parchment);
+  --color-parchment-foreground: var(--parchment-foreground);
+}
+
+@theme inline {
+  --font-heading: var(--font-sans);
+  --font-sans: 'Geist Variable', sans-serif;
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+  --background: oklch(0.94 0.03 85);
+  --foreground: oklch(0.22 0.03 60);
+  --card: oklch(0.97 0.02 85);
+  --card-foreground: oklch(0.22 0.03 60);
+  --popover: oklch(0.98 0.015 85);
+  --popover-foreground: oklch(0.22 0.03 60);
+  --primary: oklch(0.77 0.16 70);
+  --primary-foreground: oklch(0.21 0.03 60);
+  --secondary: oklch(0.9 0.035 82);
+  --secondary-foreground: oklch(0.25 0.03 60);
+  --muted: oklch(0.9 0.03 82);
+  --muted-foreground: oklch(0.47 0.04 65);
+  --accent: oklch(0.9 0.035 82);
+  --accent-foreground: oklch(0.25 0.03 60);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.83 0.04 80);
+  --input: oklch(0.83 0.04 80);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --radius: 0.625rem;
+  --parchment: oklch(0.96 0.02 85);
+  --parchment-foreground: oklch(0.2 0.01 60);
+  color-scheme: light;
+  --page-gradient:
+    radial-gradient(ellipse at top, oklch(0.97 0.025 88), transparent 60%),
+    linear-gradient(180deg, oklch(0.94 0.03 85), oklch(0.88 0.045 78));
+  /* Final Fantasy-style menu window: deep blue with gold trim. Same in both themes. */
+  --window-from: oklch(0.43 0.12 262);
+  --window-to: oklch(0.24 0.09 266);
+  --window-trim: oklch(0.82 0.11 85);
+  --window-foreground: oklch(0.97 0.01 250);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+  color-scheme: dark;
+  --parchment: oklch(0.92 0.025 85);
+  --page-gradient:
+    radial-gradient(ellipse at top, oklch(0.3 0.08 265), transparent 60%),
+    linear-gradient(180deg, oklch(0.2 0.05 265), oklch(0.13 0.03 270));
+  --window-from: oklch(0.38 0.11 262);
+  --window-to: oklch(0.2 0.08 266);
+  --background: oklch(0.17 0.04 266);
+  --foreground: oklch(0.96 0.01 250);
+  --card: oklch(0.22 0.05 265);
+  --card-foreground: oklch(0.96 0.01 250);
+  --popover: oklch(0.22 0.05 265);
+  --popover-foreground: oklch(0.96 0.01 250);
+  --primary: oklch(0.82 0.16 80);
+  --primary-foreground: oklch(0.21 0.03 60);
+  --secondary: oklch(0.28 0.05 265);
+  --secondary-foreground: oklch(0.96 0.01 250);
+  --muted: oklch(0.28 0.05 265);
+  --muted-foreground: oklch(0.72 0.04 255);
+  --accent: oklch(0.3 0.06 265);
+  --accent-foreground: oklch(0.96 0.01 250);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply min-h-dvh bg-background text-foreground;
+    background-image: var(--page-gradient);
+    background-attachment: fixed;
+  }
+  html {
+    @apply font-sans antialiased;
+  }
+}
+@theme inline {
+  --color-window-from: var(--window-from);
+  --color-window-to: var(--window-to);
+  --color-window-trim: var(--window-trim);
+  --color-window-foreground: var(--window-foreground);
+}
+
+@layer components {
+  /* Clip a corner-cut shape; --cut sets the corner size. */
+  .corner-cut {
+    --cut: 10px;
+    clip-path: polygon(
+      var(--cut) 0,
+      calc(100% - var(--cut)) 0,
+      100% var(--cut),
+      100% calc(100% - var(--cut)),
+      calc(100% - var(--cut)) 100%,
+      var(--cut) 100%,
+      0 calc(100% - var(--cut)),
+      0 var(--cut)
+    );
+  }
+
+  /* Holo foil sweep for rare printings, shown on hover. */
+  .holo {
+    position: relative;
+    overflow: hidden;
+  }
+  .holo::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      115deg,
+      transparent 30%,
+      oklch(0.95 0.08 200 / 0.45) 42%,
+      oklch(0.95 0.1 330 / 0.45) 50%,
+      oklch(0.97 0.1 90 / 0.45) 58%,
+      transparent 70%
+    );
+    background-size: 250% 100%;
+    background-position: 120% 0;
+    mix-blend-mode: color-dodge;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+  }
+  .holo:hover::after {
+    opacity: 1;
+    animation: holo-sweep 1.6s ease-in-out infinite alternate;
+  }
+
+  /* Generic card back: no official back image is published. */
+  .card-back {
+    background:
+      radial-gradient(circle at 50% 50%, oklch(0.85 0.1 85 / 0.9) 0 12%, transparent 13%),
+      radial-gradient(circle at 50% 50%, transparent 0 22%, oklch(0.82 0.11 85 / 0.6) 23% 24%, transparent 25%),
+      repeating-linear-gradient(45deg, oklch(0.3 0.09 264) 0 6px, oklch(0.26 0.08 266) 6px 12px);
+    border: 2px solid oklch(0.82 0.11 85 / 0.8);
+  }
+}
+
+@keyframes holo-sweep {
+  from {
+    background-position: 120% 0;
+  }
+  to {
+    background-position: -20% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .holo:hover::after {
+    animation: none;
+    background-position: 50% 0;
+  }
+}
+
+/* Prismatic ring: marks a Lucky Pal that cancelled damage. */
+@property --prism-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@layer components {
+  .prismatic-ring {
+    background: conic-gradient(
+      from var(--prism-angle),
+      oklch(0.75 0.2 25),
+      oklch(0.85 0.17 85),
+      oklch(0.85 0.2 145),
+      oklch(0.8 0.15 220),
+      oklch(0.7 0.2 290),
+      oklch(0.75 0.22 340),
+      oklch(0.75 0.2 25)
+    );
+    animation: prism-spin 3s linear infinite;
+    filter: drop-shadow(0 0 8px oklch(0.85 0.15 300 / 0.8));
+  }
+}
+
+@keyframes prism-spin {
+  to {
+    --prism-angle: 360deg;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .prismatic-ring {
+    animation: none;
+  }
+}
