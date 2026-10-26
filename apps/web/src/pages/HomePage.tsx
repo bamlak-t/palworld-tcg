@@ -284,12 +284,9 @@ function MillReveal() {
           </div>
         ))}
       </div>
-      <div className="text-center">
-        <p className="font-display text-xl font-bold text-emerald-600 dark:text-emerald-400">Damage cancelled</p>
-        <p className="text-sm text-muted-foreground">
-          Broncherry is a Lucky Pal, so you lose no life. The 3 flipped cards still go to the graveyard.
-        </p>
-      </div>
+      <p className="font-display text-xl font-bold text-emerald-600 dark:text-emerald-400">
+        Attack blocked by Lucky Pal
+      </p>
     </div>
   );
 }

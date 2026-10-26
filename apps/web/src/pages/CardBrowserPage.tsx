@@ -28,12 +28,12 @@ const SORTS: [SortKey, string][] = [
 ];
 
 /**
- * Card tiles fill --cols columns (5 when there's room). Structure tiles are printed
- * landscape (400×286 vs 400×559), so they're widened to keep the same height as a card tile.
+ * Card tiles fill --cols columns (5 when there's room). A structure is a normal card turned
+ * sideways, so its tile is as wide as a card tile is tall (400×559 portrait vs 400×286 landscape).
  */
 const TILE_WIDTH: Record<CardView, string> = {
   cards: 'var(--card-w)',
-  structures: 'calc(var(--card-w) * 559 / 286)',
+  structures: 'calc(var(--card-w) * 559 / 400)',
 };
 
 const COLOR_CLASS: Record<string, string> = {
