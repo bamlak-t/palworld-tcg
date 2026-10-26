@@ -15,7 +15,10 @@ export function Layout() {
         <nav className="mx-auto flex max-w-7xl items-center gap-1 px-4 py-2.5">
           <span className="mr-4 font-display text-lg font-bold tracking-wide text-primary">Palworld TCG</span>
           <NavLink to="/" end className={navClass}>
-            Play
+            Home
+          </NavLink>
+          <NavLink to="/play/local" className={navClass}>
+            Local game
           </NavLink>
           <NavLink to="/cards" className={navClass}>
             Cards

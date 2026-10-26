@@ -1,24 +1,43 @@
 import { cardDb, textIconUrl } from '@pal/cards';
 import { cn } from '@/lib/utils';
 
-export function LifeGauge({ life, max = 10 }: { life: number; max?: number }) {
-  return (
-    <div className="flex items-center gap-2" aria-label={`Life ${life} of ${max}`}>
-      <span className="font-display text-xs tracking-widest text-window-trim">LIFE</span>
-      <div className="flex gap-0.5">
-        {Array.from({ length: max }, (_, i) => (
-          <span
-            key={i}
-            className={cn(
-              'h-4 w-2.5 -skew-x-12 rounded-[2px]',
-              i < life
-                ? 'bg-gradient-to-b from-emerald-300 to-emerald-600 shadow-[0_0_6px] shadow-emerald-400/60'
-                : 'bg-white/15',
-            )}
-          />
-        ))}
+/** Life as segments. Life can go above 10 (§3.2.1.1); extra life just shows in the number. */
+export function LifeGauge({ life, max = 10, stacked }: { life: number; max?: number; stacked?: boolean }) {
+  const segments = (
+    <div className={cn('flex gap-0.5', stacked && 'w-full')}>
+      {Array.from({ length: max }, (_, i) => (
+        <span
+          key={i}
+          className={cn(
+            'h-4 -skew-x-12 rounded-[2px]',
+            stacked ? 'flex-1' : 'w-2.5',
+            i < life
+              ? 'bg-gradient-to-b from-emerald-300 to-emerald-600 shadow-[0_0_6px] shadow-emerald-400/60'
+              : 'bg-white/15',
+          )}
+        />
+      ))}
+    </div>
+  );
+  const label = <span className="font-display text-xs tracking-widest text-window-trim">LIFE</span>;
+  const value = <span className="font-display text-lg leading-none font-bold tabular-nums">{life}</span>;
+
+  if (stacked) {
+    return (
+      <div className="flex flex-col gap-1" aria-label={`Life ${life}`}>
+        <div className="flex items-baseline justify-between">
+          {label}
+          {value}
+        </div>
+        {segments}
       </div>
-      <span className="font-display text-lg font-bold tabular-nums">{life}</span>
+    );
+  }
+  return (
+    <div className="flex items-center gap-2" aria-label={`Life ${life}`}>
+      {label}
+      {segments}
+      {value}
     </div>
   );
 }

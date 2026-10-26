@@ -1,6 +1,13 @@
-import type { BattleState, CardInstance, GameState, PendingChoice, Seat } from './types.ts';
+import { KEYWORDS, type BattleState, type CardInstance, type GameState, type Keyword, type PendingChoice, type Seat } from './types.ts';
+import { hasKeyword, powerOf, strikeOf } from './stats.ts';
 
 export type Viewer = Seat | 'spectator';
+
+export interface CardStats {
+  power: number;
+  strike: number;
+  keywords: Keyword[];
+}
 
 export interface PlayerView {
   name: string;
@@ -31,6 +38,8 @@ export interface GameView {
   battle: BattleState | null;
   pending: PendingChoice | null;
   night: boolean;
+  /** Current power, strike and keywords of cards in either base. */
+  stats: Record<string, CardStats>;
   /** Event cards currently resolving (public, §4.11). */
   resolving: CardInstance[];
   result: GameState['result'];
@@ -69,6 +78,12 @@ export function viewFor(s: GameState, viewer: Viewer): GameView {
     pending: redactPending(s.pending, viewer),
     night: s.nightUntilTurn !== null,
     resolving: cards(s.resolutionZone),
+    stats: Object.fromEntries(
+      [...s.players[0].base, ...s.players[1].base].map((id) => {
+        const c = s.cards[id]!;
+        return [id, { power: powerOf(s, c), strike: strikeOf(s, c), keywords: KEYWORDS.filter((k) => hasKeyword(s, c, k)) }];
+      }),
+    ),
     result: s.result,
     players: [playerView(0), playerView(1)],
   };

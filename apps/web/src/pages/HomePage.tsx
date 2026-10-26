@@ -52,9 +52,14 @@ export function HomePage() {
           Online play is in progress. Below are concepts for the game UI, built with real cards, so we can settle the
           look before wiring up the rules engine.
         </p>
-        <Button asChild size="lg" className="mt-6">
-          <Link to="/cards">Browse all cards</Link>
-        </Button>
+        <div className="mt-6 flex justify-center gap-2">
+          <Button asChild size="lg">
+            <Link to="/play/local">Play a local game</Link>
+          </Button>
+          <Button asChild size="lg" variant="outline">
+            <Link to="/cards">Browse all cards</Link>
+          </Button>
+        </div>
       </section>
 
       <Concept
