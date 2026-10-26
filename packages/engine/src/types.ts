@@ -12,8 +12,11 @@ export type Phase = (typeof PHASES)[number];
 export const BATTLE_STEPS = ['attack', 'block', 'quick', 'damage', 'endOfBattle'] as const;
 export type BattleStep = (typeof BATTLE_STEPS)[number];
 
-/** How long a modifier lasts. */
-export type Duration = 'endOfTurn' | 'endOfBattle' | 'permanent';
+/**
+ * How long a modifier lasts. 'untilOpponentsNextTurnEnd' is stored as 'untilTurn' with the
+ * turn number, so it survives the end of the current turn.
+ */
+export type Duration = 'endOfTurn' | 'endOfBattle' | 'permanent' | 'untilOpponentsNextTurnEnd';
 
 export const KEYWORDS = [
   'assault',
@@ -26,6 +29,7 @@ export const KEYWORDS = [
   'breakthrough',
   'brave',
   'serious',
+  'legendary',
 ] as const;
 export type Keyword = (typeof KEYWORDS)[number];
 
@@ -34,14 +38,31 @@ export type Keyword = (typeof KEYWORDS)[number];
  * the UI can explain it.
  */
 export interface Modifier {
-  stat: 'power' | 'strike' | 'keyword';
-  /** Ignored for keyword grants. */
+  /**
+   * power/strike: a number. keyword: a granted keyword. skill: an ability granted by another
+   * card's script (its `grants[key]`). name: an extra card name. flag: a restriction.
+   */
+  stat: 'power' | 'strike' | 'keyword' | 'skill' | 'name' | 'flag';
+  /** Ignored except for power and strike. */
   amount: number;
   keyword?: Keyword;
+  grant?: SkillGrant;
+  name?: string;
+  flag?: CardFlag;
   /** Human-readable source, e.g. "Brave 300" or "Nocturnal". */
   source: string;
-  duration: Duration;
+  duration: Duration | 'untilTurn';
+  /** For duration 'untilTurn': expires at the end of this turn number. */
+  untilTurn?: number;
 }
+
+/** An ability from another card's script, granted to this one ("gets the skill in 〈〉"). */
+export interface SkillGrant {
+  fromCardId: string;
+  key: string;
+}
+
+export type CardFlag = 'cannotBlock' | 'cannotBeAttacked' | 'untargetableByOpponent';
 
 /** One physical card in the game. */
 export interface CardInstance {
@@ -62,6 +83,10 @@ export interface CardInstance {
   skipNextStand?: boolean;
   /** Card whose effect exiled this one (e.g. Hanging Trap), for "the Pal exiled by this card". */
   exiledBy?: string | null;
+  /** Doesn't stand while this card is in a base (e.g. Relaxaurus: "while this card is in the base"). */
+  frozenBy?: string | null;
+  /** Cards put face down underneath this one (e.g. Wooden Chest). Hidden from the opponent. */
+  under?: string[];
 }
 
 export interface PlayerState {
@@ -87,6 +112,10 @@ export interface PlayerState {
   mulliganDone: boolean;
   /** §4.4.5: max Pals in base. */
   maxPals: number;
+  /** Cost reduction for the next gear played this turn (e.g. Primitive Furnace). */
+  nextGearDiscount?: number;
+  /** Cards played from hand this game (e.g. "if you have not played any other cards"). */
+  cardsPlayed?: number;
 }
 
 export type AttackTarget = { kind: 'player'; seat: Seat } | { kind: 'card'; id: string };
@@ -113,12 +142,40 @@ export interface QueuedTrigger {
   cardId: string;
   controller: Seat;
   trigger: TriggerKind;
+  /** The card the trigger is about, e.g. the Pal that was deployed or attacked. */
+  subjectId?: string;
+  /** Which watcher or delayed ability (index or name), for 'watch' and 'delayed'. */
+  key?: string;
+  /** Set when the ability was granted by another card. */
+  grant?: SkillGrant;
 }
 
-export type TriggerKind = 'onDeploy' | 'onAttack' | 'onGraveyard' | 'onLeaveBase' | 'endOfTurn';
+export type TriggerKind =
+  | 'onDeploy'
+  | 'onAttack'
+  | 'onGraveyard'
+  | 'onLeaveBase'
+  | 'endOfTurn'
+  /** This Pal was assigned to a structure (subject: the structure). */
+  | 'onAssign'
+  /** This card was chosen as an attack target. */
+  | 'onAttacked'
+  /** End of a battle this card attacked in. */
+  | 'onBattleEnd'
+  /** This card's opposing combat Pal went to the graveyard (subject: that Pal). */
+  | 'onBeatOpponent'
+  /** This card's Interrupt was used (it's in the graveyard by then). */
+  | 'onInterrupt'
+  /** One of the card's watchers fired (key: watcher index). */
+  | 'watch'
+  /** A delayed ability created by an effect (key: its name). */
+  | 'delayed';
 
 /** Which ability of a card is resolving. */
-export type AbilityRef = { kind: 'trigger'; trigger: TriggerKind } | { kind: 'act'; index: number } | { kind: 'event' };
+export type AbilityRef =
+  | { kind: 'trigger'; trigger: TriggerKind; subjectId?: string; key?: string; grant?: SkillGrant }
+  | { kind: 'act'; index: number; grant?: SkillGrant }
+  | { kind: 'event' };
 
 /**
  * The effect currently resolving. Effects that need a choice suspend; the answer is
@@ -172,13 +229,22 @@ export interface GameState {
   resolutionZone: string[];
   /** Once-per-turn ability uses this turn, keyed "instanceId:abilityIndex". */
   usedThisTurn: string[];
+  /** Other per-turn memory for effects ("not chosen this turn", etc.). Cleared each turn. */
+  turnMemory?: string[];
+  /** Pals assigned this turn (e.g. Alarm Bell stands them). */
+  assignedThisTurn?: string[];
+  /** Turn-wide rules set by effects, per seat (e.g. Alarm Bell). Cleared each turn. */
+  turnFlags?: { mustAttack: Seat[]; noAssign: Seat[] };
+  /** Delayed abilities: resolve at the end of the given turn. */
+  delayed?: { sourceId: string; cardId: string; controller: Seat; key: string; atTurn: number }[];
   result: { winner: Seat | null; reason: string } | null;
 }
 
 export type Action =
   | { type: 'chooseFirstPlayer'; first: Seat }
   | { type: 'mulligan'; redraw: boolean }
-  | { type: 'playCard'; cardId: string }
+  /** x: Material to consume to lower the cost, for cards that allow it (e.g. Flamethrower). */
+  | { type: 'playCard'; cardId: string; x?: number }
   | { type: 'soulDraw' }
   | { type: 'attack'; attackerId: string; target: AttackTarget }
   | { type: 'block'; blockerId: string | null }
@@ -197,6 +263,14 @@ export interface CostChoice {
   discardIds?: string[];
   /** Which alternative to pay when the cost says "OR". */
   option?: number;
+  /** For "assign X Pals" / "assign 2 Pals" costs. */
+  assignIds?: string[];
+  /** Pal to butcher for "[Butcher 1 Pal]". */
+  butcherId?: string;
+  /** Cards to exile from the graveyard for exile costs. */
+  exileIds?: string[];
+  /** X for "Consume X Material" style costs. */
+  x?: number;
 }
 
 /** Something that happened, for animation and the action log. */
@@ -236,6 +310,13 @@ export type GameEvent =
   | { type: 'revealed'; seat: Seat; instanceId: string; cardId: string }
   | { type: 'returnedToHand'; seat: Seat; instanceId: string; cardId: string }
   | { type: 'nightStarted'; untilTurn: number }
+  | { type: 'butchered'; instanceId: string; cardId: string }
+  | { type: 'soulsStood'; seat: Seat; count: number }
+  | { type: 'soulsAdded'; seat: Seat; count: number }
+  | { type: 'resourceLost'; seat: Seat; resource: 'material' | 'ingredient'; amount: number }
+  | { type: 'shuffled'; seat: Seat }
+  | { type: 'putUnder'; seat: Seat; structureId: string }
+  | { type: 'declaredName'; seat: Seat; name: string }
   | { type: 'turnEnded'; seat: Seat }
   | { type: 'gameOver'; winner: Seat | null; reason: string };
 

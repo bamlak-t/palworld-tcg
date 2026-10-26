@@ -3,8 +3,9 @@
  * All of them mutate ctx.s in place; apply() works on a clone.
  */
 import { defOf, isPal } from './cards.ts';
-import { getScript } from './abilities.ts';
-import type { CardInstance, GameEvent, GameState, PlayerState, Seat, TriggerKind } from './types.ts';
+import { getScript, scriptSources, type CardScript, type Watcher } from './abilities.ts';
+import { canGainLife, doublesAutoAbilities, hasKeyword } from './stats.ts';
+import type { CardInstance, GameEvent, GameState, PlayerState, QueuedTrigger, Seat, TriggerKind } from './types.ts';
 
 /** Mutable working copy for one apply() call. ctx.s may be replaced when an effect suspends. */
 export interface Ctx {
@@ -35,7 +36,7 @@ export function draw(ctx: Ctx, seat: Seat, count: number) {
   if (n > 0) ctx.events.push({ type: 'drew', seat, count: n });
 }
 
-/** Removes a card from whichever zone of its owner holds it. */
+/** Removes a card from whichever zone holds it (including underneath a structure). */
 export function removeFromZones(ctx: Ctx, c: CardInstance) {
   const p = player(ctx, c.owner);
   for (const zone of ['deck', 'hand', 'base', 'graveyard', 'exile'] as const) {
@@ -44,6 +45,10 @@ export function removeFromZones(ctx: Ctx, c: CardInstance) {
   }
   const r = ctx.s.resolutionZone.indexOf(c.id);
   if (r >= 0) ctx.s.resolutionZone.splice(r, 1);
+  for (const other of Object.values(ctx.s.cards)) {
+    const u = other.under?.indexOf(c.id) ?? -1;
+    if (u >= 0) other.under!.splice(u, 1);
+  }
 }
 
 /** §5.15 deploy a Pal, structure or gear into its owner's base. */
@@ -54,7 +59,8 @@ export function deploy(ctx: Ctx, c: CardInstance, opts: { rested?: boolean } = {
   c.placedAt = ++ctx.s.placementCounter;
   player(ctx, c.owner).base.push(c.id);
   ctx.events.push({ type: 'deployed', instanceId: c.id, cardId: c.cardId, seat: c.owner });
-  if (getScript(c.cardId).onDeploy) enqueue(ctx, c, 'onDeploy');
+  enqueue(ctx, c, 'onDeploy');
+  if (isPal(c)) fireWatchers(ctx, 'palDeployed', c);
 }
 
 /** §4.1.4: a card leaving the base becomes a new card. */
@@ -64,6 +70,7 @@ function resetCard(c: CardInstance) {
   c.modifiers = [];
   c.assignedTo = null;
   c.skipNextStand = false;
+  c.frozenBy = null;
 }
 
 /**
@@ -72,6 +79,11 @@ function resetCard(c: CardInstance) {
  */
 export function leaveBase(ctx: Ctx, c: CardInstance, to: 'graveyard' | 'exile' | 'hand' | 'deckTop') {
   const wasInBase = inBase(ctx.s, c);
+  // Triggers are queued from the card as it was, including granted abilities.
+  if (wasInBase) {
+    enqueue(ctx, c, 'onLeaveBase');
+    if (to === 'graveyard') enqueue(ctx, c, 'onGraveyard');
+  }
   removeFromZones(ctx, c);
   resetCard(c);
   const p = player(ctx, c.owner);
@@ -80,14 +92,54 @@ export function leaveBase(ctx: Ctx, c: CardInstance, to: 'graveyard' | 'exile' |
   else if (to === 'hand') p.hand.push(c.id);
   else p.deck.unshift(c.id);
 
-  if (!wasInBase) return;
-  const script = getScript(c.cardId);
-  if (script.onLeaveBase) enqueue(ctx, c, 'onLeaveBase');
-  if (to === 'graveyard' && script.onGraveyard) enqueue(ctx, c, 'onGraveyard');
+  // Cards underneath a structure go to their owner's graveyard with it.
+  for (const id of c.under ?? []) player(ctx, card(ctx.s, id).owner).graveyard.push(id);
+  c.under = [];
 }
 
-export function enqueue(ctx: Ctx, c: CardInstance, trigger: TriggerKind) {
-  ctx.s.triggers.push({ sourceId: c.id, cardId: c.cardId, controller: c.owner, trigger });
+/**
+ * Queues a card's automatic ability (its own and any granted ones). Under Shadowbeak at
+ * night, a Pal's automatic abilities activate twice.
+ */
+export function enqueue(ctx: Ctx, c: CardInstance, trigger: TriggerKind, extra: Partial<QueuedTrigger> = {}) {
+  for (const { script, grant } of scriptSources(c)) {
+    // Vigilance stands the card at end of turn even without a scripted endOfTurn.
+    const vigilance = trigger === 'endOfTurn' && !grant && hasKeyword(ctx.s, c, 'vigilance');
+    if (!script[trigger as keyof CardScript] && !vigilance) continue;
+    push(ctx, { sourceId: c.id, cardId: c.cardId, controller: c.owner, trigger, ...extra, ...(grant && { grant }) }, c);
+  }
+}
+
+function push(ctx: Ctx, t: QueuedTrigger, c: CardInstance) {
+  ctx.s.triggers.push(t);
+  if (isPal(c) && doublesAutoAbilities(ctx.s, c.owner)) ctx.s.triggers.push({ ...t });
+}
+
+/** Fires watchers on every card in play (or in a graveyard, for graveyard watchers). */
+export function fireWatchers(ctx: Ctx, on: Watcher['on'], subject: CardInstance) {
+  for (const seat of [ctx.s.activeSeat, other(ctx.s.activeSeat)] as Seat[]) {
+    const p = player(ctx, seat);
+    for (const [zone, ids] of [
+      ['base', p.base],
+      ['graveyard', p.graveyard],
+    ] as const) {
+      for (const id of ids) {
+        const watcherCard = card(ctx.s, id);
+        getScript(watcherCard.cardId).watchers?.forEach((w, i) => {
+          if (w.on !== on || (w.zone ?? 'base') !== zone) return;
+          const mine = subject.owner === watcherCard.owner;
+          if (w.whose === 'mine' && !mine) return;
+          if (w.whose === 'opponent' && mine) return;
+          if (w.filter && !w.filter(ctx.s, watcherCard, subject)) return;
+          push(
+            ctx,
+            { sourceId: id, cardId: watcherCard.cardId, controller: watcherCard.owner, trigger: 'watch', key: String(i), subjectId: subject.id },
+            watcherCard,
+          );
+        });
+      }
+    }
+  }
 }
 
 export function rest(ctx: Ctx, c: CardInstance) {
@@ -107,7 +159,18 @@ export function assign(ctx: Ctx, pal: CardInstance, structure: CardInstance) {
   if (pal.rested || !isPal(pal)) fail(`${defOf(pal).name} can't be assigned.`);
   pal.rested = true;
   pal.assignedTo = structure.id;
+  (ctx.s.assignedThisTurn ??= []).push(pal.id);
   ctx.events.push({ type: 'assigned', palId: pal.id, structureId: structure.id });
+  enqueue(ctx, pal, 'onAssign', { subjectId: structure.id });
+  fireWatchers(ctx, 'palAssigned', pal);
+}
+
+/** §5.16: butcher one of your Pals (it goes to the graveyard). */
+export function butcher(ctx: Ctx, pal: CardInstance) {
+  if (!inBase(ctx.s, pal)) return;
+  leaveBase(ctx, pal, 'graveyard');
+  ctx.events.push({ type: 'butchered', instanceId: pal.id, cardId: pal.cardId });
+  fireWatchers(ctx, 'palButchered', pal);
 }
 
 export function gainResource(ctx: Ctx, seat: Seat, resource: 'material' | 'ingredient', amount: number) {
@@ -117,7 +180,7 @@ export function gainResource(ctx: Ctx, seat: Seat, resource: 'material' | 'ingre
 }
 
 export function gainLife(ctx: Ctx, seat: Seat, amount: number) {
-  if (amount <= 0) return;
+  if (amount <= 0 || !canGainLife(ctx.s, seat)) return;
   const p = player(ctx, seat);
   p.life += amount;
   ctx.events.push({ type: 'lifeGained', seat, amount, life: p.life });
