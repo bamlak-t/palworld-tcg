@@ -6,8 +6,17 @@ import type { Action, GameEvent, GameState, Seat } from './types.ts';
 
 const LUCKY = ['ETD01-001', 'ETD01-007', 'ETD01-017', 'ETD01-018']; // Grizzbolt, Blazamut, Suzaku Aqua, Mammorest Cryst
 const NORMAL_PALS = [
-  'ETD01-002', 'ETD01-003', 'ETD01-004', 'ETD01-005', 'ETD01-006', 'ETD01-013',
-  'ETD01-014', 'ETD01-015', 'ETD01-016', 'ETD01-023', 'ETD01-024',
+  'ETD01-002',
+  'ETD01-003',
+  'ETD01-004',
+  'ETD01-005',
+  'ETD01-006',
+  'ETD01-013',
+  'ETD01-014',
+  'ETD01-015',
+  'ETD01-016',
+  'ETD01-023',
+  'ETD01-024',
 ];
 const STRUCTURE = 'ETD01-008'; // Stone Pit, cost 1, durability 600
 const EVENT = 'ETD01-011'; // Ignis Breath, cost 2
@@ -51,7 +60,16 @@ function setCard(s: GameState, id: string, cardId: string) {
 /** Test helper: put a fresh copy of a card straight into a player's base. */
 function putInBase(s: GameState, seat: Seat, cardId: string, opts: { rested?: boolean } = {}): string {
   const id = `t${Object.keys(s.cards).length}`;
-  s.cards[id] = { id, cardId, owner: seat, rested: !!opts.rested, damage: 0, modifiers: [], placedAt: 0, assignedTo: null };
+  s.cards[id] = {
+    id,
+    cardId,
+    owner: seat,
+    rested: !!opts.rested,
+    damage: 0,
+    modifiers: [],
+    placedAt: 0,
+    assignedTo: null,
+  };
   s.players[seat].base.push(id);
   return id;
 }
@@ -332,7 +350,7 @@ describe('fuzz', () => {
         { name: 'B', deck: trialDeck() },
       ]);
       let rng = seed;
-      const pick = <T,>(xs: T[]): T => {
+      const pick = <T>(xs: T[]): T => {
         rng = (rng * 1103515245 + 12345) & 0x7fffffff;
         return xs[rng % xs.length]!;
       };
@@ -358,7 +376,8 @@ describe('fuzz', () => {
         for (const p of s.players) {
           expect(p.soulDeck + p.soulsStanding + p.soulsRested).toBe(10);
           expect(p.soulsStanding).toBeGreaterThanOrEqual(0);
-          if (!s.pending) expect(p.base.filter((id) => s.cards[id]!.cardId.startsWith('ETD01')).length).toBeLessThanOrEqual(7);
+          if (!s.pending)
+            expect(p.base.filter((id) => s.cards[id]!.cardId.startsWith('ETD01')).length).toBeLessThanOrEqual(7);
         }
       }
       expect(s.result, `seed ${seed} did not finish`).not.toBeNull();

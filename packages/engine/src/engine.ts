@@ -42,7 +42,10 @@ export interface PlayerSetup {
   deck: string[];
 }
 
-export function createGame(seed: number, setups: [PlayerSetup, PlayerSetup]): { state: GameState; events: GameEvent[] } {
+export function createGame(
+  seed: number,
+  setups: [PlayerSetup, PlayerSetup],
+): { state: GameState; events: GameEvent[] } {
   const s: GameState = {
     version: 0,
     rngState: seed | 0,
@@ -103,7 +106,11 @@ function randomId(ctx: Ctx): string {
   do {
     const [r, next] = nextRandom(ctx.s.rngState);
     ctx.s.rngState = next;
-    id = 'c' + Math.floor(r * 36 ** 6).toString(36).padStart(6, '0');
+    id =
+      'c' +
+      Math.floor(r * 36 ** 6)
+        .toString(36)
+        .padStart(6, '0');
   } while (ctx.s.cards[id]);
   return id;
 }

@@ -134,6 +134,4 @@ export type GameEvent =
   | { type: 'turnEnded'; seat: Seat }
   | { type: 'gameOver'; winner: Seat | null; reason: string };
 
-export type ApplyResult =
-  | { ok: true; state: GameState; events: GameEvent[] }
-  | { ok: false; error: string };
+export type ApplyResult = { ok: true; state: GameState; events: GameEvent[] } | { ok: false; error: string };

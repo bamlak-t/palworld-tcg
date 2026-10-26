@@ -21,7 +21,10 @@ export function getLegalActions(s: GameState, seat: Seat): Action[] {
           { type: 'mulligan', redraw: true },
         ];
       case 'block':
-        return [{ type: 'block', blockerId: null }, ...s.pending.options.map((id) => ({ type: 'block' as const, blockerId: id }))];
+        return [
+          { type: 'block', blockerId: null },
+          ...s.pending.options.map((id) => ({ type: 'block' as const, blockerId: id })),
+        ];
       case 'overload':
         // Too many combinations to enumerate; the UI picks keepCount from candidates.
         return [];
