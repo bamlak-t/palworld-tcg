@@ -1,5 +1,5 @@
 {
-  "syncedAt": "2026-10-26T18:37:13.806Z",
+  "syncedAt": "2026-10-26T21:22:40.939Z",
   "source": "https://en.palworld-official-cardgame.com/manage/card-list-user/list",
   "imageBase": "https://en.palworld-official-cardgame.com/wordpress/wp-content/images/cardlist/",
   "textIconBase": "https://en.palworld-official-cardgame.com/wordpress/wp-content/images/texticon/",
@@ -89,25 +89,29 @@
           "number": "EBP01-001",
           "rarity": "RR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-001.png"
+          "picture": "EBP01/EBP01-001.png",
+          "frame": "standard"
         },
         {
           "number": "EBP01-001OSR",
           "rarity": "OSR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-001OSR.png"
+          "picture": "EBP01/EBP01-001OSR.png",
+          "frame": "fullArt"
         },
         {
           "number": "EBP01-001SSP",
           "rarity": "SSP",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-001SSP.png"
+          "picture": "EBP01/EBP01-001SSP.png",
+          "frame": "fullArt"
         },
         {
           "number": "EPR-010",
           "rarity": "PR",
           "set": "PR2026",
-          "picture": "PR/EPR-010.png"
+          "picture": "PR/EPR-010.png",
+          "frame": "fullArt"
         }
       ]
     },
@@ -137,19 +141,22 @@
           "number": "EBP01-002",
           "rarity": "RR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-002.png"
+          "picture": "EBP01/EBP01-002.png",
+          "frame": "standard"
         },
         {
           "number": "EBP01-002OSR",
           "rarity": "OSR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-002OSR.png"
+          "picture": "EBP01/EBP01-002OSR.png",
+          "frame": "fullArt"
         },
         {
           "number": "EBP01-002SP",
           "rarity": "SP",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-002SP.png"
+          "picture": "EBP01/EBP01-002SP.png",
+          "frame": "fullArt"
         }
       ]
     },
@@ -181,13 +188,15 @@
           "number": "EBP01-003",
           "rarity": "R",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-003.png"
+          "picture": "EBP01/EBP01-003.png",
+          "frame": "standard"
         },
         {
           "number": "EBP01-003SR",
           "rarity": "SR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-003SR.png"
+          "picture": "EBP01/EBP01-003SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -220,13 +229,15 @@
           "number": "EBP01-004",
           "rarity": "R",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-004.png"
+          "picture": "EBP01/EBP01-004.png",
+          "frame": "standard"
         },
         {
           "number": "EBP01-004SR",
           "rarity": "SR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-004SR.png"
+          "picture": "EBP01/EBP01-004SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -258,13 +269,15 @@
           "number": "EBP01-005",
           "rarity": "R",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-005.png"
+          "picture": "EBP01/EBP01-005.png",
+          "frame": "standard"
         },
         {
           "number": "EBP01-005SR",
           "rarity": "SR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-005SR.png"
+          "picture": "EBP01/EBP01-005SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -294,13 +307,15 @@
           "number": "EBP01-006",
           "rarity": "U",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-006.png"
+          "picture": "EBP01/EBP01-006.png",
+          "frame": "standard"
         },
         {
           "number": "EBP01-006SR",
           "rarity": "SR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-006SR.png"
+          "picture": "EBP01/EBP01-006SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -330,13 +345,15 @@
           "number": "EBP01-007",
           "rarity": "U",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-007.png"
+          "picture": "EBP01/EBP01-007.png",
+          "frame": "standard"
         },
         {
           "number": "EBP01-007SR",
           "rarity": "SR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-007SR.png"
+          "picture": "EBP01/EBP01-007SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -369,7 +386,8 @@
           "number": "EBP01-008",
           "rarity": "U",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-008.png"
+          "picture": "EBP01/EBP01-008.png",
+          "frame": "standard"
         }
       ]
     },
@@ -400,7 +418,8 @@
           "number": "EBP01-009",
           "rarity": "U",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-009.png"
+          "picture": "EBP01/EBP01-009.png",
+          "frame": "standard"
         }
       ]
     },
@@ -431,7 +450,8 @@
           "number": "EBP01-010",
           "rarity": "U",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-010.png"
+          "picture": "EBP01/EBP01-010.png",
+          "frame": "standard"
         }
       ]
     },
@@ -462,7 +482,8 @@
           "number": "EBP01-011",
           "rarity": "C",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-011.png"
+          "picture": "EBP01/EBP01-011.png",
+          "frame": "standard"
         }
       ]
     },
@@ -495,19 +516,22 @@
           "number": "EBP01-012",
           "rarity": "C",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-012.png"
+          "picture": "EBP01/EBP01-012.png",
+          "frame": "standard"
         },
         {
           "number": "EPR-002",
           "rarity": "PR",
           "set": "PR2026",
-          "picture": "PR/EPR-002.png"
+          "picture": "PR/EPR-002.png",
+          "frame": "standard"
         },
         {
           "number": "EPR-002S",
           "rarity": "PR",
           "set": "PR2026",
-          "picture": "PR/EPR-002S.png"
+          "picture": "PR/EPR-002S.png",
+          "frame": "fullArt"
         }
       ]
     },
@@ -538,7 +562,8 @@
           "number": "EBP01-013",
           "rarity": "C",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-013.png"
+          "picture": "EBP01/EBP01-013.png",
+          "frame": "standard"
         }
       ]
     },
@@ -570,19 +595,22 @@
           "number": "EBP01-014",
           "rarity": "C",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-014.png"
+          "picture": "EBP01/EBP01-014.png",
+          "frame": "standard"
         },
         {
           "number": "EPR-003",
           "rarity": "PR",
           "set": "PR2026",
-          "picture": "PR/EPR-003.png"
+          "picture": "PR/EPR-003.png",
+          "frame": "standard"
         },
         {
           "number": "EPR-003S",
           "rarity": "PR",
           "set": "PR2026",
-          "picture": "PR/EPR-003S.png"
+          "picture": "PR/EPR-003S.png",
+          "frame": "fullArt"
         }
       ]
     },
@@ -610,13 +638,15 @@
           "number": "EBP01-015",
           "rarity": "R",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-015.png"
+          "picture": "EBP01/EBP01-015.png",
+          "frame": "standard"
         },
         {
           "number": "EBP01-015SP",
           "rarity": "SP",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-015SP.png"
+          "picture": "EBP01/EBP01-015SP.png",
+          "frame": "fullArt"
         }
       ]
     },
@@ -644,7 +674,8 @@
           "number": "EBP01-016",
           "rarity": "U",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-016.png"
+          "picture": "EBP01/EBP01-016.png",
+          "frame": "standard"
         }
       ]
     },
@@ -672,7 +703,8 @@
           "number": "EBP01-017",
           "rarity": "U",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-017.png"
+          "picture": "EBP01/EBP01-017.png",
+          "frame": "standard"
         }
       ]
     },
@@ -698,7 +730,8 @@
           "number": "EBP01-018",
           "rarity": "C",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-018.png"
+          "picture": "EBP01/EBP01-018.png",
+          "frame": "standard"
         }
       ]
     },
@@ -724,13 +757,15 @@
           "number": "EBP01-019",
           "rarity": "R",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-019.png"
+          "picture": "EBP01/EBP01-019.png",
+          "frame": "standard"
         },
         {
           "number": "EBP01-019SR",
           "rarity": "SR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-019SR.png"
+          "picture": "EBP01/EBP01-019SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -756,13 +791,15 @@
           "number": "EBP01-020",
           "rarity": "R",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-020.png"
+          "picture": "EBP01/EBP01-020.png",
+          "frame": "standard"
         },
         {
           "number": "EBP01-020SR",
           "rarity": "SR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-020SR.png"
+          "picture": "EBP01/EBP01-020SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -788,7 +825,8 @@
           "number": "EBP01-021",
           "rarity": "C",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-021.png"
+          "picture": "EBP01/EBP01-021.png",
+          "frame": "standard"
         }
       ]
     },
@@ -814,7 +852,8 @@
           "number": "EBP01-022",
           "rarity": "C",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-022.png"
+          "picture": "EBP01/EBP01-022.png",
+          "frame": "standard"
         }
       ]
     },
@@ -840,19 +879,22 @@
           "number": "EBP01-023",
           "rarity": "RR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-023.png"
+          "picture": "EBP01/EBP01-023.png",
+          "frame": "standard"
         },
         {
           "number": "EBP01-023OSR",
           "rarity": "OSR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-023OSR.png"
+          "picture": "EBP01/EBP01-023OSR.png",
+          "frame": "fullArt"
         },
         {
           "number": "EBP01-023SP",
           "rarity": "SP",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-023SP.png"
+          "picture": "EBP01/EBP01-023SP.png",
+          "frame": "fullArt"
         }
       ]
     },
@@ -878,7 +920,8 @@
           "number": "EBP01-024",
           "rarity": "C",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-024.png"
+          "picture": "EBP01/EBP01-024.png",
+          "frame": "standard"
         }
       ]
     },
@@ -910,19 +953,22 @@
           "number": "EBP01-025",
           "rarity": "RR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-025.png"
+          "picture": "EBP01/EBP01-025.png",
+          "frame": "standard"
         },
         {
           "number": "EBP01-025OSR",
           "rarity": "OSR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-025OSR.png"
+          "picture": "EBP01/EBP01-025OSR.png",
+          "frame": "fullArt"
         },
         {
           "number": "EBP01-025SSP",
           "rarity": "SSP",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-025SSP.png"
+          "picture": "EBP01/EBP01-025SSP.png",
+          "frame": "fullArt"
         }
       ]
     },
@@ -954,19 +1000,22 @@
           "number": "EBP01-026",
           "rarity": "RR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-026.png"
+          "picture": "EBP01/EBP01-026.png",
+          "frame": "standard"
         },
         {
           "number": "EBP01-026OSR",
           "rarity": "OSR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-026OSR.png"
+          "picture": "EBP01/EBP01-026OSR.png",
+          "frame": "fullArt"
         },
         {
           "number": "EBP01-026SP",
           "rarity": "SP",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-026SP.png"
+          "picture": "EBP01/EBP01-026SP.png",
+          "frame": "fullArt"
         }
       ]
     },
@@ -997,19 +1046,22 @@
           "number": "EBP01-027",
           "rarity": "R",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-027.png"
+          "picture": "EBP01/EBP01-027.png",
+          "frame": "standard"
         },
         {
           "number": "EBP01-027OSR",
           "rarity": "OSR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-027OSR.png"
+          "picture": "EBP01/EBP01-027OSR.png",
+          "frame": "fullArt"
         },
         {
           "number": "EBP01-027SP",
           "rarity": "SP",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-027SP.png"
+          "picture": "EBP01/EBP01-027SP.png",
+          "frame": "fullArt"
         }
       ]
     },
@@ -1043,13 +1095,15 @@
           "number": "EBP01-028",
           "rarity": "R",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-028.png"
+          "picture": "EBP01/EBP01-028.png",
+          "frame": "standard"
         },
         {
           "number": "EBP01-028SR",
           "rarity": "SR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-028SR.png"
+          "picture": "EBP01/EBP01-028SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -1080,13 +1134,15 @@
           "number": "EBP01-029",
           "rarity": "R",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-029.png"
+          "picture": "EBP01/EBP01-029.png",
+          "frame": "standard"
         },
         {
           "number": "EBP01-029SR",
           "rarity": "SR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-029SR.png"
+          "picture": "EBP01/EBP01-029SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -1118,13 +1174,15 @@
           "number": "EBP01-030",
           "rarity": "R",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-030.png"
+          "picture": "EBP01/EBP01-030.png",
+          "frame": "standard"
         },
         {
           "number": "EBP01-030SR",
           "rarity": "SR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-030SR.png"
+          "picture": "EBP01/EBP01-030SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -1158,13 +1216,15 @@
           "number": "EBP01-031",
           "rarity": "U",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-031.png"
+          "picture": "EBP01/EBP01-031.png",
+          "frame": "standard"
         },
         {
           "number": "EBP01-031SR",
           "rarity": "SR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-031SR.png"
+          "picture": "EBP01/EBP01-031SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -1197,19 +1257,22 @@
           "number": "EBP01-032",
           "rarity": "U",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-032.png"
+          "picture": "EBP01/EBP01-032.png",
+          "frame": "standard"
         },
         {
           "number": "EPR-004",
           "rarity": "PR",
           "set": "PR2026",
-          "picture": "PR/EPR-004.png"
+          "picture": "PR/EPR-004.png",
+          "frame": "standard"
         },
         {
           "number": "EPR-004S",
           "rarity": "PR",
           "set": "PR2026",
-          "picture": "PR/EPR-004S.png"
+          "picture": "PR/EPR-004S.png",
+          "frame": "fullArt"
         }
       ]
     },
@@ -1242,7 +1305,8 @@
           "number": "EBP01-033",
           "rarity": "U",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-033.png"
+          "picture": "EBP01/EBP01-033.png",
+          "frame": "standard"
         }
       ]
     },
@@ -1273,7 +1337,8 @@
           "number": "EBP01-034",
           "rarity": "C",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-034.png"
+          "picture": "EBP01/EBP01-034.png",
+          "frame": "standard"
         }
       ]
     },
@@ -1304,7 +1369,8 @@
           "number": "EBP01-035",
           "rarity": "C",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-035.png"
+          "picture": "EBP01/EBP01-035.png",
+          "frame": "standard"
         }
       ]
     },
@@ -1335,7 +1401,8 @@
           "number": "EBP01-036",
           "rarity": "C",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-036.png"
+          "picture": "EBP01/EBP01-036.png",
+          "frame": "standard"
         }
       ]
     },
@@ -1366,7 +1433,8 @@
           "number": "EBP01-037",
           "rarity": "C",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-037.png"
+          "picture": "EBP01/EBP01-037.png",
+          "frame": "standard"
         }
       ]
     },
@@ -1400,19 +1468,22 @@
           "number": "EBP01-038",
           "rarity": "C",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-038.png"
+          "picture": "EBP01/EBP01-038.png",
+          "frame": "standard"
         },
         {
           "number": "EPR-005",
           "rarity": "PR",
           "set": "PR2026",
-          "picture": "PR/EPR-005.png"
+          "picture": "PR/EPR-005.png",
+          "frame": "standard"
         },
         {
           "number": "EPR-005S",
           "rarity": "PR",
           "set": "PR2026",
-          "picture": "PR/EPR-005S.png"
+          "picture": "PR/EPR-005S.png",
+          "frame": "fullArt"
         }
       ]
     },
@@ -1438,13 +1509,15 @@
           "number": "EBP01-039",
           "rarity": "R",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-039.png"
+          "picture": "EBP01/EBP01-039.png",
+          "frame": "standard"
         },
         {
           "number": "EBP01-039SR",
           "rarity": "SR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-039SR.png"
+          "picture": "EBP01/EBP01-039SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -1470,7 +1543,8 @@
           "number": "EBP01-040",
           "rarity": "U",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-040.png"
+          "picture": "EBP01/EBP01-040.png",
+          "frame": "standard"
         }
       ]
     },
@@ -1496,7 +1570,8 @@
           "number": "EBP01-041",
           "rarity": "U",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-041.png"
+          "picture": "EBP01/EBP01-041.png",
+          "frame": "standard"
         }
       ]
     },
@@ -1522,7 +1597,8 @@
           "number": "EBP01-042",
           "rarity": "C",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-042.png"
+          "picture": "EBP01/EBP01-042.png",
+          "frame": "standard"
         }
       ]
     },
@@ -1550,7 +1626,8 @@
           "number": "EBP01-043",
           "rarity": "C",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-043.png"
+          "picture": "EBP01/EBP01-043.png",
+          "frame": "standard"
         }
       ]
     },
@@ -1576,13 +1653,15 @@
           "number": "EBP01-044",
           "rarity": "R",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-044.png"
+          "picture": "EBP01/EBP01-044.png",
+          "frame": "standard"
         },
         {
           "number": "EBP01-044SR",
           "rarity": "SR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-044SR.png"
+          "picture": "EBP01/EBP01-044SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -1608,7 +1687,8 @@
           "number": "EBP01-045",
           "rarity": "U",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-045.png"
+          "picture": "EBP01/EBP01-045.png",
+          "frame": "standard"
         }
       ]
     },
@@ -1634,19 +1714,22 @@
           "number": "EBP01-046",
           "rarity": "RR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-046.png"
+          "picture": "EBP01/EBP01-046.png",
+          "frame": "standard"
         },
         {
           "number": "EBP01-046OSR",
           "rarity": "OSR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-046OSR.png"
+          "picture": "EBP01/EBP01-046OSR.png",
+          "frame": "fullArt"
         },
         {
           "number": "EBP01-046SP",
           "rarity": "SP",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-046SP.png"
+          "picture": "EBP01/EBP01-046SP.png",
+          "frame": "fullArt"
         }
       ]
     },
@@ -1672,13 +1755,15 @@
           "number": "EBP01-047",
           "rarity": "U",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-047.png"
+          "picture": "EBP01/EBP01-047.png",
+          "frame": "standard"
         },
         {
           "number": "EBP01-047SR",
           "rarity": "SR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-047SR.png"
+          "picture": "EBP01/EBP01-047SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -1704,7 +1789,8 @@
           "number": "EBP01-048",
           "rarity": "C",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-048.png"
+          "picture": "EBP01/EBP01-048.png",
+          "frame": "standard"
         }
       ]
     },
@@ -1735,19 +1821,22 @@
           "number": "EBP01-049",
           "rarity": "RR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-049.png"
+          "picture": "EBP01/EBP01-049.png",
+          "frame": "standard"
         },
         {
           "number": "EBP01-049OSR",
           "rarity": "OSR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-049OSR.png"
+          "picture": "EBP01/EBP01-049OSR.png",
+          "frame": "fullArt"
         },
         {
           "number": "EBP01-049SSP",
           "rarity": "SSP",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-049SSP.png"
+          "picture": "EBP01/EBP01-049SSP.png",
+          "frame": "fullArt"
         }
       ]
     },
@@ -1777,19 +1866,22 @@
           "number": "EBP01-050",
           "rarity": "RR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-050.png"
+          "picture": "EBP01/EBP01-050.png",
+          "frame": "standard"
         },
         {
           "number": "EBP01-050OSR",
           "rarity": "OSR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-050OSR.png"
+          "picture": "EBP01/EBP01-050OSR.png",
+          "frame": "fullArt"
         },
         {
           "number": "EBP01-050SP",
           "rarity": "SP",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-050SP.png"
+          "picture": "EBP01/EBP01-050SP.png",
+          "frame": "fullArt"
         }
       ]
     },
@@ -1821,19 +1913,22 @@
           "number": "EBP01-051",
           "rarity": "R",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-051.png"
+          "picture": "EBP01/EBP01-051.png",
+          "frame": "standard"
         },
         {
           "number": "EBP01-051OSR",
           "rarity": "OSR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-051OSR.png"
+          "picture": "EBP01/EBP01-051OSR.png",
+          "frame": "fullArt"
         },
         {
           "number": "EBP01-051SP",
           "rarity": "SP",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-051SP.png"
+          "picture": "EBP01/EBP01-051SP.png",
+          "frame": "fullArt"
         }
       ]
     },
@@ -1863,13 +1958,15 @@
           "number": "EBP01-052",
           "rarity": "R",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-052.png"
+          "picture": "EBP01/EBP01-052.png",
+          "frame": "standard"
         },
         {
           "number": "EBP01-052SR",
           "rarity": "SR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-052SR.png"
+          "picture": "EBP01/EBP01-052SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -1901,13 +1998,15 @@
           "number": "EBP01-053",
           "rarity": "R",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-053.png"
+          "picture": "EBP01/EBP01-053.png",
+          "frame": "standard"
         },
         {
           "number": "EBP01-053SR",
           "rarity": "SR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-053SR.png"
+          "picture": "EBP01/EBP01-053SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -1941,13 +2040,15 @@
           "number": "EBP01-054",
           "rarity": "R",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-054.png"
+          "picture": "EBP01/EBP01-054.png",
+          "frame": "standard"
         },
         {
           "number": "EBP01-054SR",
           "rarity": "SR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-054SR.png"
+          "picture": "EBP01/EBP01-054SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -1979,13 +2080,15 @@
           "number": "EBP01-055",
           "rarity": "U",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-055.png"
+          "picture": "EBP01/EBP01-055.png",
+          "frame": "standard"
         },
         {
           "number": "EBP01-055SR",
           "rarity": "SR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-055SR.png"
+          "picture": "EBP01/EBP01-055SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -2017,13 +2120,15 @@
           "number": "EBP01-056",
           "rarity": "C",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-056.png"
+          "picture": "EBP01/EBP01-056.png",
+          "frame": "standard"
         },
         {
           "number": "EBP01-056SR",
           "rarity": "SR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-056SR.png"
+          "picture": "EBP01/EBP01-056SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -2057,7 +2162,8 @@
           "number": "EBP01-057",
           "rarity": "U",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-057.png"
+          "picture": "EBP01/EBP01-057.png",
+          "frame": "standard"
         }
       ]
     },
@@ -2089,19 +2195,22 @@
           "number": "EBP01-058",
           "rarity": "U",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-058.png"
+          "picture": "EBP01/EBP01-058.png",
+          "frame": "standard"
         },
         {
           "number": "EPR-006",
           "rarity": "PR",
           "set": "PR2026",
-          "picture": "PR/EPR-006.png"
+          "picture": "PR/EPR-006.png",
+          "frame": "standard"
         },
         {
           "number": "EPR-006S",
           "rarity": "PR",
           "set": "PR2026",
-          "picture": "PR/EPR-006S.png"
+          "picture": "PR/EPR-006S.png",
+          "frame": "fullArt"
         }
       ]
     },
@@ -2132,19 +2241,22 @@
           "number": "EBP01-059",
           "rarity": "U",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-059.png"
+          "picture": "EBP01/EBP01-059.png",
+          "frame": "standard"
         },
         {
           "number": "EPR-007",
           "rarity": "PR",
           "set": "PR2026",
-          "picture": "PR/EPR-007.png"
+          "picture": "PR/EPR-007.png",
+          "frame": "standard"
         },
         {
           "number": "EPR-007S",
           "rarity": "PR",
           "set": "PR2026",
-          "picture": "PR/EPR-007S.png"
+          "picture": "PR/EPR-007S.png",
+          "frame": "fullArt"
         }
       ]
     },
@@ -2177,7 +2289,8 @@
           "number": "EBP01-060",
           "rarity": "C",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-060.png"
+          "picture": "EBP01/EBP01-060.png",
+          "frame": "standard"
         }
       ]
     },
@@ -2210,7 +2323,8 @@
           "number": "EBP01-061",
           "rarity": "C",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-061.png"
+          "picture": "EBP01/EBP01-061.png",
+          "frame": "standard"
         }
       ]
     },
@@ -2243,7 +2357,8 @@
           "number": "EBP01-062",
           "rarity": "C",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-062.png"
+          "picture": "EBP01/EBP01-062.png",
+          "frame": "standard"
         }
       ]
     },
@@ -2271,13 +2386,15 @@
           "number": "EBP01-063",
           "rarity": "R",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-063.png"
+          "picture": "EBP01/EBP01-063.png",
+          "frame": "standard"
         },
         {
           "number": "EBP01-063SR",
           "rarity": "SR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-063SR.png"
+          "picture": "EBP01/EBP01-063SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -2303,13 +2420,15 @@
           "number": "EBP01-064",
           "rarity": "R",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-064.png"
+          "picture": "EBP01/EBP01-064.png",
+          "frame": "standard"
         },
         {
           "number": "EBP01-064SR",
           "rarity": "SR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-064SR.png"
+          "picture": "EBP01/EBP01-064SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -2335,7 +2454,8 @@
           "number": "EBP01-065",
           "rarity": "U",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-065.png"
+          "picture": "EBP01/EBP01-065.png",
+          "frame": "standard"
         }
       ]
     },
@@ -2363,7 +2483,8 @@
           "number": "EBP01-066",
           "rarity": "U",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-066.png"
+          "picture": "EBP01/EBP01-066.png",
+          "frame": "standard"
         }
       ]
     },
@@ -2389,7 +2510,8 @@
           "number": "EBP01-067",
           "rarity": "C",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-067.png"
+          "picture": "EBP01/EBP01-067.png",
+          "frame": "standard"
         }
       ]
     },
@@ -2415,7 +2537,8 @@
           "number": "EBP01-068",
           "rarity": "U",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-068.png"
+          "picture": "EBP01/EBP01-068.png",
+          "frame": "standard"
         }
       ]
     },
@@ -2441,7 +2564,8 @@
           "number": "EBP01-069",
           "rarity": "C",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-069.png"
+          "picture": "EBP01/EBP01-069.png",
+          "frame": "standard"
         }
       ]
     },
@@ -2467,19 +2591,22 @@
           "number": "EBP01-070",
           "rarity": "RR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-070.png"
+          "picture": "EBP01/EBP01-070.png",
+          "frame": "standard"
         },
         {
           "number": "EBP01-070OSR",
           "rarity": "OSR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-070OSR.png"
+          "picture": "EBP01/EBP01-070OSR.png",
+          "frame": "fullArt"
         },
         {
           "number": "EBP01-070SP",
           "rarity": "SP",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-070SP.png"
+          "picture": "EBP01/EBP01-070SP.png",
+          "frame": "fullArt"
         }
       ]
     },
@@ -2505,7 +2632,8 @@
           "number": "EBP01-071",
           "rarity": "C",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-071.png"
+          "picture": "EBP01/EBP01-071.png",
+          "frame": "standard"
         }
       ]
     },
@@ -2531,7 +2659,8 @@
           "number": "EBP01-072",
           "rarity": "C",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-072.png"
+          "picture": "EBP01/EBP01-072.png",
+          "frame": "standard"
         }
       ]
     },
@@ -2561,19 +2690,22 @@
           "number": "EBP01-073",
           "rarity": "RR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-073.png"
+          "picture": "EBP01/EBP01-073.png",
+          "frame": "standard"
         },
         {
           "number": "EBP01-073OSR",
           "rarity": "OSR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-073OSR.png"
+          "picture": "EBP01/EBP01-073OSR.png",
+          "frame": "fullArt"
         },
         {
           "number": "EBP01-073SSP",
           "rarity": "SSP",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-073SSP.png"
+          "picture": "EBP01/EBP01-073SSP.png",
+          "frame": "fullArt"
         }
       ]
     },
@@ -2603,19 +2735,22 @@
           "number": "EBP01-074",
           "rarity": "RR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-074.png"
+          "picture": "EBP01/EBP01-074.png",
+          "frame": "standard"
         },
         {
           "number": "EBP01-074OSR",
           "rarity": "OSR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-074OSR.png"
+          "picture": "EBP01/EBP01-074OSR.png",
+          "frame": "fullArt"
         },
         {
           "number": "EBP01-074SP",
           "rarity": "SP",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-074SP.png"
+          "picture": "EBP01/EBP01-074SP.png",
+          "frame": "fullArt"
         }
       ]
     },
@@ -2646,19 +2781,22 @@
           "number": "EBP01-075",
           "rarity": "R",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-075.png"
+          "picture": "EBP01/EBP01-075.png",
+          "frame": "standard"
         },
         {
           "number": "EBP01-075OSR",
           "rarity": "OSR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-075OSR.png"
+          "picture": "EBP01/EBP01-075OSR.png",
+          "frame": "fullArt"
         },
         {
           "number": "EBP01-075SP",
           "rarity": "SP",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-075SP.png"
+          "picture": "EBP01/EBP01-075SP.png",
+          "frame": "fullArt"
         }
       ]
     },
@@ -2690,13 +2828,15 @@
           "number": "EBP01-076",
           "rarity": "R",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-076.png"
+          "picture": "EBP01/EBP01-076.png",
+          "frame": "standard"
         },
         {
           "number": "EBP01-076SR",
           "rarity": "SR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-076SR.png"
+          "picture": "EBP01/EBP01-076SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -2728,13 +2868,15 @@
           "number": "EBP01-077",
           "rarity": "R",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-077.png"
+          "picture": "EBP01/EBP01-077.png",
+          "frame": "standard"
         },
         {
           "number": "EBP01-077SR",
           "rarity": "SR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-077SR.png"
+          "picture": "EBP01/EBP01-077SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -2765,13 +2907,15 @@
           "number": "EBP01-078",
           "rarity": "R",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-078.png"
+          "picture": "EBP01/EBP01-078.png",
+          "frame": "standard"
         },
         {
           "number": "EBP01-078SR",
           "rarity": "SR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-078SR.png"
+          "picture": "EBP01/EBP01-078SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -2804,13 +2948,15 @@
           "number": "EBP01-079",
           "rarity": "U",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-079.png"
+          "picture": "EBP01/EBP01-079.png",
+          "frame": "standard"
         },
         {
           "number": "EBP01-079SR",
           "rarity": "SR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-079SR.png"
+          "picture": "EBP01/EBP01-079SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -2842,13 +2988,15 @@
           "number": "EBP01-080",
           "rarity": "C",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-080.png"
+          "picture": "EBP01/EBP01-080.png",
+          "frame": "standard"
         },
         {
           "number": "EBP01-080SR",
           "rarity": "SR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-080SR.png"
+          "picture": "EBP01/EBP01-080SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -2881,19 +3029,22 @@
           "number": "EBP01-081",
           "rarity": "C",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-081.png"
+          "picture": "EBP01/EBP01-081.png",
+          "frame": "standard"
         },
         {
           "number": "EBP01-081SR",
           "rarity": "SR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-081SR.png"
+          "picture": "EBP01/EBP01-081SR.png",
+          "frame": "standard"
         },
         {
           "number": "EPR-011",
           "rarity": "PR",
           "set": "PR2026",
-          "picture": "PR/EPR-011.png"
+          "picture": "PR/EPR-011.png",
+          "frame": "fullArt"
         }
       ]
     },
@@ -2926,19 +3077,22 @@
           "number": "EBP01-082",
           "rarity": "U",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-082.png"
+          "picture": "EBP01/EBP01-082.png",
+          "frame": "standard"
         },
         {
           "number": "EPR-008",
           "rarity": "PR",
           "set": "PR2026",
-          "picture": "PR/EPR-008.png"
+          "picture": "PR/EPR-008.png",
+          "frame": "standard"
         },
         {
           "number": "EPR-008S",
           "rarity": "PR",
           "set": "PR2026",
-          "picture": "PR/EPR-008S.png"
+          "picture": "PR/EPR-008S.png",
+          "frame": "fullArt"
         }
       ]
     },
@@ -2970,7 +3124,8 @@
           "number": "EBP01-083",
           "rarity": "U",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-083.png"
+          "picture": "EBP01/EBP01-083.png",
+          "frame": "standard"
         }
       ]
     },
@@ -3001,7 +3156,8 @@
           "number": "EBP01-084",
           "rarity": "U",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-084.png"
+          "picture": "EBP01/EBP01-084.png",
+          "frame": "standard"
         }
       ]
     },
@@ -3032,7 +3188,8 @@
           "number": "EBP01-085",
           "rarity": "U",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-085.png"
+          "picture": "EBP01/EBP01-085.png",
+          "frame": "standard"
         }
       ]
     },
@@ -3062,7 +3219,8 @@
           "number": "EBP01-086",
           "rarity": "C",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-086.png"
+          "picture": "EBP01/EBP01-086.png",
+          "frame": "standard"
         }
       ]
     },
@@ -3093,19 +3251,22 @@
           "number": "EBP01-087",
           "rarity": "C",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-087.png"
+          "picture": "EBP01/EBP01-087.png",
+          "frame": "standard"
         },
         {
           "number": "EPR-009",
           "rarity": "PR",
           "set": "PR2026",
-          "picture": "PR/EPR-009.png"
+          "picture": "PR/EPR-009.png",
+          "frame": "standard"
         },
         {
           "number": "EPR-009S",
           "rarity": "PR",
           "set": "PR2026",
-          "picture": "PR/EPR-009S.png"
+          "picture": "PR/EPR-009S.png",
+          "frame": "fullArt"
         }
       ]
     },
@@ -3131,13 +3292,15 @@
           "number": "EBP01-088",
           "rarity": "R",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-088.png"
+          "picture": "EBP01/EBP01-088.png",
+          "frame": "standard"
         },
         {
           "number": "EBP01-088SR",
           "rarity": "SR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-088SR.png"
+          "picture": "EBP01/EBP01-088SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -3163,7 +3326,8 @@
           "number": "EBP01-089",
           "rarity": "U",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-089.png"
+          "picture": "EBP01/EBP01-089.png",
+          "frame": "standard"
         }
       ]
     },
@@ -3191,7 +3355,8 @@
           "number": "EBP01-090",
           "rarity": "U",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-090.png"
+          "picture": "EBP01/EBP01-090.png",
+          "frame": "standard"
         }
       ]
     },
@@ -3217,7 +3382,8 @@
           "number": "EBP01-091",
           "rarity": "C",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-091.png"
+          "picture": "EBP01/EBP01-091.png",
+          "frame": "standard"
         }
       ]
     },
@@ -3243,7 +3409,8 @@
           "number": "EBP01-092",
           "rarity": "C",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-092.png"
+          "picture": "EBP01/EBP01-092.png",
+          "frame": "standard"
         }
       ]
     },
@@ -3269,13 +3436,15 @@
           "number": "EBP01-093",
           "rarity": "R",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-093.png"
+          "picture": "EBP01/EBP01-093.png",
+          "frame": "standard"
         },
         {
           "number": "EBP01-093SR",
           "rarity": "SR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-093SR.png"
+          "picture": "EBP01/EBP01-093SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -3301,7 +3470,8 @@
           "number": "EBP01-094",
           "rarity": "C",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-094.png"
+          "picture": "EBP01/EBP01-094.png",
+          "frame": "standard"
         }
       ]
     },
@@ -3327,19 +3497,22 @@
           "number": "EBP01-095",
           "rarity": "RR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-095.png"
+          "picture": "EBP01/EBP01-095.png",
+          "frame": "standard"
         },
         {
           "number": "EBP01-095OSR",
           "rarity": "OSR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-095OSR.png"
+          "picture": "EBP01/EBP01-095OSR.png",
+          "frame": "fullArt"
         },
         {
           "number": "EBP01-095SP",
           "rarity": "SP",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-095SP.png"
+          "picture": "EBP01/EBP01-095SP.png",
+          "frame": "fullArt"
         }
       ]
     },
@@ -3365,7 +3538,8 @@
           "number": "EBP01-096",
           "rarity": "C",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-096.png"
+          "picture": "EBP01/EBP01-096.png",
+          "frame": "standard"
         }
       ]
     },
@@ -3391,7 +3565,8 @@
           "number": "EBP01-097",
           "rarity": "C",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-097.png"
+          "picture": "EBP01/EBP01-097.png",
+          "frame": "standard"
         }
       ]
     },
@@ -3421,7 +3596,8 @@
           "number": "EBP01-098",
           "rarity": "U",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-098.png"
+          "picture": "EBP01/EBP01-098.png",
+          "frame": "standard"
         }
       ]
     },
@@ -3451,7 +3627,8 @@
           "number": "EBP01-099",
           "rarity": "C",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-099.png"
+          "picture": "EBP01/EBP01-099.png",
+          "frame": "standard"
         }
       ]
     },
@@ -3477,13 +3654,15 @@
           "number": "EBP01-100",
           "rarity": "U",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-100.png"
+          "picture": "EBP01/EBP01-100.png",
+          "frame": "standard"
         },
         {
           "number": "EBP01-100SR",
           "rarity": "SR",
           "set": "EBP01",
-          "picture": "EBP01/EBP01-100SR.png"
+          "picture": "EBP01/EBP01-100SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -3516,19 +3695,22 @@
           "number": "EBP02-001",
           "rarity": "RR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-001.png"
+          "picture": "EBP02/EBP02-001.png",
+          "frame": "standard"
         },
         {
           "number": "EBP02-001OSR",
           "rarity": "OSR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-001OSR.png"
+          "picture": "EBP02/EBP02-001OSR.png",
+          "frame": "fullArt"
         },
         {
           "number": "EBP02-001SSP",
           "rarity": "SSP",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-001SSP.png"
+          "picture": "EBP02/EBP02-001SSP.png",
+          "frame": "fullArt"
         }
       ]
     },
@@ -3561,19 +3743,22 @@
           "number": "EBP02-002",
           "rarity": "RR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-002.png"
+          "picture": "EBP02/EBP02-002.png",
+          "frame": "standard"
         },
         {
           "number": "EBP02-002OSR",
           "rarity": "OSR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-002OSR.png"
+          "picture": "EBP02/EBP02-002OSR.png",
+          "frame": "fullArt"
         },
         {
           "number": "EBP02-002SP",
           "rarity": "SP",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-002SP.png"
+          "picture": "EBP02/EBP02-002SP.png",
+          "frame": "fullArt"
         }
       ]
     },
@@ -3605,19 +3790,22 @@
           "number": "EBP02-003",
           "rarity": "RR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-003.png"
+          "picture": "EBP02/EBP02-003.png",
+          "frame": "standard"
         },
         {
           "number": "EBP02-003OSR",
           "rarity": "OSR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-003OSR.png"
+          "picture": "EBP02/EBP02-003OSR.png",
+          "frame": "fullArt"
         },
         {
           "number": "EBP02-003SP",
           "rarity": "SP",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-003SP.png"
+          "picture": "EBP02/EBP02-003SP.png",
+          "frame": "fullArt"
         }
       ]
     },
@@ -3649,19 +3837,22 @@
           "number": "EBP02-004",
           "rarity": "R",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-004.png"
+          "picture": "EBP02/EBP02-004.png",
+          "frame": "standard"
         },
         {
           "number": "EBP02-004SP",
           "rarity": "SP",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-004SP.png"
+          "picture": "EBP02/EBP02-004SP.png",
+          "frame": "fullArt"
         },
         {
           "number": "EBP02-004SR",
           "rarity": "SR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-004SR.png"
+          "picture": "EBP02/EBP02-004SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -3691,13 +3882,15 @@
           "number": "EBP02-005",
           "rarity": "R",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-005.png"
+          "picture": "EBP02/EBP02-005.png",
+          "frame": "standard"
         },
         {
           "number": "EBP02-005SR",
           "rarity": "SR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-005SR.png"
+          "picture": "EBP02/EBP02-005SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -3730,13 +3923,15 @@
           "number": "EBP02-006",
           "rarity": "R",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-006.png"
+          "picture": "EBP02/EBP02-006.png",
+          "frame": "standard"
         },
         {
           "number": "EBP02-006SR",
           "rarity": "SR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-006SR.png"
+          "picture": "EBP02/EBP02-006SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -3769,13 +3964,15 @@
           "number": "EBP02-007",
           "rarity": "U",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-007.png"
+          "picture": "EBP02/EBP02-007.png",
+          "frame": "standard"
         },
         {
           "number": "EBP02-007SR",
           "rarity": "SR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-007SR.png"
+          "picture": "EBP02/EBP02-007SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -3807,13 +4004,15 @@
           "number": "EBP02-008",
           "rarity": "U",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-008.png"
+          "picture": "EBP02/EBP02-008.png",
+          "frame": "standard"
         },
         {
           "number": "EBP02-008SR",
           "rarity": "SR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-008SR.png"
+          "picture": "EBP02/EBP02-008SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -3844,7 +4043,8 @@
           "number": "EBP02-009",
           "rarity": "U",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-009.png"
+          "picture": "EBP02/EBP02-009.png",
+          "frame": "standard"
         }
       ]
     },
@@ -3876,7 +4076,8 @@
           "number": "EBP02-010",
           "rarity": "U",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-010.png"
+          "picture": "EBP02/EBP02-010.png",
+          "frame": "standard"
         }
       ]
     },
@@ -3909,7 +4110,8 @@
           "number": "EBP02-011",
           "rarity": "C",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-011.png"
+          "picture": "EBP02/EBP02-011.png",
+          "frame": "standard"
         }
       ]
     },
@@ -3939,7 +4141,8 @@
           "number": "EBP02-012",
           "rarity": "C",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-012.png"
+          "picture": "EBP02/EBP02-012.png",
+          "frame": "standard"
         }
       ]
     },
@@ -3969,7 +4172,8 @@
           "number": "EBP02-013",
           "rarity": "C",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-013.png"
+          "picture": "EBP02/EBP02-013.png",
+          "frame": "standard"
         }
       ]
     },
@@ -4001,7 +4205,8 @@
           "number": "EBP02-014",
           "rarity": "C",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-014.png"
+          "picture": "EBP02/EBP02-014.png",
+          "frame": "standard"
         }
       ]
     },
@@ -4029,7 +4234,8 @@
           "number": "EBP02-015",
           "rarity": "U",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-015.png"
+          "picture": "EBP02/EBP02-015.png",
+          "frame": "standard"
         }
       ]
     },
@@ -4057,7 +4263,8 @@
           "number": "EBP02-016",
           "rarity": "U",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-016.png"
+          "picture": "EBP02/EBP02-016.png",
+          "frame": "standard"
         }
       ]
     },
@@ -4083,7 +4290,8 @@
           "number": "EBP02-017",
           "rarity": "C",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-017.png"
+          "picture": "EBP02/EBP02-017.png",
+          "frame": "standard"
         }
       ]
     },
@@ -4109,13 +4317,15 @@
           "number": "EBP02-018",
           "rarity": "R",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-018.png"
+          "picture": "EBP02/EBP02-018.png",
+          "frame": "standard"
         },
         {
           "number": "EBP02-018SR",
           "rarity": "SR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-018SR.png"
+          "picture": "EBP02/EBP02-018SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -4141,7 +4351,8 @@
           "number": "EBP02-019",
           "rarity": "U",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-019.png"
+          "picture": "EBP02/EBP02-019.png",
+          "frame": "standard"
         }
       ]
     },
@@ -4167,7 +4378,8 @@
           "number": "EBP02-020",
           "rarity": "C",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-020.png"
+          "picture": "EBP02/EBP02-020.png",
+          "frame": "standard"
         }
       ]
     },
@@ -4193,7 +4405,8 @@
           "number": "EBP02-021",
           "rarity": "C",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-021.png"
+          "picture": "EBP02/EBP02-021.png",
+          "frame": "standard"
         }
       ]
     },
@@ -4219,19 +4432,22 @@
           "number": "EBP02-022",
           "rarity": "R",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-022.png"
+          "picture": "EBP02/EBP02-022.png",
+          "frame": "standard"
         },
         {
           "number": "EBP02-022OSR",
           "rarity": "OSR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-022OSR.png"
+          "picture": "EBP02/EBP02-022OSR.png",
+          "frame": "fullArt"
         },
         {
           "number": "EBP02-022SP",
           "rarity": "SP",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-022SP.png"
+          "picture": "EBP02/EBP02-022SP.png",
+          "frame": "fullArt"
         }
       ]
     },
@@ -4257,13 +4473,15 @@
           "number": "EBP02-023",
           "rarity": "R",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-023.png"
+          "picture": "EBP02/EBP02-023.png",
+          "frame": "standard"
         },
         {
           "number": "EBP02-023SR",
           "rarity": "SR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-023SR.png"
+          "picture": "EBP02/EBP02-023SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -4289,7 +4507,8 @@
           "number": "EBP02-024",
           "rarity": "C",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-024.png"
+          "picture": "EBP02/EBP02-024.png",
+          "frame": "standard"
         }
       ]
     },
@@ -4320,19 +4539,22 @@
           "number": "EBP02-025",
           "rarity": "RR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-025.png"
+          "picture": "EBP02/EBP02-025.png",
+          "frame": "standard"
         },
         {
           "number": "EBP02-025OSR",
           "rarity": "OSR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-025OSR.png"
+          "picture": "EBP02/EBP02-025OSR.png",
+          "frame": "fullArt"
         },
         {
           "number": "EBP02-025SSP",
           "rarity": "SSP",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-025SSP.png"
+          "picture": "EBP02/EBP02-025SSP.png",
+          "frame": "fullArt"
         }
       ]
     },
@@ -4363,19 +4585,22 @@
           "number": "EBP02-026",
           "rarity": "R",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-026.png"
+          "picture": "EBP02/EBP02-026.png",
+          "frame": "standard"
         },
         {
           "number": "EBP02-026OSR",
           "rarity": "OSR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-026OSR.png"
+          "picture": "EBP02/EBP02-026OSR.png",
+          "frame": "fullArt"
         },
         {
           "number": "EBP02-026SP",
           "rarity": "SP",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-026SP.png"
+          "picture": "EBP02/EBP02-026SP.png",
+          "frame": "fullArt"
         }
       ]
     },
@@ -4406,19 +4631,22 @@
           "number": "EBP02-027",
           "rarity": "R",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-027.png"
+          "picture": "EBP02/EBP02-027.png",
+          "frame": "standard"
         },
         {
           "number": "EBP02-027OSR",
           "rarity": "OSR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-027OSR.png"
+          "picture": "EBP02/EBP02-027OSR.png",
+          "frame": "fullArt"
         },
         {
           "number": "EBP02-027SP",
           "rarity": "SP",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-027SP.png"
+          "picture": "EBP02/EBP02-027SP.png",
+          "frame": "fullArt"
         }
       ]
     },
@@ -4450,13 +4678,15 @@
           "number": "EBP02-028",
           "rarity": "R",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-028.png"
+          "picture": "EBP02/EBP02-028.png",
+          "frame": "standard"
         },
         {
           "number": "EBP02-028SR",
           "rarity": "SR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-028SR.png"
+          "picture": "EBP02/EBP02-028SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -4486,7 +4716,8 @@
           "number": "EBP02-029",
           "rarity": "U",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-029.png"
+          "picture": "EBP02/EBP02-029.png",
+          "frame": "standard"
         }
       ]
     },
@@ -4518,7 +4749,8 @@
           "number": "EBP02-030",
           "rarity": "U",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-030.png"
+          "picture": "EBP02/EBP02-030.png",
+          "frame": "standard"
         }
       ]
     },
@@ -4549,7 +4781,8 @@
           "number": "EBP02-031",
           "rarity": "U",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-031.png"
+          "picture": "EBP02/EBP02-031.png",
+          "frame": "standard"
         }
       ]
     },
@@ -4580,7 +4813,8 @@
           "number": "EBP02-032",
           "rarity": "U",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-032.png"
+          "picture": "EBP02/EBP02-032.png",
+          "frame": "standard"
         }
       ]
     },
@@ -4614,13 +4848,15 @@
           "number": "EBP02-033",
           "rarity": "C",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-033.png"
+          "picture": "EBP02/EBP02-033.png",
+          "frame": "standard"
         },
         {
           "number": "EBP02-033SR",
           "rarity": "SR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-033SR.png"
+          "picture": "EBP02/EBP02-033SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -4651,13 +4887,15 @@
           "number": "EBP02-034",
           "rarity": "C",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-034.png"
+          "picture": "EBP02/EBP02-034.png",
+          "frame": "standard"
         },
         {
           "number": "EBP02-034SR",
           "rarity": "SR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-034SR.png"
+          "picture": "EBP02/EBP02-034SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -4688,7 +4926,8 @@
           "number": "EBP02-035",
           "rarity": "C",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-035.png"
+          "picture": "EBP02/EBP02-035.png",
+          "frame": "standard"
         }
       ]
     },
@@ -4719,7 +4958,8 @@
           "number": "EBP02-036",
           "rarity": "C",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-036.png"
+          "picture": "EBP02/EBP02-036.png",
+          "frame": "standard"
         }
       ]
     },
@@ -4750,7 +4990,8 @@
           "number": "EBP02-037",
           "rarity": "C",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-037.png"
+          "picture": "EBP02/EBP02-037.png",
+          "frame": "standard"
         }
       ]
     },
@@ -4780,7 +5021,8 @@
           "number": "EBP02-038",
           "rarity": "C",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-038.png"
+          "picture": "EBP02/EBP02-038.png",
+          "frame": "standard"
         }
       ]
     },
@@ -4806,13 +5048,15 @@
           "number": "EBP02-039",
           "rarity": "R",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-039.png"
+          "picture": "EBP02/EBP02-039.png",
+          "frame": "standard"
         },
         {
           "number": "EBP02-039SR",
           "rarity": "SR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-039SR.png"
+          "picture": "EBP02/EBP02-039SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -4840,7 +5084,8 @@
           "number": "EBP02-040",
           "rarity": "U",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-040.png"
+          "picture": "EBP02/EBP02-040.png",
+          "frame": "standard"
         }
       ]
     },
@@ -4866,7 +5111,8 @@
           "number": "EBP02-041",
           "rarity": "U",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-041.png"
+          "picture": "EBP02/EBP02-041.png",
+          "frame": "standard"
         }
       ]
     },
@@ -4892,7 +5138,8 @@
           "number": "EBP02-042",
           "rarity": "C",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-042.png"
+          "picture": "EBP02/EBP02-042.png",
+          "frame": "standard"
         }
       ]
     },
@@ -4918,13 +5165,15 @@
           "number": "EBP02-043",
           "rarity": "R",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-043.png"
+          "picture": "EBP02/EBP02-043.png",
+          "frame": "standard"
         },
         {
           "number": "EBP02-043SR",
           "rarity": "SR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-043SR.png"
+          "picture": "EBP02/EBP02-043SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -4950,7 +5199,8 @@
           "number": "EBP02-044",
           "rarity": "U",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-044.png"
+          "picture": "EBP02/EBP02-044.png",
+          "frame": "standard"
         }
       ]
     },
@@ -4976,7 +5226,8 @@
           "number": "EBP02-045",
           "rarity": "U",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-045.png"
+          "picture": "EBP02/EBP02-045.png",
+          "frame": "standard"
         }
       ]
     },
@@ -5002,19 +5253,22 @@
           "number": "EBP02-046",
           "rarity": "RR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-046.png"
+          "picture": "EBP02/EBP02-046.png",
+          "frame": "standard"
         },
         {
           "number": "EBP02-046OSR",
           "rarity": "OSR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-046OSR.png"
+          "picture": "EBP02/EBP02-046OSR.png",
+          "frame": "fullArt"
         },
         {
           "number": "EBP02-046SP",
           "rarity": "SP",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-046SP.png"
+          "picture": "EBP02/EBP02-046SP.png",
+          "frame": "fullArt"
         }
       ]
     },
@@ -5040,13 +5294,15 @@
           "number": "EBP02-047",
           "rarity": "R",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-047.png"
+          "picture": "EBP02/EBP02-047.png",
+          "frame": "standard"
         },
         {
           "number": "EBP02-047SR",
           "rarity": "SR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-047SR.png"
+          "picture": "EBP02/EBP02-047SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -5072,7 +5328,8 @@
           "number": "EBP02-048",
           "rarity": "C",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-048.png"
+          "picture": "EBP02/EBP02-048.png",
+          "frame": "standard"
         }
       ]
     },
@@ -5104,19 +5361,22 @@
           "number": "EBP02-049",
           "rarity": "RR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-049.png"
+          "picture": "EBP02/EBP02-049.png",
+          "frame": "standard"
         },
         {
           "number": "EBP02-049OSR",
           "rarity": "OSR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-049OSR.png"
+          "picture": "EBP02/EBP02-049OSR.png",
+          "frame": "fullArt"
         },
         {
           "number": "EBP02-049SSP",
           "rarity": "SSP",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-049SSP.png"
+          "picture": "EBP02/EBP02-049SSP.png",
+          "frame": "fullArt"
         }
       ]
     },
@@ -5148,19 +5408,22 @@
           "number": "EBP02-050",
           "rarity": "RR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-050.png"
+          "picture": "EBP02/EBP02-050.png",
+          "frame": "standard"
         },
         {
           "number": "EBP02-050OSR",
           "rarity": "OSR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-050OSR.png"
+          "picture": "EBP02/EBP02-050OSR.png",
+          "frame": "fullArt"
         },
         {
           "number": "EBP02-050SP",
           "rarity": "SP",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-050SP.png"
+          "picture": "EBP02/EBP02-050SP.png",
+          "frame": "fullArt"
         }
       ]
     },
@@ -5192,19 +5455,22 @@
           "number": "EBP02-051",
           "rarity": "R",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-051.png"
+          "picture": "EBP02/EBP02-051.png",
+          "frame": "standard"
         },
         {
           "number": "EBP02-051OSR",
           "rarity": "OSR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-051OSR.png"
+          "picture": "EBP02/EBP02-051OSR.png",
+          "frame": "fullArt"
         },
         {
           "number": "EBP02-051SP",
           "rarity": "SP",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-051SP.png"
+          "picture": "EBP02/EBP02-051SP.png",
+          "frame": "fullArt"
         }
       ]
     },
@@ -5236,13 +5502,15 @@
           "number": "EBP02-052",
           "rarity": "R",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-052.png"
+          "picture": "EBP02/EBP02-052.png",
+          "frame": "standard"
         },
         {
           "number": "EBP02-052SR",
           "rarity": "SR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-052SR.png"
+          "picture": "EBP02/EBP02-052SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -5276,13 +5544,15 @@
           "number": "EBP02-053",
           "rarity": "R",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-053.png"
+          "picture": "EBP02/EBP02-053.png",
+          "frame": "standard"
         },
         {
           "number": "EBP02-053SR",
           "rarity": "SR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-053SR.png"
+          "picture": "EBP02/EBP02-053SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -5316,13 +5586,15 @@
           "number": "EBP02-054",
           "rarity": "R",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-054.png"
+          "picture": "EBP02/EBP02-054.png",
+          "frame": "standard"
         },
         {
           "number": "EBP02-054SR",
           "rarity": "SR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-054SR.png"
+          "picture": "EBP02/EBP02-054SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -5355,13 +5627,15 @@
           "number": "EBP02-055",
           "rarity": "U",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-055.png"
+          "picture": "EBP02/EBP02-055.png",
+          "frame": "standard"
         },
         {
           "number": "EBP02-055SR",
           "rarity": "SR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-055SR.png"
+          "picture": "EBP02/EBP02-055SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -5393,13 +5667,15 @@
           "number": "EBP02-056",
           "rarity": "U",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-056.png"
+          "picture": "EBP02/EBP02-056.png",
+          "frame": "standard"
         },
         {
           "number": "EBP02-056SR",
           "rarity": "SR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-056SR.png"
+          "picture": "EBP02/EBP02-056SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -5429,7 +5705,8 @@
           "number": "EBP02-057",
           "rarity": "U",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-057.png"
+          "picture": "EBP02/EBP02-057.png",
+          "frame": "standard"
         }
       ]
     },
@@ -5459,7 +5736,8 @@
           "number": "EBP02-058",
           "rarity": "U",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-058.png"
+          "picture": "EBP02/EBP02-058.png",
+          "frame": "standard"
         }
       ]
     },
@@ -5490,7 +5768,8 @@
           "number": "EBP02-059",
           "rarity": "C",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-059.png"
+          "picture": "EBP02/EBP02-059.png",
+          "frame": "standard"
         }
       ]
     },
@@ -5522,7 +5801,8 @@
           "number": "EBP02-060",
           "rarity": "C",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-060.png"
+          "picture": "EBP02/EBP02-060.png",
+          "frame": "standard"
         }
       ]
     },
@@ -5552,7 +5832,8 @@
           "number": "EBP02-061",
           "rarity": "C",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-061.png"
+          "picture": "EBP02/EBP02-061.png",
+          "frame": "standard"
         }
       ]
     },
@@ -5582,7 +5863,8 @@
           "number": "EBP02-062",
           "rarity": "C",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-062.png"
+          "picture": "EBP02/EBP02-062.png",
+          "frame": "standard"
         }
       ]
     },
@@ -5608,13 +5890,15 @@
           "number": "EBP02-063",
           "rarity": "R",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-063.png"
+          "picture": "EBP02/EBP02-063.png",
+          "frame": "standard"
         },
         {
           "number": "EBP02-063SR",
           "rarity": "SR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-063SR.png"
+          "picture": "EBP02/EBP02-063SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -5642,7 +5926,8 @@
           "number": "EBP02-064",
           "rarity": "U",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-064.png"
+          "picture": "EBP02/EBP02-064.png",
+          "frame": "standard"
         }
       ]
     },
@@ -5671,7 +5956,8 @@
           "number": "EBP02-065",
           "rarity": "U",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-065.png"
+          "picture": "EBP02/EBP02-065.png",
+          "frame": "standard"
         }
       ]
     },
@@ -5699,7 +5985,8 @@
           "number": "EBP02-066",
           "rarity": "C",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-066.png"
+          "picture": "EBP02/EBP02-066.png",
+          "frame": "standard"
         }
       ]
     },
@@ -5725,7 +6012,8 @@
           "number": "EBP02-067",
           "rarity": "C",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-067.png"
+          "picture": "EBP02/EBP02-067.png",
+          "frame": "standard"
         }
       ]
     },
@@ -5751,13 +6039,15 @@
           "number": "EBP02-068",
           "rarity": "R",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-068.png"
+          "picture": "EBP02/EBP02-068.png",
+          "frame": "standard"
         },
         {
           "number": "EBP02-068SR",
           "rarity": "SR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-068SR.png"
+          "picture": "EBP02/EBP02-068SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -5783,7 +6073,8 @@
           "number": "EBP02-069",
           "rarity": "C",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-069.png"
+          "picture": "EBP02/EBP02-069.png",
+          "frame": "standard"
         }
       ]
     },
@@ -5809,7 +6100,8 @@
           "number": "EBP02-070",
           "rarity": "C",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-070.png"
+          "picture": "EBP02/EBP02-070.png",
+          "frame": "standard"
         }
       ]
     },
@@ -5835,19 +6127,22 @@
           "number": "EBP02-071",
           "rarity": "RR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-071.png"
+          "picture": "EBP02/EBP02-071.png",
+          "frame": "standard"
         },
         {
           "number": "EBP02-071OSR",
           "rarity": "OSR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-071OSR.png"
+          "picture": "EBP02/EBP02-071OSR.png",
+          "frame": "fullArt"
         },
         {
           "number": "EBP02-071SP",
           "rarity": "SP",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-071SP.png"
+          "picture": "EBP02/EBP02-071SP.png",
+          "frame": "fullArt"
         }
       ]
     },
@@ -5873,7 +6168,8 @@
           "number": "EBP02-072",
           "rarity": "U",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-072.png"
+          "picture": "EBP02/EBP02-072.png",
+          "frame": "standard"
         }
       ]
     },
@@ -5904,19 +6200,22 @@
           "number": "EBP02-073",
           "rarity": "RR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-073.png"
+          "picture": "EBP02/EBP02-073.png",
+          "frame": "standard"
         },
         {
           "number": "EBP02-073OSR",
           "rarity": "OSR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-073OSR.png"
+          "picture": "EBP02/EBP02-073OSR.png",
+          "frame": "fullArt"
         },
         {
           "number": "EBP02-073SSP",
           "rarity": "SSP",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-073SSP.png"
+          "picture": "EBP02/EBP02-073SSP.png",
+          "frame": "fullArt"
         }
       ]
     },
@@ -5949,19 +6248,22 @@
           "number": "EBP02-074",
           "rarity": "RR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-074.png"
+          "picture": "EBP02/EBP02-074.png",
+          "frame": "standard"
         },
         {
           "number": "EBP02-074OSR",
           "rarity": "OSR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-074OSR.png"
+          "picture": "EBP02/EBP02-074OSR.png",
+          "frame": "fullArt"
         },
         {
           "number": "EBP02-074SP",
           "rarity": "SP",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-074SP.png"
+          "picture": "EBP02/EBP02-074SP.png",
+          "frame": "fullArt"
         }
       ]
     },
@@ -5993,19 +6295,22 @@
           "number": "EBP02-075",
           "rarity": "R",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-075.png"
+          "picture": "EBP02/EBP02-075.png",
+          "frame": "standard"
         },
         {
           "number": "EBP02-075SP",
           "rarity": "SP",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-075SP.png"
+          "picture": "EBP02/EBP02-075SP.png",
+          "frame": "fullArt"
         },
         {
           "number": "EBP02-075SR",
           "rarity": "SR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-075SR.png"
+          "picture": "EBP02/EBP02-075SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -6038,13 +6343,15 @@
           "number": "EBP02-076",
           "rarity": "R",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-076.png"
+          "picture": "EBP02/EBP02-076.png",
+          "frame": "standard"
         },
         {
           "number": "EBP02-076SR",
           "rarity": "SR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-076SR.png"
+          "picture": "EBP02/EBP02-076SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -6077,13 +6384,15 @@
           "number": "EBP02-077",
           "rarity": "R",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-077.png"
+          "picture": "EBP02/EBP02-077.png",
+          "frame": "standard"
         },
         {
           "number": "EBP02-077SR",
           "rarity": "SR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-077SR.png"
+          "picture": "EBP02/EBP02-077SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -6113,13 +6422,15 @@
           "number": "EBP02-078",
           "rarity": "R",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-078.png"
+          "picture": "EBP02/EBP02-078.png",
+          "frame": "standard"
         },
         {
           "number": "EBP02-078SR",
           "rarity": "SR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-078SR.png"
+          "picture": "EBP02/EBP02-078SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -6149,13 +6460,15 @@
           "number": "EBP02-079",
           "rarity": "U",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-079.png"
+          "picture": "EBP02/EBP02-079.png",
+          "frame": "standard"
         },
         {
           "number": "EBP02-079SR",
           "rarity": "SR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-079SR.png"
+          "picture": "EBP02/EBP02-079SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -6186,7 +6499,8 @@
           "number": "EBP02-080",
           "rarity": "U",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-080.png"
+          "picture": "EBP02/EBP02-080.png",
+          "frame": "standard"
         }
       ]
     },
@@ -6220,7 +6534,8 @@
           "number": "EBP02-081",
           "rarity": "U",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-081.png"
+          "picture": "EBP02/EBP02-081.png",
+          "frame": "standard"
         }
       ]
     },
@@ -6252,13 +6567,15 @@
           "number": "EBP02-082",
           "rarity": "C",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-082.png"
+          "picture": "EBP02/EBP02-082.png",
+          "frame": "standard"
         },
         {
           "number": "EBP02-082SR",
           "rarity": "SR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-082SR.png"
+          "picture": "EBP02/EBP02-082SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -6291,13 +6608,15 @@
           "number": "EBP02-083",
           "rarity": "C",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-083.png"
+          "picture": "EBP02/EBP02-083.png",
+          "frame": "standard"
         },
         {
           "number": "EBP02-083SR",
           "rarity": "SR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-083SR.png"
+          "picture": "EBP02/EBP02-083SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -6329,7 +6648,8 @@
           "number": "EBP02-084",
           "rarity": "C",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-084.png"
+          "picture": "EBP02/EBP02-084.png",
+          "frame": "standard"
         }
       ]
     },
@@ -6363,7 +6683,8 @@
           "number": "EBP02-085",
           "rarity": "C",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-085.png"
+          "picture": "EBP02/EBP02-085.png",
+          "frame": "standard"
         }
       ]
     },
@@ -6395,7 +6716,8 @@
           "number": "EBP02-086",
           "rarity": "C",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-086.png"
+          "picture": "EBP02/EBP02-086.png",
+          "frame": "standard"
         }
       ]
     },
@@ -6424,13 +6746,15 @@
           "number": "EBP02-087",
           "rarity": "R",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-087.png"
+          "picture": "EBP02/EBP02-087.png",
+          "frame": "standard"
         },
         {
           "number": "EBP02-087SR",
           "rarity": "SR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-087SR.png"
+          "picture": "EBP02/EBP02-087SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -6458,7 +6782,8 @@
           "number": "EBP02-088",
           "rarity": "U",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-088.png"
+          "picture": "EBP02/EBP02-088.png",
+          "frame": "standard"
         }
       ]
     },
@@ -6484,7 +6809,8 @@
           "number": "EBP02-089",
           "rarity": "C",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-089.png"
+          "picture": "EBP02/EBP02-089.png",
+          "frame": "standard"
         }
       ]
     },
@@ -6510,7 +6836,8 @@
           "number": "EBP02-090",
           "rarity": "C",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-090.png"
+          "picture": "EBP02/EBP02-090.png",
+          "frame": "standard"
         }
       ]
     },
@@ -6536,7 +6863,8 @@
           "number": "EBP02-091",
           "rarity": "U",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-091.png"
+          "picture": "EBP02/EBP02-091.png",
+          "frame": "standard"
         }
       ]
     },
@@ -6562,7 +6890,8 @@
           "number": "EBP02-092",
           "rarity": "U",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-092.png"
+          "picture": "EBP02/EBP02-092.png",
+          "frame": "standard"
         }
       ]
     },
@@ -6588,7 +6917,8 @@
           "number": "EBP02-093",
           "rarity": "U",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-093.png"
+          "picture": "EBP02/EBP02-093.png",
+          "frame": "standard"
         }
       ]
     },
@@ -6614,19 +6944,22 @@
           "number": "EBP02-094",
           "rarity": "RR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-094.png"
+          "picture": "EBP02/EBP02-094.png",
+          "frame": "standard"
         },
         {
           "number": "EBP02-094OSR",
           "rarity": "OSR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-094OSR.png"
+          "picture": "EBP02/EBP02-094OSR.png",
+          "frame": "fullArt"
         },
         {
           "number": "EBP02-094SP",
           "rarity": "SP",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-094SP.png"
+          "picture": "EBP02/EBP02-094SP.png",
+          "frame": "fullArt"
         }
       ]
     },
@@ -6652,13 +6985,15 @@
           "number": "EBP02-095",
           "rarity": "R",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-095.png"
+          "picture": "EBP02/EBP02-095.png",
+          "frame": "standard"
         },
         {
           "number": "EBP02-095SR",
           "rarity": "SR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-095SR.png"
+          "picture": "EBP02/EBP02-095SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -6684,7 +7019,8 @@
           "number": "EBP02-096",
           "rarity": "C",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-096.png"
+          "picture": "EBP02/EBP02-096.png",
+          "frame": "standard"
         }
       ]
     },
@@ -6715,19 +7051,22 @@
           "number": "EBP02-097",
           "rarity": "RR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-097.png"
+          "picture": "EBP02/EBP02-097.png",
+          "frame": "standard"
         },
         {
           "number": "EBP02-097OSR",
           "rarity": "OSR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-097OSR.png"
+          "picture": "EBP02/EBP02-097OSR.png",
+          "frame": "fullArt"
         },
         {
           "number": "EBP02-097SSP",
           "rarity": "SSP",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-097SSP.png"
+          "picture": "EBP02/EBP02-097SSP.png",
+          "frame": "fullArt"
         }
       ]
     },
@@ -6757,7 +7096,8 @@
           "number": "EBP02-098",
           "rarity": "U",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-098.png"
+          "picture": "EBP02/EBP02-098.png",
+          "frame": "standard"
         }
       ]
     },
@@ -6787,7 +7127,8 @@
           "number": "EBP02-099",
           "rarity": "C",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-099.png"
+          "picture": "EBP02/EBP02-099.png",
+          "frame": "standard"
         }
       ]
     },
@@ -6813,13 +7154,15 @@
           "number": "EBP02-100",
           "rarity": "C",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-100.png"
+          "picture": "EBP02/EBP02-100.png",
+          "frame": "standard"
         },
         {
           "number": "EBP02-100SR",
           "rarity": "SR",
           "set": "EBP02",
-          "picture": "EBP02/EBP02-100SR.png"
+          "picture": "EBP02/EBP02-100SR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -6935,13 +7278,15 @@
           "number": "ESS01-001",
           "rarity": "R",
           "set": "ESS01",
-          "picture": "ESS01/ESS01-001.png"
+          "picture": "ESS01/ESS01-001.png",
+          "frame": "standard"
         },
         {
           "number": "ESS01-001OSR",
           "rarity": "OSR",
           "set": "ESS01",
-          "picture": "ESS01/ESS01-001OSR.png"
+          "picture": "ESS01/ESS01-001OSR.png",
+          "frame": "fullArt"
         }
       ]
     },
@@ -6973,13 +7318,15 @@
           "number": "ESS01-002",
           "rarity": "R",
           "set": "ESS01",
-          "picture": "ESS01/ESS01-002.png"
+          "picture": "ESS01/ESS01-002.png",
+          "frame": "standard"
         },
         {
           "number": "ESS01-002OSR",
           "rarity": "OSR",
           "set": "ESS01",
-          "picture": "ESS01/ESS01-002OSR.png"
+          "picture": "ESS01/ESS01-002OSR.png",
+          "frame": "fullArt"
         }
       ]
     },
@@ -7012,13 +7359,15 @@
           "number": "ESS01-003",
           "rarity": "R",
           "set": "ESS01",
-          "picture": "ESS01/ESS01-003.png"
+          "picture": "ESS01/ESS01-003.png",
+          "frame": "standard"
         },
         {
           "number": "ESS01-003OSR",
           "rarity": "OSR",
           "set": "ESS01",
-          "picture": "ESS01/ESS01-003OSR.png"
+          "picture": "ESS01/ESS01-003OSR.png",
+          "frame": "fullArt"
         }
       ]
     },
@@ -7051,13 +7400,15 @@
           "number": "ESS01-004",
           "rarity": "R",
           "set": "ESS01",
-          "picture": "ESS01/ESS01-004.png"
+          "picture": "ESS01/ESS01-004.png",
+          "frame": "standard"
         },
         {
           "number": "ESS01-004OSR",
           "rarity": "OSR",
           "set": "ESS01",
-          "picture": "ESS01/ESS01-004OSR.png"
+          "picture": "ESS01/ESS01-004OSR.png",
+          "frame": "fullArt"
         }
       ]
     },
@@ -7090,13 +7441,15 @@
           "number": "ESS01-005",
           "rarity": "R",
           "set": "ESS01",
-          "picture": "ESS01/ESS01-005.png"
+          "picture": "ESS01/ESS01-005.png",
+          "frame": "standard"
         },
         {
           "number": "ESS01-005OSR",
           "rarity": "OSR",
           "set": "ESS01",
-          "picture": "ESS01/ESS01-005OSR.png"
+          "picture": "ESS01/ESS01-005OSR.png",
+          "frame": "fullArt"
         }
       ]
     },
@@ -7129,19 +7482,22 @@
           "number": "ETD01-001",
           "rarity": "TDR",
           "set": "ETD01",
-          "picture": "ETD01/ETD01-001.png"
+          "picture": "ETD01/ETD01-001.png",
+          "frame": "standard"
         },
         {
           "number": "ETD01-001TSP",
           "rarity": "TSP",
           "set": "ETD01",
-          "picture": "ETD01/ETD01-001TSP.png"
+          "picture": "ETD01/ETD01-001TSP.png",
+          "frame": "fullArt"
         },
         {
           "number": "ETD01-001TSR",
           "rarity": "TSR",
           "set": "ETD01",
-          "picture": "ETD01/ETD01-001TSR.png"
+          "picture": "ETD01/ETD01-001TSR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -7171,7 +7527,8 @@
           "number": "ETD01-002",
           "rarity": "TD",
           "set": "ETD01",
-          "picture": "ETD01/ETD01-002.png"
+          "picture": "ETD01/ETD01-002.png",
+          "frame": "standard"
         }
       ]
     },
@@ -7202,7 +7559,8 @@
           "number": "ETD01-003",
           "rarity": "TD",
           "set": "ETD01",
-          "picture": "ETD01/ETD01-003.png"
+          "picture": "ETD01/ETD01-003.png",
+          "frame": "standard"
         }
       ]
     },
@@ -7232,7 +7590,8 @@
           "number": "ETD01-004",
           "rarity": "TD",
           "set": "ETD01",
-          "picture": "ETD01/ETD01-004.png"
+          "picture": "ETD01/ETD01-004.png",
+          "frame": "standard"
         }
       ]
     },
@@ -7263,13 +7622,15 @@
           "number": "ETD01-005",
           "rarity": "TD",
           "set": "ETD01",
-          "picture": "ETD01/ETD01-005.png"
+          "picture": "ETD01/ETD01-005.png",
+          "frame": "standard"
         },
         {
           "number": "ETD01-005TSR",
           "rarity": "TSR",
           "set": "ETD01",
-          "picture": "ETD01/ETD01-005TSR.png"
+          "picture": "ETD01/ETD01-005TSR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -7302,7 +7663,8 @@
           "number": "ETD01-006",
           "rarity": "TD",
           "set": "ETD01",
-          "picture": "ETD01/ETD01-006.png"
+          "picture": "ETD01/ETD01-006.png",
+          "frame": "standard"
         }
       ]
     },
@@ -7333,13 +7695,15 @@
           "number": "ETD01-007",
           "rarity": "TD",
           "set": "ETD01",
-          "picture": "ETD01/ETD01-007.png"
+          "picture": "ETD01/ETD01-007.png",
+          "frame": "standard"
         },
         {
           "number": "ETD01-007TSR",
           "rarity": "TSR",
           "set": "ETD01",
-          "picture": "ETD01/ETD01-007TSR.png"
+          "picture": "ETD01/ETD01-007TSR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -7367,13 +7731,15 @@
           "number": "ETD01-008",
           "rarity": "TD",
           "set": "ETD01",
-          "picture": "ETD01/ETD01-008.png"
+          "picture": "ETD01/ETD01-008.png",
+          "frame": "standard"
         },
         {
           "number": "ETD01-008TSR",
           "rarity": "TSR",
           "set": "ETD01",
-          "picture": "ETD01/ETD01-008TSR.png"
+          "picture": "ETD01/ETD01-008TSR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -7401,7 +7767,8 @@
           "number": "ETD01-009",
           "rarity": "TD",
           "set": "ETD01",
-          "picture": "ETD01/ETD01-009.png"
+          "picture": "ETD01/ETD01-009.png",
+          "frame": "standard"
         }
       ]
     },
@@ -7427,7 +7794,8 @@
           "number": "ETD01-010",
           "rarity": "TD",
           "set": "ETD01",
-          "picture": "ETD01/ETD01-010.png"
+          "picture": "ETD01/ETD01-010.png",
+          "frame": "standard"
         }
       ]
     },
@@ -7453,13 +7821,15 @@
           "number": "ETD01-011",
           "rarity": "TD",
           "set": "ETD01",
-          "picture": "ETD01/ETD01-011.png"
+          "picture": "ETD01/ETD01-011.png",
+          "frame": "standard"
         },
         {
           "number": "ETD01-011TSR",
           "rarity": "TSR",
           "set": "ETD01",
-          "picture": "ETD01/ETD01-011TSR.png"
+          "picture": "ETD01/ETD01-011TSR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -7491,19 +7861,22 @@
           "number": "ETD01-012",
           "rarity": "TDR",
           "set": "ETD01",
-          "picture": "ETD01/ETD01-012.png"
+          "picture": "ETD01/ETD01-012.png",
+          "frame": "standard"
         },
         {
           "number": "ETD01-012TSP",
           "rarity": "TSP",
           "set": "ETD01",
-          "picture": "ETD01/ETD01-012TSP.png"
+          "picture": "ETD01/ETD01-012TSP.png",
+          "frame": "fullArt"
         },
         {
           "number": "ETD01-012TSR",
           "rarity": "TSR",
           "set": "ETD01",
-          "picture": "ETD01/ETD01-012TSR.png"
+          "picture": "ETD01/ETD01-012TSR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -7533,7 +7906,8 @@
           "number": "ETD01-013",
           "rarity": "TD",
           "set": "ETD01",
-          "picture": "ETD01/ETD01-013.png"
+          "picture": "ETD01/ETD01-013.png",
+          "frame": "standard"
         }
       ]
     },
@@ -7567,13 +7941,15 @@
           "number": "ETD01-014",
           "rarity": "TD",
           "set": "ETD01",
-          "picture": "ETD01/ETD01-014.png"
+          "picture": "ETD01/ETD01-014.png",
+          "frame": "standard"
         },
         {
           "number": "ETD01-014TSR",
           "rarity": "TSR",
           "set": "ETD01",
-          "picture": "ETD01/ETD01-014TSR.png"
+          "picture": "ETD01/ETD01-014TSR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -7606,7 +7982,8 @@
           "number": "ETD01-015",
           "rarity": "TD",
           "set": "ETD01",
-          "picture": "ETD01/ETD01-015.png"
+          "picture": "ETD01/ETD01-015.png",
+          "frame": "standard"
         }
       ]
     },
@@ -7637,7 +8014,8 @@
           "number": "ETD01-016",
           "rarity": "TD",
           "set": "ETD01",
-          "picture": "ETD01/ETD01-016.png"
+          "picture": "ETD01/ETD01-016.png",
+          "frame": "standard"
         }
       ]
     },
@@ -7667,13 +8045,15 @@
           "number": "ETD01-017",
           "rarity": "TD",
           "set": "ETD01",
-          "picture": "ETD01/ETD01-017.png"
+          "picture": "ETD01/ETD01-017.png",
+          "frame": "standard"
         },
         {
           "number": "ETD01-017TSR",
           "rarity": "TSR",
           "set": "ETD01",
-          "picture": "ETD01/ETD01-017TSR.png"
+          "picture": "ETD01/ETD01-017TSR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -7705,13 +8085,15 @@
           "number": "ETD01-018",
           "rarity": "TD",
           "set": "ETD01",
-          "picture": "ETD01/ETD01-018.png"
+          "picture": "ETD01/ETD01-018.png",
+          "frame": "standard"
         },
         {
           "number": "ETD01-018TSR",
           "rarity": "TSR",
           "set": "ETD01",
-          "picture": "ETD01/ETD01-018TSR.png"
+          "picture": "ETD01/ETD01-018TSR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -7737,7 +8119,8 @@
           "number": "ETD01-019",
           "rarity": "TD",
           "set": "ETD01",
-          "picture": "ETD01/ETD01-019.png"
+          "picture": "ETD01/ETD01-019.png",
+          "frame": "standard"
         }
       ]
     },
@@ -7765,7 +8148,8 @@
           "number": "ETD01-020",
           "rarity": "TD",
           "set": "ETD01",
-          "picture": "ETD01/ETD01-020.png"
+          "picture": "ETD01/ETD01-020.png",
+          "frame": "standard"
         }
       ]
     },
@@ -7791,7 +8175,8 @@
           "number": "ETD01-021",
           "rarity": "TD",
           "set": "ETD01",
-          "picture": "ETD01/ETD01-021.png"
+          "picture": "ETD01/ETD01-021.png",
+          "frame": "standard"
         }
       ]
     },
@@ -7817,13 +8202,15 @@
           "number": "ETD01-022",
           "rarity": "TD",
           "set": "ETD01",
-          "picture": "ETD01/ETD01-022.png"
+          "picture": "ETD01/ETD01-022.png",
+          "frame": "standard"
         },
         {
           "number": "ETD01-022TSR",
           "rarity": "TSR",
           "set": "ETD01",
-          "picture": "ETD01/ETD01-022TSR.png"
+          "picture": "ETD01/ETD01-022TSR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -7856,19 +8243,22 @@
           "number": "EPR-001",
           "rarity": "PR",
           "set": "PR2026",
-          "picture": "PR/EPR-001.png"
+          "picture": "PR/EPR-001.png",
+          "frame": "standard"
         },
         {
           "number": "ETD01-023",
           "rarity": "TD",
           "set": "ETD01",
-          "picture": "ETD01/ETD01-023.png"
+          "picture": "ETD01/ETD01-023.png",
+          "frame": "standard"
         },
         {
           "number": "ETD01-023TSR",
           "rarity": "TSR",
           "set": "ETD01",
-          "picture": "ETD01/ETD01-023TSR.png"
+          "picture": "ETD01/ETD01-023TSR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -7900,13 +8290,15 @@
           "number": "ETD01-024",
           "rarity": "TD",
           "set": "ETD01",
-          "picture": "ETD01/ETD01-024.png"
+          "picture": "ETD01/ETD01-024.png",
+          "frame": "standard"
         },
         {
           "number": "ETD01-024TSR",
           "rarity": "TSR",
           "set": "ETD01",
-          "picture": "ETD01/ETD01-024TSR.png"
+          "picture": "ETD01/ETD01-024TSR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -7939,19 +8331,22 @@
           "number": "ETD02-001",
           "rarity": "TDR",
           "set": "ETD02",
-          "picture": "ETD02/ETD02-001.png"
+          "picture": "ETD02/ETD02-001.png",
+          "frame": "standard"
         },
         {
           "number": "ETD02-001TSP",
           "rarity": "TSP",
           "set": "ETD02",
-          "picture": "ETD02/ETD02-001TSP.png"
+          "picture": "ETD02/ETD02-001TSP.png",
+          "frame": "fullArt"
         },
         {
           "number": "ETD02-001TSR",
           "rarity": "TSR",
           "set": "ETD02",
-          "picture": "ETD02/ETD02-001TSR.png"
+          "picture": "ETD02/ETD02-001TSR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -7982,7 +8377,8 @@
           "number": "ETD02-002",
           "rarity": "TD",
           "set": "ETD02",
-          "picture": "ETD02/ETD02-002.png"
+          "picture": "ETD02/ETD02-002.png",
+          "frame": "standard"
         }
       ]
     },
@@ -8014,13 +8410,15 @@
           "number": "ETD02-003",
           "rarity": "TD",
           "set": "ETD02",
-          "picture": "ETD02/ETD02-003.png"
+          "picture": "ETD02/ETD02-003.png",
+          "frame": "standard"
         },
         {
           "number": "ETD02-003TSR",
           "rarity": "TSR",
           "set": "ETD02",
-          "picture": "ETD02/ETD02-003TSR.png"
+          "picture": "ETD02/ETD02-003TSR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -8052,7 +8450,8 @@
           "number": "ETD02-004",
           "rarity": "TD",
           "set": "ETD02",
-          "picture": "ETD02/ETD02-004.png"
+          "picture": "ETD02/ETD02-004.png",
+          "frame": "standard"
         }
       ]
     },
@@ -8082,7 +8481,8 @@
           "number": "ETD02-005",
           "rarity": "TD",
           "set": "ETD02",
-          "picture": "ETD02/ETD02-005.png"
+          "picture": "ETD02/ETD02-005.png",
+          "frame": "standard"
         }
       ]
     },
@@ -8112,13 +8512,15 @@
           "number": "ETD02-006",
           "rarity": "TD",
           "set": "ETD02",
-          "picture": "ETD02/ETD02-006.png"
+          "picture": "ETD02/ETD02-006.png",
+          "frame": "standard"
         },
         {
           "number": "ETD02-006TSR",
           "rarity": "TSR",
           "set": "ETD02",
-          "picture": "ETD02/ETD02-006TSR.png"
+          "picture": "ETD02/ETD02-006TSR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -8150,13 +8552,15 @@
           "number": "ETD02-007",
           "rarity": "TD",
           "set": "ETD02",
-          "picture": "ETD02/ETD02-007.png"
+          "picture": "ETD02/ETD02-007.png",
+          "frame": "standard"
         },
         {
           "number": "ETD02-007TSR",
           "rarity": "TSR",
           "set": "ETD02",
-          "picture": "ETD02/ETD02-007TSR.png"
+          "picture": "ETD02/ETD02-007TSR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -8184,13 +8588,15 @@
           "number": "ETD02-008",
           "rarity": "TD",
           "set": "ETD02",
-          "picture": "ETD02/ETD02-008.png"
+          "picture": "ETD02/ETD02-008.png",
+          "frame": "standard"
         },
         {
           "number": "ETD02-008TSR",
           "rarity": "TSR",
           "set": "ETD02",
-          "picture": "ETD02/ETD02-008TSR.png"
+          "picture": "ETD02/ETD02-008TSR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -8218,7 +8624,8 @@
           "number": "ETD02-009",
           "rarity": "TD",
           "set": "ETD02",
-          "picture": "ETD02/ETD02-009.png"
+          "picture": "ETD02/ETD02-009.png",
+          "frame": "standard"
         }
       ]
     },
@@ -8244,7 +8651,8 @@
           "number": "ETD02-010",
           "rarity": "TD",
           "set": "ETD02",
-          "picture": "ETD02/ETD02-010.png"
+          "picture": "ETD02/ETD02-010.png",
+          "frame": "standard"
         }
       ]
     },
@@ -8270,7 +8678,8 @@
           "number": "ETD02-011",
           "rarity": "TD",
           "set": "ETD02",
-          "picture": "ETD02/ETD02-011.png"
+          "picture": "ETD02/ETD02-011.png",
+          "frame": "standard"
         }
       ]
     },
@@ -8302,19 +8711,22 @@
           "number": "ETD02-012",
           "rarity": "TDR",
           "set": "ETD02",
-          "picture": "ETD02/ETD02-012.png"
+          "picture": "ETD02/ETD02-012.png",
+          "frame": "standard"
         },
         {
           "number": "ETD02-012TSP",
           "rarity": "TSP",
           "set": "ETD02",
-          "picture": "ETD02/ETD02-012TSP.png"
+          "picture": "ETD02/ETD02-012TSP.png",
+          "frame": "fullArt"
         },
         {
           "number": "ETD02-012TSR",
           "rarity": "TSR",
           "set": "ETD02",
-          "picture": "ETD02/ETD02-012TSR.png"
+          "picture": "ETD02/ETD02-012TSR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -8344,7 +8756,8 @@
           "number": "ETD02-013",
           "rarity": "TD",
           "set": "ETD02",
-          "picture": "ETD02/ETD02-013.png"
+          "picture": "ETD02/ETD02-013.png",
+          "frame": "standard"
         }
       ]
     },
@@ -8376,13 +8789,15 @@
           "number": "ETD02-014",
           "rarity": "TD",
           "set": "ETD02",
-          "picture": "ETD02/ETD02-014.png"
+          "picture": "ETD02/ETD02-014.png",
+          "frame": "standard"
         },
         {
           "number": "ETD02-014TSR",
           "rarity": "TSR",
           "set": "ETD02",
-          "picture": "ETD02/ETD02-014TSR.png"
+          "picture": "ETD02/ETD02-014TSR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -8413,7 +8828,8 @@
           "number": "ETD02-015",
           "rarity": "TD",
           "set": "ETD02",
-          "picture": "ETD02/ETD02-015.png"
+          "picture": "ETD02/ETD02-015.png",
+          "frame": "standard"
         }
       ]
     },
@@ -8447,13 +8863,15 @@
           "number": "ETD02-016",
           "rarity": "TD",
           "set": "ETD02",
-          "picture": "ETD02/ETD02-016.png"
+          "picture": "ETD02/ETD02-016.png",
+          "frame": "standard"
         },
         {
           "number": "ETD02-016TSR",
           "rarity": "TSR",
           "set": "ETD02",
-          "picture": "ETD02/ETD02-016TSR.png"
+          "picture": "ETD02/ETD02-016TSR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -8485,7 +8903,8 @@
           "number": "ETD02-017",
           "rarity": "TD",
           "set": "ETD02",
-          "picture": "ETD02/ETD02-017.png"
+          "picture": "ETD02/ETD02-017.png",
+          "frame": "standard"
         }
       ]
     },
@@ -8515,13 +8934,15 @@
           "number": "ETD02-018",
           "rarity": "TD",
           "set": "ETD02",
-          "picture": "ETD02/ETD02-018.png"
+          "picture": "ETD02/ETD02-018.png",
+          "frame": "standard"
         },
         {
           "number": "ETD02-018TSR",
           "rarity": "TSR",
           "set": "ETD02",
-          "picture": "ETD02/ETD02-018TSR.png"
+          "picture": "ETD02/ETD02-018TSR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -8547,7 +8968,8 @@
           "number": "ETD02-019",
           "rarity": "TD",
           "set": "ETD02",
-          "picture": "ETD02/ETD02-019.png"
+          "picture": "ETD02/ETD02-019.png",
+          "frame": "standard"
         }
       ]
     },
@@ -8573,7 +8995,8 @@
           "number": "ETD02-020",
           "rarity": "TD",
           "set": "ETD02",
-          "picture": "ETD02/ETD02-020.png"
+          "picture": "ETD02/ETD02-020.png",
+          "frame": "standard"
         }
       ]
     },
@@ -8599,13 +9022,15 @@
           "number": "ETD02-021",
           "rarity": "TD",
           "set": "ETD02",
-          "picture": "ETD02/ETD02-021.png"
+          "picture": "ETD02/ETD02-021.png",
+          "frame": "standard"
         },
         {
           "number": "ETD02-021TSR",
           "rarity": "TSR",
           "set": "ETD02",
-          "picture": "ETD02/ETD02-021TSR.png"
+          "picture": "ETD02/ETD02-021TSR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -8631,7 +9056,8 @@
           "number": "ETD02-022",
           "rarity": "TD",
           "set": "ETD02",
-          "picture": "ETD02/ETD02-022.png"
+          "picture": "ETD02/ETD02-022.png",
+          "frame": "standard"
         }
       ]
     },
@@ -8664,13 +9090,15 @@
           "number": "ETD02-023",
           "rarity": "TD",
           "set": "ETD02",
-          "picture": "ETD02/ETD02-023.png"
+          "picture": "ETD02/ETD02-023.png",
+          "frame": "standard"
         },
         {
           "number": "ETD02-023TSR",
           "rarity": "TSR",
           "set": "ETD02",
-          "picture": "ETD02/ETD02-023TSR.png"
+          "picture": "ETD02/ETD02-023TSR.png",
+          "frame": "standard"
         }
       ]
     },
@@ -8701,13 +9129,15 @@
           "number": "ETD02-024",
           "rarity": "TD",
           "set": "ETD02",
-          "picture": "ETD02/ETD02-024.png"
+          "picture": "ETD02/ETD02-024.png",
+          "frame": "standard"
         },
         {
           "number": "ETD02-024TSR",
           "rarity": "TSR",
           "set": "ETD02",
-          "picture": "ETD02/ETD02-024TSR.png"
+          "picture": "ETD02/ETD02-024TSR.png",
+          "frame": "standard"
         }
       ]
     }

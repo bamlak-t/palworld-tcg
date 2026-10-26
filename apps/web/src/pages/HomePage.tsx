@@ -353,7 +353,7 @@ function LobbyMockup() {
           <p className="text-xs text-window-foreground/70">Share this code</p>
           <p className="font-display text-3xl font-bold tracking-[0.3em] text-window-trim">K7QP2M</p>
         </div>
-        <Button size="sm" className="bg-window-trim text-window-to hover:bg-window-trim/85">
+        <Button size="sm" className="bg-window-trim text-window-trim-foreground hover:bg-window-trim/85">
           <Copy data-icon="inline-start" /> Copy link
         </Button>
       </div>
@@ -369,7 +369,7 @@ function LobbyMockup() {
       </ul>
       <div className="flex gap-2">
         <Input placeholder="Enter a code to join" className="bg-white/90 text-slate-900" />
-        <Button className="bg-window-trim text-window-to hover:bg-window-trim/85">Join</Button>
+        <Button className="bg-window-trim text-window-trim-foreground hover:bg-window-trim/85">Join</Button>
         <Button variant="ghost" className="text-window-foreground hover:bg-white/10" aria-label="Leave">
           <LogOut />
         </Button>

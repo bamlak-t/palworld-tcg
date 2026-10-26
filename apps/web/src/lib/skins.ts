@@ -30,7 +30,7 @@ export const BOARD_SKINS: BoardSkin[] = [
     id: 'moonlit',
     name: 'Moonlit Night',
     background:
-      'radial-gradient(circle at 80% 15%, oklch(0.95 0.03 90 / 0.5) 0 3%, transparent 12%), radial-gradient(ellipse at 50% 0%, oklch(0.4 0.12 280 / 0.8), transparent 70%), linear-gradient(180deg, oklch(0.25 0.08 275), oklch(0.12 0.04 270))',
+      'radial-gradient(circle at 88% 6%, oklch(0.95 0.03 90 / 0.55) 0 1%, transparent 3.5%), radial-gradient(ellipse at 50% 0%, oklch(0.4 0.12 280 / 0.8), transparent 70%), linear-gradient(180deg, oklch(0.25 0.08 275), oklch(0.12 0.04 270))',
   },
   {
     id: 'volcano',

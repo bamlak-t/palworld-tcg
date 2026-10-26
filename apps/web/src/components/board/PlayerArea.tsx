@@ -1,4 +1,5 @@
 import { useState, type ReactNode } from 'react';
+import { motion } from 'motion/react';
 import { cardDb, getCard, imageUrl } from '@pal/cards';
 import type { BattleStep, CardInstance, GameView, PlayerView } from '@pal/engine';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
@@ -143,10 +144,17 @@ function Slot({ label, children, onClick }: { label: string; children?: ReactNod
   );
 }
 
+/** Pile size. It pops when the number changes, so you can see which pile cards went to. */
 const Count = ({ value }: { value: number }) => (
-  <span className="absolute right-1.5 bottom-1 rounded bg-black/60 px-1.5 text-xs font-bold text-white tabular-nums">
+  <motion.span
+    key={value}
+    initial={{ scale: 1.8, backgroundColor: 'oklch(0.8 0.15 80)' }}
+    animate={{ scale: 1, backgroundColor: 'oklch(0 0 0 / 0.6)' }}
+    transition={{ duration: 0.6 }}
+    className="absolute right-1.5 bottom-1 rounded px-1.5 text-xs font-bold text-white tabular-nums"
+  >
     {value}
-  </span>
+  </motion.span>
 );
 
 function DeckSlot({ count }: { count: number }) {

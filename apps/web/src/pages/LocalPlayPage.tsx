@@ -87,7 +87,7 @@ function SetupForm({ onStart }: { onStart: (s: Setup) => void }) {
           </div>
         ))}
         <Button
-          className="bg-window-trim text-window-to hover:bg-window-trim/85"
+          className="bg-window-trim text-window-trim-foreground hover:bg-window-trim/85"
           onClick={() => onStart({ names: [names[0] || 'Player 1', names[1] || 'Player 2'], decks, avatars })}
         >
           Start game
@@ -151,7 +151,11 @@ function LocalGame({ setup, onQuit }: { setup: Setup; onQuit: () => void }) {
             {result.winner === null ? 'Draw' : `${game.view.players[result.winner].name} wins!`}{' '}
             <span className="text-sm font-normal text-window-foreground/80">{result.reason}</span>
           </span>
-          <Button size="sm" className="bg-window-trim text-window-to hover:bg-window-trim/85" onClick={game.restart}>
+          <Button
+            size="sm"
+            className="bg-window-trim text-window-trim-foreground hover:bg-window-trim/85"
+            onClick={game.restart}
+          >
             Play again
           </Button>
         </Window>

@@ -31,6 +31,28 @@ import { DamageReveal, PendingDialog } from './Prompts';
 
 type Dispatch = (a: Action) => void;
 
+function findInstance(view: GameView, id: string): CardInstance | undefined {
+  for (const p of view.players) {
+    for (const zone of [p.base, p.graveyard, p.exile, p.hand ?? []]) {
+      const c = zone.find((x) => x.id === id);
+      if (c) return c;
+    }
+  }
+  return undefined;
+}
+
+/** A card shown in a choice that isn't in a visible zone yet (e.g. just drawn by an effect). */
+const looseCard = (id: string, cardId: string, owner: Seat): CardInstance => ({
+  id,
+  cardId,
+  owner,
+  rested: false,
+  damage: 0,
+  modifiers: [],
+  placedAt: 0,
+  assignedTo: null,
+});
+
 interface LegalIndex {
   playable: Set<string>;
   attacks: Map<string, AttackTarget[]>;
@@ -80,6 +102,8 @@ function cuesFrom(batch: EventBatch | undefined, seat: Seat): Map<string, CardMo
 
 interface Reveal {
   id: number;
+  /** Whose deck the cards come off. */
+  ownerName: string;
   amount: number;
   milled: { id: string; cardId: string; lucky: boolean }[];
   cancelled: boolean;
@@ -96,6 +120,7 @@ function revealFrom(batch: EventBatch | undefined): Reveal | null {
   const lost = batch.events.find((e) => e.type === 'lifeLost');
   return {
     id: batch.id,
+    ownerName: batch.view.players[damage.seat].name,
     amount: damage.amount,
     milled,
     cancelled: batch.events.some((e) => e.type === 'damageCancelled'),
@@ -281,11 +306,23 @@ export function Board({
       </div>
     </div>
   );
+  // Face down, same size as yours, with the arc mirrored as if seen from across the table.
   const theirHand = (
-    <div className="flex h-10 justify-center overflow-hidden md:h-12">
-      {Array.from({ length: them.handCount }, (_, i) => (
-        <GameCard key={i} faceDown size="xs" className="-mx-2 -translate-y-8" />
-      ))}
+    <div className="overflow-x-auto pb-3 md:overflow-visible">
+      <div className="mx-auto flex w-max px-2">
+        {Array.from({ length: them.handCount }, (_, i) => {
+          const offset = i - (them.handCount - 1) / 2;
+          return (
+            <div
+              key={i}
+              className="-mx-2 shrink-0"
+              style={{ rotate: `${-offset * 3}deg`, translate: `0 ${-Math.abs(offset) * 4}px` }}
+            >
+              <GameCard faceDown size={handSize} />
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 
@@ -298,11 +335,11 @@ export function Board({
       onClick={() => send({ type: 'attack', attackerId: targeting!, target: { kind: 'player', seat: opp } })}
       className="relative rounded-full"
     >
-      <Avatar avatarId={avatars[opp]} size={mobile ? 44 : 60} glow />
+      <Avatar avatarId={avatars[opp]} size={mobile ? 48 : 100} glow />
       <Swords className="absolute -right-1 -bottom-1 size-5 rounded-full bg-orange-500 p-0.5 text-white" />
     </button>
   ) : (
-    <Avatar avatarId={avatars[opp]} size={mobile ? 44 : 60} />
+    <Avatar avatarId={avatars[opp]} size={mobile ? 48 : 100} />
   );
 
   return (
@@ -326,12 +363,14 @@ export function Board({
             <StatusBar
               view={view}
               prompt={
-                <BoardPrompt
-                  pending={pending?.kind}
-                  targeting={!!targeting}
-                  send={send}
-                  cancelTargeting={() => setTargeting(null)}
-                />
+                targeting || pending?.kind === 'block' || pending?.kind === 'quickStep' ? (
+                  <BoardPrompt
+                    pending={pending?.kind}
+                    targeting={!!targeting}
+                    send={send}
+                    cancelTargeting={() => setTargeting(null)}
+                  />
+                ) : undefined
               }
             />
 
@@ -343,7 +382,7 @@ export function Board({
                 <div key={c.id}>{renderCard(c, seat)}</div>
               ))}
               hand={myHand}
-              avatar={<Avatar avatarId={avatars[seat]} size={mobile ? 44 : 60} />}
+              avatar={<Avatar avatarId={avatars[seat]} size={mobile ? 48 : 100} />}
               onInspect={setInspect}
             />
 
@@ -375,7 +414,12 @@ export function Board({
         <GameLog batches={batches} />
       </div>
 
-      <PendingDialog view={view} seat={seat} dispatch={send} />
+      <PendingDialog
+        view={view}
+        seat={seat}
+        dispatch={send}
+        onInspect={({ id, cardId }) => setInspect(findInstance(view, id) ?? looseCard(id, cardId, seat))}
+      />
       <CardInspector
         instance={inspect}
         stats={inspect ? view.stats[inspect.id] : undefined}
@@ -437,7 +481,7 @@ function BoardPrompt({
   if (pending === 'quickStep') {
     return (
       <>
-        <span className={text}>Respond with a Quick card or ability</span>
+        <span className={text}>Respond with a Quick card or Interrupt, or pass to take the hit</span>
         <Button
           size="sm"
           className="bg-hud-border text-hud hover:bg-hud-border/85"
@@ -463,7 +507,7 @@ function GameLog({ batches }: { batches: EventBatch[] }) {
   return (
     <Window title="Log" className="xl:w-72" bodyClassName="p-0">
       <ScrollArea className="h-56 xl:h-[640px]">
-        <ol className="divide-y divide-white/10 text-sm">
+        <ol className="divide-y divide-window-foreground/10 text-sm">
           {lines.map((l) => (
             <li key={l.key} className="px-4 py-1.5">
               {l.text}

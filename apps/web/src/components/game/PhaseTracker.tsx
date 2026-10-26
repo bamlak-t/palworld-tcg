@@ -28,7 +28,7 @@ export function PhaseTracker({
             key={p}
             className={cn(
               'corner-cut px-2.5 py-1 text-xs font-semibold [--cut:6px]',
-              p === phase ? 'bg-window-trim text-window-to' : 'bg-white/10 text-window-foreground/60',
+              p === phase ? 'bg-window-trim text-window-trim-foreground' : 'bg-white/10 text-window-foreground/60',
             )}
           >
             {p}

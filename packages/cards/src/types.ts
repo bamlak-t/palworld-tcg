@@ -12,6 +12,8 @@ export interface Printing {
   set: string;
   /** Path relative to the official card image base URL. */
   picture: string;
+  /** Full-art printings print their text over the art, not in the standard text box. */
+  frame?: 'standard' | 'fullArt';
 }
 
 /** A unique card, identified by name. All printings share rules text. */

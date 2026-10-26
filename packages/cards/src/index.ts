@@ -4,6 +4,7 @@ import type { CardDatabase, CardDef, Printing } from './types.ts';
 export * from './types.ts';
 export { tokenizeText, type TextToken } from './text.ts';
 export { CARD_FEATURES, KEYWORDS, type CardFeature } from './features.ts';
+export { TEXT_BOX, hasStandardFrame } from './frames.ts';
 
 export const cardDb = db as CardDatabase;
 
