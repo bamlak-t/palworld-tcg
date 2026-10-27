@@ -29,13 +29,11 @@ const toInt = (v: string | null): number | null => {
 };
 
 const splitList = (v: string | null): string[] =>
-  (v ?? '')
-    .split('|')
-    .map((s) => s.trim())
-    .filter(Boolean);
+  (v ?? '').split('|').map((s) => s.trim()).filter(Boolean);
 
 /** "EBP01-012SR" -> "EBP01-012" */
-export const baseNumber = (cardNumber: string): string => /^[A-Z]+\d*-\d+/.exec(cardNumber)?.[0] ?? cardNumber;
+export const baseNumber = (cardNumber: string): string =>
+  /^[A-Z]+\d*-\d+/.exec(cardNumber)?.[0] ?? cardNumber;
 
 const isPromo = (number: string) => number.startsWith('EPR-');
 

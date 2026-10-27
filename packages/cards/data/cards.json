@@ -69,13 +69,21 @@
       "kind": "Pal",
       "subKind": "Lucky Pal",
       "color": "Red",
-      "elements": ["Dragon", "Fire"],
-      "workSuitability": ["Kindling"],
+      "elements": [
+        "Dragon",
+        "Fire"
+      ],
+      "workSuitability": [
+        "Kindling"
+      ],
       "cost": 8,
       "power": 1700,
       "strike": 4,
       "text": "ACT@1Turn@[③] OR [Discard 2 cards from hand] Stand this card.",
-      "sets": ["EBP01", "PR2026"],
+      "sets": [
+        "EBP01",
+        "PR2026"
+      ],
       "printings": [
         {
           "number": "EBP01-001",
@@ -115,13 +123,19 @@
       "kind": "Pal",
       "subKind": "Lucky Pal",
       "color": "Red",
-      "elements": ["Fire"],
-      "workSuitability": ["Kindling"],
+      "elements": [
+        "Fire"
+      ],
+      "workSuitability": [
+        "Kindling"
+      ],
       "cost": 7,
       "power": 1200,
       "strike": 3,
       "text": "CONT@When your red card would deal Damage@ other than battle damage to a Pal, deal +200 Damage@ instead (Strengthens this card's ability too). \nAUTO@OnDeploy@Choose up to 1 Pal, and deal 700 Damage@.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-002",
@@ -154,13 +168,21 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Red",
-      "elements": ["Fire"],
-      "workSuitability": ["Kindling", "Crafting", "Transporting"],
+      "elements": [
+        "Fire"
+      ],
+      "workSuitability": [
+        "Kindling",
+        "Crafting",
+        "Transporting"
+      ],
       "cost": 4,
       "power": 400,
       "strike": 2,
       "text": "CONT@All of your other red Pals get Power@+300.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-003",
@@ -186,13 +208,22 @@
       "kind": "Pal",
       "subKind": "Lucky Pal",
       "color": "Red",
-      "elements": ["Fire"],
-      "workSuitability": ["Kindling", "Crafting", "Collecting", "Transporting"],
+      "elements": [
+        "Fire"
+      ],
+      "workSuitability": [
+        "Kindling",
+        "Crafting",
+        "Collecting",
+        "Transporting"
+      ],
       "cost": 5,
       "power": 800,
       "strike": 2,
       "text": "AUTO@At the end of the battle this card attacked, you may return this card to hand. \nACT@Interrupt (Hand@Quick@[①, discard this card] OR [Discard this card and 1 other card from hand] Nullify the opponent's attack. Battle damage does not occur)",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-004",
@@ -218,13 +249,21 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Red",
-      "elements": ["Fire", "Ground"],
-      "workSuitability": ["Kindling", "Collecting"],
+      "elements": [
+        "Fire",
+        "Ground"
+      ],
+      "workSuitability": [
+        "Kindling",
+        "Collecting"
+      ],
       "cost": 8,
       "power": 1500,
       "strike": 3,
       "text": "AUTO@OnDeploy@Get 3 Material@. \nACT@1Turn@[Consume 3 Material@] Look at the top 5 cards of your deck, choose up to 1 ◇8 or less gear from among them and deploy it, and shuffle the rest of the cards with the deck.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-005",
@@ -250,13 +289,19 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Red",
-      "elements": ["Fire"],
-      "workSuitability": ["Kindling"],
+      "elements": [
+        "Fire"
+      ],
+      "workSuitability": [
+        "Kindling"
+      ],
       "cost": 2,
       "power": 200,
       "strike": 1,
       "text": "AUTO@Brave 300 (OnAttack@This card gets Power@+300 until end of turn)",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-006",
@@ -282,13 +327,19 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Red",
-      "elements": ["Fire"],
-      "workSuitability": ["Kindling"],
+      "elements": [
+        "Fire"
+      ],
+      "workSuitability": [
+        "Kindling"
+      ],
       "cost": 5,
       "power": 400,
       "strike": 2,
       "text": "AUTO@OnDeploy@Choose up to 1 ◇7 or greater Pal, and deal 1200 Damage@.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-007",
@@ -314,13 +365,22 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Red",
-      "elements": ["Electric"],
-      "workSuitability": ["Electricity", "Crafting", "Transporting", "Farming"],
+      "elements": [
+        "Electric"
+      ],
+      "workSuitability": [
+        "Electricity",
+        "Crafting",
+        "Transporting",
+        "Farming"
+      ],
       "cost": 3,
       "power": 400,
       "strike": 1,
       "text": "AUTO@OnDeploy@Choose up to 1 Pal in the stand state, and deal 500 Damage@.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-008",
@@ -339,13 +399,20 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Red",
-      "elements": ["Electric"],
-      "workSuitability": ["Electricity", "Collecting"],
+      "elements": [
+        "Electric"
+      ],
+      "workSuitability": [
+        "Electricity",
+        "Collecting"
+      ],
       "cost": 4,
       "power": 600,
       "strike": 2,
       "text": "AUTO@Brave 300 (OnAttack@This card gets Power@+300 until end of turn)",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-009",
@@ -364,13 +431,20 @@
       "kind": "Pal",
       "subKind": "Lucky Pal",
       "color": "Red",
-      "elements": ["Fire"],
-      "workSuitability": ["Kindling", "Transporting"],
+      "elements": [
+        "Fire"
+      ],
+      "workSuitability": [
+        "Kindling",
+        "Transporting"
+      ],
       "cost": 6,
       "power": 1000,
       "strike": 2,
       "text": "AUTO@OnAttack@Choose all of your red Pals, and they get Power@+500/Strike@+1 until end of turn.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-010",
@@ -389,13 +463,20 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Red",
-      "elements": ["Fire"],
-      "workSuitability": ["Kindling", "Farming"],
+      "elements": [
+        "Fire"
+      ],
+      "workSuitability": [
+        "Kindling",
+        "Farming"
+      ],
       "cost": 2,
       "power": 200,
       "strike": 1,
       "text": "AUTO@Serious 400 (OnAssign@Choose 1 Pal, and it gets Power@+400 until end of turn)",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-011",
@@ -414,13 +495,22 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Red",
-      "elements": ["Fire"],
-      "workSuitability": ["Kindling", "Crafting", "Transporting"],
+      "elements": [
+        "Fire"
+      ],
+      "workSuitability": [
+        "Kindling",
+        "Crafting",
+        "Transporting"
+      ],
       "cost": 3,
       "power": 400,
       "strike": 1,
       "text": "AUTO@OnDeploy@Get 2 Material@.",
-      "sets": ["EBP01", "PR2026"],
+      "sets": [
+        "EBP01",
+        "PR2026"
+      ],
       "printings": [
         {
           "number": "EBP01-012",
@@ -453,13 +543,20 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Red",
-      "elements": ["Fire"],
-      "workSuitability": ["Kindling", "Collecting"],
+      "elements": [
+        "Fire"
+      ],
+      "workSuitability": [
+        "Kindling",
+        "Collecting"
+      ],
       "cost": 6,
       "power": 1200,
       "strike": 2,
       "text": "",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-013",
@@ -478,13 +575,21 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Red",
-      "elements": ["Fire"],
-      "workSuitability": ["Kindling", "Collecting"],
+      "elements": [
+        "Fire"
+      ],
+      "workSuitability": [
+        "Kindling",
+        "Collecting"
+      ],
       "cost": 7,
       "power": 1200,
       "strike": 3,
       "text": "ACT@Interrupt (Hand@Quick@[①, discard this card] OR [Discard this card and 1 other card from hand] Nullify the opponent's attack. Battle damage does not occur)",
-      "sets": ["EBP01", "PR2026"],
+      "sets": [
+        "EBP01",
+        "PR2026"
+      ],
       "printings": [
         {
           "number": "EBP01-014",
@@ -518,12 +623,16 @@
       "subKind": null,
       "color": "Red",
       "elements": [],
-      "workSuitability": ["Crafting"],
+      "workSuitability": [
+        "Crafting"
+      ],
       "cost": 4,
       "power": 1000,
       "strike": null,
       "text": "ACT@1Turn@[Consume X Material@, assign 1 Pal] Perform 〈Choose 1 Pal, and deal 500 Damage@. 〉 X times.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-015",
@@ -550,12 +659,16 @@
       "subKind": null,
       "color": "Red",
       "elements": [],
-      "workSuitability": ["Kindling"],
+      "workSuitability": [
+        "Kindling"
+      ],
       "cost": 2,
       "power": 800,
       "strike": null,
       "text": "ACT@1Turn@[Assign 1 Pal] Get 3 Material@, and draw 1 card. \nACT@1Turn@[Consume X Material@] Reduce the cost of playing your next gear from hand by X until end of turn. It does not become ◇0 or less from this ability.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-016",
@@ -575,12 +688,16 @@
       "subKind": null,
       "color": "Red",
       "elements": [],
-      "workSuitability": ["Kindling"],
+      "workSuitability": [
+        "Kindling"
+      ],
       "cost": 2,
       "power": 900,
       "strike": null,
       "text": "CONT@All of your red Pals get Power@+200. \nAUTO@When your red Pal is deployed, get 1 Material@.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-017",
@@ -605,7 +722,9 @@
       "power": 1100,
       "strike": null,
       "text": "ACT@1Turn@[①, assign 1 Pal] Stand all Pals assigned this turn. Until end of turn, your Pals cannot be assigned, and must attack as much as possible (Includes Pals deployed after activating this ability).",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-018",
@@ -630,7 +749,9 @@
       "power": null,
       "strike": null,
       "text": "ACT@[Rest this card] Choose 1 Pal, and it gets Power@+200 until end of turn. If its main name is 《Foxparks》, it gets the skill in 〈〉 until end of turn. 〈AUTO@OnAttack@Choose up to 1 Pal, and deal 700 Damage@〉.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-019",
@@ -662,7 +783,9 @@
       "power": null,
       "strike": null,
       "text": "AUTO@OnDeploy@Choose all of your opponent's Pals, and deal 1200 Damage@. \nACT@[Rest this card] Choose 1 Pal, and it gets Power@+200 until end of turn.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-020",
@@ -694,7 +817,9 @@
       "power": null,
       "strike": null,
       "text": "AUTO@OnDeploy@Choose up to 1 Pal, and deal 500 Damage@. \nACT@[Rest this card] Choose 1 Pal, and it gets Power@+200 until end of turn.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-021",
@@ -719,7 +844,9 @@
       "power": null,
       "strike": null,
       "text": "ACT@[Rest this card] Choose 1 Pal, it gets Power@+200 until end of turn, and you get 1 Material@.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-022",
@@ -744,7 +871,9 @@
       "power": null,
       "strike": null,
       "text": "Choose 1 of the following:\n・Choose 1 Pal, and deal 1500 Damage@. \n・Choose up to X Pals, and stand them. X is equal to your number of gears. \n・Choose all of your opponent's ◇5 or greater Pals, and they cannot block until end of turn.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-023",
@@ -783,7 +912,9 @@
       "power": null,
       "strike": null,
       "text": "Look at the top 5 cards of your deck, choose up to 1 red structure or red gear from among them and add it to hand, and shuffle the rest of the cards with the deck. If you chose 0 cards, get 3 Material@.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-024",
@@ -802,13 +933,21 @@
       "kind": "Pal",
       "subKind": "Lucky Pal",
       "color": "Blue",
-      "elements": ["Ice", "Dragon"],
-      "workSuitability": ["Harvesting", "Cooling"],
+      "elements": [
+        "Ice",
+        "Dragon"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Cooling"
+      ],
       "cost": 5,
       "power": 900,
       "strike": 2,
       "text": "AUTO@OnDeploy@Reveal the top card of your deck, and if it is a ◇8 or less Dragon@Pal, you may deploy it. If you did not deploy it, add it to hand.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-025",
@@ -841,13 +980,21 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Blue",
-      "elements": ["Dragon", "Water"],
-      "workSuitability": ["Harvesting", "Transporting"],
+      "elements": [
+        "Dragon",
+        "Water"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Transporting"
+      ],
       "cost": 7,
       "power": 1200,
       "strike": 3,
       "text": "AUTO@OnDeploy@Choose up to 1 ◇6 or less Pal, and rest it. While this card is in the base, that card does not stand.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-026",
@@ -880,13 +1027,20 @@
       "kind": "Pal",
       "subKind": "Lucky Pal",
       "color": "Blue",
-      "elements": ["Dragon", "Water"],
-      "workSuitability": ["Harvesting"],
+      "elements": [
+        "Dragon",
+        "Water"
+      ],
+      "workSuitability": [
+        "Harvesting"
+      ],
       "cost": 8,
       "power": 1600,
       "strike": 3,
       "text": "AUTO@OnDeploy@Draw 1 card, choose up to 1 ◇7 or less Pal, and rest it. That card does not stand during your opponent's next stand phase.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-027",
@@ -919,13 +1073,23 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Blue",
-      "elements": ["Water", "Ice"],
-      "workSuitability": ["Harvesting", "Crafting", "Cooling", "Transporting"],
+      "elements": [
+        "Water",
+        "Ice"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Crafting",
+        "Cooling",
+        "Transporting"
+      ],
       "cost": 4,
       "power": 600,
       "strike": 2,
       "text": "AUTO@When this card is put into the graveyard, draw 1 card.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-028",
@@ -951,13 +1115,20 @@
       "kind": "Pal",
       "subKind": "Lucky Pal",
       "color": "Blue",
-      "elements": ["Water", "Dragon"],
-      "workSuitability": ["Harvesting"],
+      "elements": [
+        "Water",
+        "Dragon"
+      ],
+      "workSuitability": [
+        "Harvesting"
+      ],
       "cost": 6,
       "power": 1200,
       "strike": 2,
       "text": "AUTO@OnDeploy@Draw 1 card, choose up to 1 Pal, and rest it.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-029",
@@ -983,13 +1154,21 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Blue",
-      "elements": ["Ice", "Ground"],
-      "workSuitability": ["Collecting", "Cooling"],
+      "elements": [
+        "Ice",
+        "Ground"
+      ],
+      "workSuitability": [
+        "Collecting",
+        "Cooling"
+      ],
       "cost": 8,
       "power": 1200,
       "strike": 3,
       "text": "AUTO@OnDeploy@Draw 1 card. \nACT@1Turn@[Discard 1 card from hand] Look at the top 5 cards of your deck, choose up to 2 ◇6 or less structures from among them and deploy them, and shuffle the rest of the cards with the deck.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-030",
@@ -1015,13 +1194,23 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Blue",
-      "elements": ["Water", "Ice"],
-      "workSuitability": ["Harvesting", "Crafting", "Cooling", "Transporting"],
+      "elements": [
+        "Water",
+        "Ice"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Crafting",
+        "Cooling",
+        "Transporting"
+      ],
       "cost": 5,
       "power": 600,
       "strike": 2,
       "text": "CONT@All of your main name 《Pengullet》 Pals get Power@+700.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-031",
@@ -1047,13 +1236,22 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Blue",
-      "elements": ["Water"],
-      "workSuitability": ["Harvesting", "Crafting", "Transporting"],
+      "elements": [
+        "Water"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Crafting",
+        "Transporting"
+      ],
       "cost": 2,
       "power": 200,
       "strike": 1,
       "text": "AUTO@When this card is attacked, this card gets Power@+300 until end of turn.",
-      "sets": ["EBP01", "PR2026"],
+      "sets": [
+        "EBP01",
+        "PR2026"
+      ],
       "printings": [
         {
           "number": "EBP01-032",
@@ -1086,13 +1284,22 @@
       "kind": "Pal",
       "subKind": "Lucky Pal",
       "color": "Blue",
-      "elements": ["Ice"],
-      "workSuitability": ["Crafting", "Collecting", "Cooling", "Transporting"],
+      "elements": [
+        "Ice"
+      ],
+      "workSuitability": [
+        "Crafting",
+        "Collecting",
+        "Cooling",
+        "Transporting"
+      ],
       "cost": 7,
       "power": 1500,
       "strike": 3,
       "text": "CONT@If this card is in the rest state, all of your opponent's Pals get Strike@-1.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-033",
@@ -1111,13 +1318,20 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Blue",
-      "elements": ["Water"],
-      "workSuitability": ["Harvesting", "Farming"],
+      "elements": [
+        "Water"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Farming"
+      ],
       "cost": 2,
       "power": 200,
       "strike": 1,
       "text": "AUTO@Serious 400 (OnAssign@Choose 1 Pal, and it gets Power@+400 until end of turn)",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-034",
@@ -1136,13 +1350,20 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Blue",
-      "elements": ["Ice"],
-      "workSuitability": ["Cooling", "Farming"],
+      "elements": [
+        "Ice"
+      ],
+      "workSuitability": [
+        "Cooling",
+        "Farming"
+      ],
       "cost": 3,
       "power": 400,
       "strike": 1,
       "text": "AUTO@When this card is assigned to a 「Farming」 structure, draw 1 card.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-035",
@@ -1161,13 +1382,20 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Blue",
-      "elements": ["Water"],
-      "workSuitability": ["Harvesting", "Transporting"],
+      "elements": [
+        "Water"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Transporting"
+      ],
       "cost": 3,
       "power": 400,
       "strike": 1,
       "text": "AUTO@OnAttack@Draw 1 card, choose 1 card from your hand, and discard it.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-036",
@@ -1186,13 +1414,20 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Blue",
-      "elements": ["Water"],
-      "workSuitability": ["Harvesting", "Farming"],
+      "elements": [
+        "Water"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Farming"
+      ],
       "cost": 4,
       "power": 700,
       "strike": 2,
       "text": "",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-037",
@@ -1211,13 +1446,23 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Blue",
-      "elements": ["Ice"],
-      "workSuitability": ["Crafting", "Collecting", "Cooling", "Transporting"],
+      "elements": [
+        "Ice"
+      ],
+      "workSuitability": [
+        "Crafting",
+        "Collecting",
+        "Cooling",
+        "Transporting"
+      ],
       "cost": 6,
       "power": 900,
       "strike": 2,
       "text": "ACT@Interrupt (Hand@Quick@[①, discard this card] OR [Discard this card and 1 other card from hand] Nullify the opponent's attack. Battle damage does not occur)",
-      "sets": ["EBP01", "PR2026"],
+      "sets": [
+        "EBP01",
+        "PR2026"
+      ],
       "printings": [
         {
           "number": "EBP01-038",
@@ -1256,7 +1501,9 @@
       "power": 1400,
       "strike": null,
       "text": "AUTO@OnDeploy@Choose up to X of your opponent's Pals, and return them to hand. X is equal to the number of different card names among your structures with 《Antique》 in their card names (For example, if the current state has 4 《Antique Mirror》, and 《Antique Curtain》 is deployed, return up to 2 cards).",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-039",
@@ -1288,7 +1535,9 @@
       "power": 1400,
       "strike": null,
       "text": "ACT@1Turn@[Discard 1 card from hand] Declare 1 card name. Choose all of your cards, and they get that declared card name in addition until end of turn. \nACT@1Turn@[Discard X cards from hand] Choose X of your Pals, and they get Power@+1000/Strike@+1 until end of turn.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-040",
@@ -1313,7 +1562,9 @@
       "power": 1000,
       "strike": null,
       "text": "ACT@1Turn@[Assign 1 Pal] Choose up to 2 ◇6 or less Pals, and rest them. Those cards do not stand during your opponent's next stand phase.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-041",
@@ -1338,7 +1589,9 @@
       "power": 1000,
       "strike": null,
       "text": "AUTO@OnDeploy@Draw 1 card.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-042",
@@ -1358,12 +1611,16 @@
       "subKind": null,
       "color": "Blue",
       "elements": [],
-      "workSuitability": ["Crafting"],
+      "workSuitability": [
+        "Crafting"
+      ],
       "cost": 2,
       "power": 900,
       "strike": null,
       "text": "ACT@1Turn@[Assign 1 Pal] Draw 2 cards, choose 1 card from your hand, and discard it.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-043",
@@ -1388,7 +1645,9 @@
       "power": null,
       "strike": null,
       "text": "ACT@[Rest this card] Choose 1 Pal, and it gets Power@+200 until end of turn. If its main name is 《Pengullet》, instead it gets Power@+500 and the skill in 〈〉 until end of turn. 〈ACT@[Rest this card] Choose all of your opponent's Pals, and they get X Damage@. X is equal to this card's Power@. Put this card into the graveyard〉.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-044",
@@ -1420,7 +1679,9 @@
       "power": null,
       "strike": null,
       "text": "ACT@[Rest this card] Choose 1 Pal, and it gets Power@+200 and the skill in 〈〉 until end of turn. 〈AUTO@Vigilance (At the end of your turn, stand this card)〉.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-045",
@@ -1445,7 +1706,9 @@
       "power": null,
       "strike": null,
       "text": "Choose 1 of the following:\n・Look at the top 5 cards of your deck, choose 1 card from among them and add it to hand, and shuffle the rest of the cards with the deck. \n・Choose 1 Pal, and return it to hand. \n・Draw X cards. X is equal to the number of your structures.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-046",
@@ -1484,7 +1747,9 @@
       "power": null,
       "strike": null,
       "text": "Draw 3 cards.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-047",
@@ -1516,7 +1781,9 @@
       "power": null,
       "strike": null,
       "text": "Quick@Draw 1 card, choose up to 1 card from your hand, and put it on the top of the deck.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-048",
@@ -1535,13 +1802,20 @@
       "kind": "Pal",
       "subKind": "Lucky Pal",
       "color": "Green",
-      "elements": ["Grass"],
-      "workSuitability": ["Harvesting", "Crafting"],
+      "elements": [
+        "Grass"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Crafting"
+      ],
       "cost": 7,
       "power": 900,
       "strike": 3,
       "text": "AUTO@OnDeploy@Get 3 Ingredient@. \nACT@1Turn@[Consume 3 Ingredient@] Look at the top 5 cards of your deck, choose up to 1 ◇6 or less Pal from among them and deploy it, and shuffle the rest of the cards with the deck.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-049",
@@ -1574,13 +1848,19 @@
       "kind": "Pal",
       "subKind": "Lucky Pal",
       "color": "Green",
-      "elements": ["Ground"],
-      "workSuitability": ["Collecting"],
+      "elements": [
+        "Ground"
+      ],
+      "workSuitability": [
+        "Collecting"
+      ],
       "cost": 6,
       "power": 900,
       "strike": 2,
       "text": "CONT@If you have 10 or more souls, this card gets Power@+1000/Strike@+1. \nACT@1Turn@[Consume 2 Ingredient@] Until end of turn, this card gets Power@+500, and the skill in 〈〉. 〈AUTO@Breakthrough (When the opposing combat Pal is put into the graveyard during this card's attack, the opposing player is also dealt Damage@)〉.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-050",
@@ -1613,13 +1893,21 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Green",
-      "elements": ["Grass"],
-      "workSuitability": ["Harvesting", "Crafting", "Transporting"],
+      "elements": [
+        "Grass"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Crafting",
+        "Transporting"
+      ],
       "cost": 6,
       "power": 700,
       "strike": 2,
       "text": "AUTO@OnDeploy@Gain 1 life, choose 2 souls, and stand them.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-051",
@@ -1652,13 +1940,19 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Green",
-      "elements": ["Ground"],
-      "workSuitability": ["Collecting"],
+      "elements": [
+        "Ground"
+      ],
+      "workSuitability": [
+        "Collecting"
+      ],
       "cost": 2,
       "power": 200,
       "strike": 1,
       "text": "AUTO@When this card attacks a structure, this card gets Power@+800 until end of turn.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-052",
@@ -1684,13 +1978,21 @@
       "kind": "Pal",
       "subKind": "Lucky Pal",
       "color": "Green",
-      "elements": ["Grass"],
-      "workSuitability": ["Harvesting", "Crafting", "Collecting"],
+      "elements": [
+        "Grass"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Crafting",
+        "Collecting"
+      ],
       "cost": 5,
       "power": 700,
       "strike": 2,
       "text": "CONT@This card gets Power@+300 for each of your main name 《Beegarde》 Pals.\nACT@[Consume 1 Ingredient@] Look at the top card of your deck, and if that is a main name 《Beegarde》 Pal, you may play it with its cost reduced by 2. It does not become ◇0 or less from this ability.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-053",
@@ -1716,13 +2018,23 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Green",
-      "elements": ["Ground", "Grass"],
-      "workSuitability": ["Harvesting", "Crafting", "Collecting", "Transporting"],
+      "elements": [
+        "Ground",
+        "Grass"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Crafting",
+        "Collecting",
+        "Transporting"
+      ],
       "cost": 8,
       "power": 1500,
       "strike": 3,
       "text": "CONT@Taunt (Your opponent cannot attack other targets if a card with taunt can be targeted for an attack)",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-054",
@@ -1748,13 +2060,21 @@
       "kind": "Pal",
       "subKind": "Lucky Pal",
       "color": "Green",
-      "elements": ["Grass"],
-      "workSuitability": ["Harvesting", "Crafting", "Transporting"],
+      "elements": [
+        "Grass"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Crafting",
+        "Transporting"
+      ],
       "cost": 8,
       "power": 1600,
       "strike": 3,
       "text": "ACT@1Turn@[Discard 1 card from hand] If you assigned this card this turn, stand this card.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-055",
@@ -1780,13 +2100,21 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Green",
-      "elements": ["Grass"],
-      "workSuitability": ["Harvesting", "Crafting", "Collecting"],
+      "elements": [
+        "Grass"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Crafting",
+        "Collecting"
+      ],
       "cost": 3,
       "power": 500,
       "strike": 1,
       "text": "",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-056",
@@ -1812,13 +2140,23 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Green",
-      "elements": ["Ground", "Water"],
-      "workSuitability": ["Harvesting", "Collecting", "Transporting", "Farming"],
+      "elements": [
+        "Ground",
+        "Water"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Collecting",
+        "Transporting",
+        "Farming"
+      ],
       "cost": 4,
       "power": 500,
       "strike": 2,
       "text": "AUTO@OnDeploy@Get 2 Ingredient@. \nAUTO@When this card is assigned to a 「Farming」 structure, increase your soul by 1 card in the rest state.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-057",
@@ -1837,13 +2175,21 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Green",
-      "elements": ["Grass", "Ground"],
-      "workSuitability": ["Harvesting"],
+      "elements": [
+        "Grass",
+        "Ground"
+      ],
+      "workSuitability": [
+        "Harvesting"
+      ],
       "cost": 4,
       "power": 600,
       "strike": 2,
       "text": "AUTO@OnDeploy@This card gets Power@+300 and the skill in 〈〉 until end of turn. 〈CONT@Assault (This card can attack Pals in the stand state)〉.",
-      "sets": ["EBP01", "PR2026"],
+      "sets": [
+        "EBP01",
+        "PR2026"
+      ],
       "printings": [
         {
           "number": "EBP01-058",
@@ -1876,13 +2222,20 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Green",
-      "elements": ["Ground"],
-      "workSuitability": ["Collecting"],
+      "elements": [
+        "Ground"
+      ],
+      "workSuitability": [
+        "Collecting"
+      ],
       "cost": 5,
       "power": 800,
       "strike": 2,
       "text": "ACT@1Turn@[Consume 2 Ingredient@] This card gets Power@+500 and the skill in 〈〉 until end of turn. 〈AUTO@Breakthrough (When the opposing combat Pal is put into the graveyard during this card's attack, the opposing player is also dealt Damage@)〉.",
-      "sets": ["EBP01", "PR2026"],
+      "sets": [
+        "EBP01",
+        "PR2026"
+      ],
       "printings": [
         {
           "number": "EBP01-059",
@@ -1915,13 +2268,22 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Green",
-      "elements": ["Grass"],
-      "workSuitability": ["Harvesting", "Crafting", "Collecting", "Transporting"],
+      "elements": [
+        "Grass"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Crafting",
+        "Collecting",
+        "Transporting"
+      ],
       "cost": 2,
       "power": 200,
       "strike": 1,
       "text": "AUTO@Serious 400 (OnAssign@Choose 1 Pal, and it gets Power@+400 until end of turn)",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-060",
@@ -1940,13 +2302,22 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Green",
-      "elements": ["Grass"],
-      "workSuitability": ["Harvesting", "Collecting", "Transporting", "Farming"],
+      "elements": [
+        "Grass"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Collecting",
+        "Transporting",
+        "Farming"
+      ],
       "cost": 3,
       "power": 400,
       "strike": 1,
       "text": "CONT@You may put any number of cards with the same card name as this card into your deck. \nAUTO@OnDeploy@Get 1 Ingredient@. If you have a 「Farming」 structure, this card gets Power@+500 until end of turn.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-061",
@@ -1965,13 +2336,22 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Green",
-      "elements": ["Grass"],
-      "workSuitability": ["Harvesting", "Crafting", "Collecting", "Transporting"],
+      "elements": [
+        "Grass"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Crafting",
+        "Collecting",
+        "Transporting"
+      ],
       "cost": 7,
       "power": 1200,
       "strike": 3,
       "text": "ACT@Interrupt (Hand@Quick@[①, discard this card] OR [Discard this card and 1 other card from hand] Nullify the opponent's attack. Battle damage does not occur)",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-062",
@@ -1991,12 +2371,16 @@
       "subKind": null,
       "color": "Green",
       "elements": [],
-      "workSuitability": ["Farming"],
+      "workSuitability": [
+        "Farming"
+      ],
       "cost": 3,
       "power": 1100,
       "strike": null,
       "text": "ACT@1Turn@[Consume 2 Ingredient@] Reveal the top card of your deck, add it to hand if it is a ◇8 or less Pal, otherwise put it into the graveyard.\nACT@1Turn@[Consume 2 Ingredient@, assign 2 Pals] Choose 1 ◇8 or less Pal from hand, and deploy it.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-063",
@@ -2028,7 +2412,9 @@
       "power": 1500,
       "strike": null,
       "text": "ACT@1Turn@[Consume X Ingredient@, assign 1 Pal] Choose 1 soul, and stand it. Then, choose up to 3 times of X number of souls, and stand them.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-064",
@@ -2060,7 +2446,9 @@
       "power": 900,
       "strike": null,
       "text": "ACT@1Turn@[Consume 1 Ingredient@] Increase your soul by 1 card in the rest state. If there were 10 or more souls before increasing, choose 2 souls, and stand them.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-065",
@@ -2080,12 +2468,16 @@
       "subKind": null,
       "color": "Green",
       "elements": [],
-      "workSuitability": ["Farming"],
+      "workSuitability": [
+        "Farming"
+      ],
       "cost": 2,
       "power": 800,
       "strike": null,
       "text": "ACT@1Turn@[Assign 1 Pal] Get either 3 Material@ or 3 Ingredient@, and draw 1 card.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-066",
@@ -2110,7 +2502,9 @@
       "power": 1100,
       "strike": null,
       "text": "ACT@1Turn@[Assign 1 Pal] The Pal assigned to this card gets the skill in 〈〉 until the end of the opponent's next turn. 〈CONT@Taunt (Your opponent cannot attack other targets if a card with taunt can be targeted for an attack)〉.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-067",
@@ -2135,7 +2529,9 @@
       "power": null,
       "strike": null,
       "text": "ACT@[Rest this card] Choose 1 Pal, and it gets Power@+200 until end of turn. If its main name is 《Digtoise》, get either 2 Material@ or 2 Ingredient@.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-068",
@@ -2160,7 +2556,9 @@
       "power": null,
       "strike": null,
       "text": "ACT@[Rest this card] Choose 1 Pal, it gets Power@+200 until end of turn, and you get 1 Ingredient@.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-069",
@@ -2185,7 +2583,9 @@
       "power": null,
       "strike": null,
       "text": "Choose 1 of the following:\n・Choose all of your Pals, and they get Power@+1000 until end of turn. \n・Choose 1 structure or gear, and put it into the graveyard.\n・Increase your soul by 1 card in the rest state.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-070",
@@ -2224,7 +2624,9 @@
       "power": null,
       "strike": null,
       "text": "Look at the top 5 cards of your deck, choose up to 1 Pal from among them and add it to hand, and shuffle the rest of the cards with the deck. If you choose 0 cards, get 3 Ingredient@.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-071",
@@ -2249,7 +2651,9 @@
       "power": null,
       "strike": null,
       "text": "Gain 1 life, and draw 1 card.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-072",
@@ -2268,13 +2672,19 @@
       "kind": "Pal",
       "subKind": "Lucky Pal",
       "color": "Purple",
-      "elements": ["Dark"],
-      "workSuitability": ["Transporting"],
+      "elements": [
+        "Dark"
+      ],
+      "workSuitability": [
+        "Transporting"
+      ],
       "cost": 7,
       "power": 700,
       "strike": 3,
       "text": "CONT@Nocturnal (If it is night, this card gets Power@+300)\nAUTO@When your 〈Nocturnal〉 Pal is deployed, if it is night, choose up to 1 Pal with cost less than or equal to that, and put it into the graveyard. If you put 1 or more Pals this way, at the end of that turn, rest this card.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-073",
@@ -2307,13 +2717,19 @@
       "kind": "Pal",
       "subKind": "Lucky Pal",
       "color": "Purple",
-      "elements": ["Dark"],
-      "workSuitability": ["Harvesting"],
+      "elements": [
+        "Dark"
+      ],
+      "workSuitability": [
+        "Harvesting"
+      ],
       "cost": 8,
       "power": 1300,
       "strike": 3,
       "text": "CONT@While this card is in the rest state, it is night. \nCONT@If it is night, your Pal's AUTO@ activates twice. \nAUTO@At the end of your turn, choose up to 1 of your Pals, and butcher it. If you butchered 1 or more cards this way, your opponent chooses 1 of their Pals, and puts it into the graveyard.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-074",
@@ -2346,13 +2762,20 @@
       "kind": "Pal",
       "subKind": "Lucky Pal",
       "color": "Purple",
-      "elements": ["Dark"],
-      "workSuitability": ["Crafting", "Transporting"],
+      "elements": [
+        "Dark"
+      ],
+      "workSuitability": [
+        "Crafting",
+        "Transporting"
+      ],
       "cost": 6,
       "power": 900,
       "strike": 2,
       "text": "ACT@1Turn@[Butcher 1 other Pal] This card gets Power@+1000/Strike@+1 until end of turn.\nAUTO@When your Pal is butchered, choose up to 1 cost X normal Pal from your graveyard, and deploy it in the rest state. X is equal to the cost of the butchered Pal -1.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-075",
@@ -2385,13 +2808,21 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Purple",
-      "elements": ["Dark"],
-      "workSuitability": ["Harvesting", "Collecting", "Transporting"],
+      "elements": [
+        "Dark"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Collecting",
+        "Transporting"
+      ],
       "cost": 5,
       "power": 600,
       "strike": 2,
       "text": "AUTO@OnDeploy@Reveal the top 3 cards of your deck, choose up to 1 Pal from among them and add it to hand, and put the remaining cards into the graveyard.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-076",
@@ -2417,13 +2848,21 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Purple",
-      "elements": ["Fire", "Dark"],
-      "workSuitability": ["Kindling", "Collecting"],
+      "elements": [
+        "Fire",
+        "Dark"
+      ],
+      "workSuitability": [
+        "Kindling",
+        "Collecting"
+      ],
       "cost": 7,
       "power": 1100,
       "strike": 3,
       "text": "CONT@Nocturnal (If it is night, this card gets Power@+300)\nACT@Interrupt (Hand@Quick@[①, discard this card] OR [Discard this card and 1 other card from hand] Nullify the opponent's attack. Battle damage does not occur)",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-077",
@@ -2449,13 +2888,20 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Purple",
-      "elements": ["Dark"],
-      "workSuitability": ["Harvesting", "Crafting"],
+      "elements": [
+        "Dark"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Crafting"
+      ],
       "cost": 8,
       "power": 1700,
       "strike": 3,
       "text": "ACT@[Rest this card, discard 1 card from hand] Choose 1 ◇6 or less Pal from your graveyard, and deploy it in the rest state.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-078",
@@ -2481,13 +2927,22 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Purple",
-      "elements": ["Dark"],
-      "workSuitability": ["Crafting", "Collecting", "Transporting", "Farming"],
+      "elements": [
+        "Dark"
+      ],
+      "workSuitability": [
+        "Crafting",
+        "Collecting",
+        "Transporting",
+        "Farming"
+      ],
       "cost": 2,
       "power": 100,
       "strike": 1,
       "text": "CONT@Nocturnal (If it is night, this card gets Power@+300)\nCONT@Nocturnal (If it is night, this card gets Power@+300)",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-079",
@@ -2513,13 +2968,21 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Purple",
-      "elements": ["Dark"],
-      "workSuitability": ["Harvesting", "Crafting", "Transporting"],
+      "elements": [
+        "Dark"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Crafting",
+        "Transporting"
+      ],
       "cost": 2,
       "power": 200,
       "strike": 1,
       "text": "CONT@Nocturnal (If it is night, this card gets Power@+300)",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-080",
@@ -2545,13 +3008,22 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Purple",
-      "elements": ["Dark"],
-      "workSuitability": ["Crafting", "Collecting", "Transporting"],
+      "elements": [
+        "Dark"
+      ],
+      "workSuitability": [
+        "Crafting",
+        "Collecting",
+        "Transporting"
+      ],
       "cost": 5,
       "power": 800,
       "strike": 2,
       "text": "AUTO@OnAttack@You may discard 1 card from hand. If you discarded this way, gain 1 life.",
-      "sets": ["EBP01", "PR2026"],
+      "sets": [
+        "EBP01",
+        "PR2026"
+      ],
       "printings": [
         {
           "number": "EBP01-081",
@@ -2584,13 +3056,22 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Purple",
-      "elements": ["Dark"],
-      "workSuitability": ["Harvesting", "Crafting", "Transporting"],
+      "elements": [
+        "Dark"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Crafting",
+        "Transporting"
+      ],
       "cost": 3,
       "power": 400,
       "strike": 1,
       "text": "CONT@Nocturnal (If it is night, this card gets Power@+300)",
-      "sets": ["EBP01", "PR2026"],
+      "sets": [
+        "EBP01",
+        "PR2026"
+      ],
       "printings": [
         {
           "number": "EBP01-082",
@@ -2623,13 +3104,21 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Purple",
-      "elements": ["Fire", "Dark"],
-      "workSuitability": ["Kindling", "Transporting"],
+      "elements": [
+        "Fire",
+        "Dark"
+      ],
+      "workSuitability": [
+        "Kindling",
+        "Transporting"
+      ],
       "cost": 4,
       "power": 600,
       "strike": 2,
       "text": "AUTO@OnDeploy@Choose up to 1 Pal, and it gets Power@-300 until end of turn (It is not put into the graveyard even if Power@ becomes 0 or less).",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-083",
@@ -2648,13 +3137,20 @@
       "kind": "Pal",
       "subKind": "Lucky Pal",
       "color": "Purple",
-      "elements": ["Dark", "Ground"],
-      "workSuitability": ["Collecting"],
+      "elements": [
+        "Dark",
+        "Ground"
+      ],
+      "workSuitability": [
+        "Collecting"
+      ],
       "cost": 5,
       "power": 700,
       "strike": 2,
       "text": "AUTO@Retaliate (When this card is put into the graveyard during battle, put the opposing combat Pal into the graveyard)\nAUTO@When this card is put into the graveyard, choose up to 1 normal Pal from your graveyard, and return it to hand.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-084",
@@ -2673,13 +3169,20 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Purple",
-      "elements": ["Dark"],
-      "workSuitability": ["Harvesting", "Collecting"],
+      "elements": [
+        "Dark"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Collecting"
+      ],
       "cost": 6,
       "power": 900,
       "strike": 2,
       "text": "CONT@While this card is in the rest state, it is night. \nCONT@If it is night, all of your opponent's Pals get Power@-200 (It is not put into the graveyard even if Power@ becomes 0 or less).",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-085",
@@ -2698,13 +3201,19 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Purple",
-      "elements": ["Dark"],
-      "workSuitability": ["Harvesting"],
+      "elements": [
+        "Dark"
+      ],
+      "workSuitability": [
+        "Harvesting"
+      ],
       "cost": 3,
       "power": 500,
       "strike": 1,
       "text": "",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-086",
@@ -2723,13 +3232,20 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Purple",
-      "elements": ["Dark"],
-      "workSuitability": ["Crafting"],
+      "elements": [
+        "Dark"
+      ],
+      "workSuitability": [
+        "Crafting"
+      ],
       "cost": 4,
       "power": 500,
       "strike": 2,
       "text": "AUTO@OnDeploy@If it is night, choose up to 1 ◇6 or less Pal in the stand state, and put it into the graveyard.",
-      "sets": ["EBP01", "PR2026"],
+      "sets": [
+        "EBP01",
+        "PR2026"
+      ],
       "printings": [
         {
           "number": "EBP01-087",
@@ -2768,7 +3284,9 @@
       "power": 1300,
       "strike": null,
       "text": "ACT@1Turn@[Put the top 3 cards of the deck into the graveyard] It becomes night until the end of the opponent's next turn.\nCONT@All of your Pals get the skill in 〈 〉. 〈CONT@Nocturnal (If it is night, this card gets Power@+300)〉.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-088",
@@ -2800,7 +3318,9 @@
       "power": 700,
       "strike": null,
       "text": "ACT@1Turn@[Put the top 3 cards of the deck into the graveyard] It becomes night until the end of the opponent's next turn.\nAUTO@At the end of your turn, if you have a 〈Nocturnal〉 Pal in the rest state, draw 1 card.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-089",
@@ -2820,12 +3340,16 @@
       "subKind": null,
       "color": "Purple",
       "elements": [],
-      "workSuitability": ["Crafting"],
+      "workSuitability": [
+        "Crafting"
+      ],
       "cost": 4,
       "power": 1300,
       "strike": null,
       "text": "ACT@1Turn@[③, assign 1 Pal] Choose 1 cost X or less Pal from your graveyard, and deploy it in the rest state. X is equal to the cost of the assigned Pal +2.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-090",
@@ -2850,7 +3374,9 @@
       "power": 300,
       "strike": null,
       "text": "CONT@Taunt (Your opponent cannot attack other targets if a card with taunt can be targeted for an attack)\nAUTO@When this card is put into the graveyard, draw 1 card.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-091",
@@ -2875,7 +3401,9 @@
       "power": 1300,
       "strike": null,
       "text": "ACT@1Turn@[Assign 1 Pal] Exile the assigned Pal. Choose 1 cost X or less Pal, and exile it. X is equal to the cost of the assigned Pal +2.\nAUTO@When this card leaves the base, return all Pals exiled by this card to the owner's hand.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-092",
@@ -2900,7 +3428,9 @@
       "power": null,
       "strike": null,
       "text": "ACT@[Rest this card, butcher 1 Pal] Reveal the top 3 cards of your deck, choose 1 card from among them and add it to hand, and put the remaining cards into the graveyard.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-093",
@@ -2932,7 +3462,9 @@
       "power": null,
       "strike": null,
       "text": "AUTO@OnDeploy@Choose up to 1 main name 《Daedream》 Pal from your hand, and deploy it. \nACT@[Rest this card] Choose 1 Pal, and it gets Power@+200 until end of turn. It becomes night until the end of the opponent's next turn.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-094",
@@ -2957,7 +3489,9 @@
       "power": null,
       "strike": null,
       "text": "Choose 1 of the following:\n・Choose up to 5 of your opponent's Material@ and/or Ingredient@ in total, and your opponent loses them. \n・Choose up to 1 Pal from your graveyard, and return it to hand. Your opponent chooses 1 card from their hand, and discards it.\n・Choose 1 of your Pals, and butcher it. If you butchered 1 or more cards this way, choose 1 of your opponent's Pals, and put it into the graveyard.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-095",
@@ -2996,7 +3530,9 @@
       "power": null,
       "strike": null,
       "text": "Quick@Choose 1 ◇5 or less Pal, and put it into the graveyard.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-096",
@@ -3021,7 +3557,9 @@
       "power": null,
       "strike": null,
       "text": "Choose up to 2 Pals without 〈Interrupt〉 from your graveyard, and return them to hand. It becomes night until the end of the opponent's next turn.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-097",
@@ -3040,13 +3578,19 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Colorless",
-      "elements": ["Dragon"],
-      "workSuitability": ["Collecting"],
+      "elements": [
+        "Dragon"
+      ],
+      "workSuitability": [
+        "Collecting"
+      ],
       "cost": 4,
       "power": 600,
       "strike": 2,
       "text": "AUTO@OnAttack@You may reveal 1 card from your hand. If you revealed a Dragon@ Pal this way, this card gets Power@+500 until end of turn.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-098",
@@ -3065,13 +3609,19 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Colorless",
-      "elements": ["Neutral"],
-      "workSuitability": ["Harvesting"],
+      "elements": [
+        "Neutral"
+      ],
+      "workSuitability": [
+        "Harvesting"
+      ],
       "cost": 3,
       "power": 500,
       "strike": 1,
       "text": "",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-099",
@@ -3096,7 +3646,9 @@
       "power": null,
       "strike": null,
       "text": "If you have not played any other cards during this game, draw 2 cards.\nIf you have 3 or more Pals with 《My First》 in their different card names, choose all of your Pals, and they get Power@+1000/Strike@+5 until end of turn.",
-      "sets": ["EBP01"],
+      "sets": [
+        "EBP01"
+      ],
       "printings": [
         {
           "number": "EBP01-100",
@@ -3122,13 +3674,22 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Red",
-      "elements": ["Dragon", "Electric"],
-      "workSuitability": ["Electricity", "Crafting", "Transporting"],
+      "elements": [
+        "Dragon",
+        "Electric"
+      ],
+      "workSuitability": [
+        "Electricity",
+        "Crafting",
+        "Transporting"
+      ],
       "cost": 8,
       "power": 1400,
       "strike": 3,
       "text": "ACT@[Consume 2 Material@] Choose 1 of the following that was not chosen this turn. \n・Choose 1 of your Pals, and it gets Power@+500/Strike@+1 until end of turn. \n・Choose 1 of your opponent's Pals, and deal 900 Damage@. \n・Choose 1 ◇3 or less Pal, and stand it.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-001",
@@ -3161,13 +3722,22 @@
       "kind": "Pal",
       "subKind": "Lucky Pal",
       "color": "Red",
-      "elements": ["Dark", "Fire"],
-      "workSuitability": ["Kindling", "Crafting", "Transporting"],
+      "elements": [
+        "Dark",
+        "Fire"
+      ],
+      "workSuitability": [
+        "Kindling",
+        "Crafting",
+        "Transporting"
+      ],
       "cost": 6,
       "power": 500,
       "strike": 1,
       "text": "AUTO@When this card 〈Interrupt〉, if you have 6 or more souls, you may deploy this card from graveyard in the rest state.\nACT@Interrupt (Hand@Quick@[①, discard this card] OR [Discard this card and 1 other card from hand] Nullify the opponent's attack. Battle damage does not occur)",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-002",
@@ -3200,13 +3770,21 @@
       "kind": "Pal",
       "subKind": "Lucky Pal",
       "color": "Red",
-      "elements": ["Fire"],
-      "workSuitability": ["Kindling", "Transporting", "Marcus"],
+      "elements": [
+        "Fire"
+      ],
+      "workSuitability": [
+        "Kindling",
+        "Transporting",
+        "Marcus"
+      ],
       "cost": 8,
       "power": 1100,
       "strike": 3,
       "text": "CONT@This card gets Power@+200 for each of your gears.\nAUTO@OnDeploy@Choose any number of ◇8 or greater gears with different card names from your hand, and deploy them.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-003",
@@ -3239,13 +3817,21 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Red",
-      "elements": ["Fire", "Dragon"],
-      "workSuitability": ["Kindling", "Harvesting"],
+      "elements": [
+        "Fire",
+        "Dragon"
+      ],
+      "workSuitability": [
+        "Kindling",
+        "Harvesting"
+      ],
       "cost": 5,
       "power": 700,
       "strike": 2,
       "text": "AUTO@OnDeploy@You may discard 1 Dragon@ Pal from hand. If you discarded a card this way, choose 1 Pal, and deal 700 Damage@.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-004",
@@ -3278,13 +3864,19 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Red",
-      "elements": ["Electric"],
-      "workSuitability": ["Electricity"],
+      "elements": [
+        "Electric"
+      ],
+      "workSuitability": [
+        "Electricity"
+      ],
       "cost": 4,
       "power": 500,
       "strike": 1,
       "text": "CONT@When this card would deal battle damage, deal double the battle damage instead.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-005",
@@ -3310,13 +3902,22 @@
       "kind": "Pal",
       "subKind": "Lucky Pal",
       "color": "Red",
-      "elements": ["Electric"],
-      "workSuitability": ["Electricity", "Crafting", "Collecting", "Transporting"],
+      "elements": [
+        "Electric"
+      ],
+      "workSuitability": [
+        "Electricity",
+        "Crafting",
+        "Collecting",
+        "Transporting"
+      ],
       "cost": 5,
       "power": 800,
       "strike": 2,
       "text": "ACT@[Consume 2 Material@] Choose up to 2 Pals, and deal 400 Damage@.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-006",
@@ -3342,13 +3943,22 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Red",
-      "elements": ["Fire"],
-      "workSuitability": ["Kindling", "Crafting", "Transporting", "Farming"],
+      "elements": [
+        "Fire"
+      ],
+      "workSuitability": [
+        "Kindling",
+        "Crafting",
+        "Transporting",
+        "Farming"
+      ],
       "cost": 2,
       "power": 100,
       "strike": 1,
       "text": "ACT@[Rest this card] Get 2 Material@.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-007",
@@ -3374,13 +3984,21 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Red",
-      "elements": ["Electric"],
-      "workSuitability": ["Electricity", "Crafting", "Transporting"],
+      "elements": [
+        "Electric"
+      ],
+      "workSuitability": [
+        "Electricity",
+        "Crafting",
+        "Transporting"
+      ],
       "cost": 4,
       "power": 600,
       "strike": 2,
       "text": "AUTO@OnDeploy@Get 2 Material@.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-008",
@@ -3406,13 +4024,20 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Red",
-      "elements": ["Fire"],
-      "workSuitability": ["Kindling", "Collecting"],
+      "elements": [
+        "Fire"
+      ],
+      "workSuitability": [
+        "Kindling",
+        "Collecting"
+      ],
       "cost": 6,
       "power": 700,
       "strike": 2,
       "text": "CONT@This card gets Power@+200 for each of your gears.\nAUTO@OnDeploy@Look at the top 5 cards of your deck, choose up to 1 gear from among them and add it to hand, and shuffle the rest of the cards with the deck.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-009",
@@ -3431,13 +4056,21 @@
       "kind": "Pal",
       "subKind": "Lucky Pal",
       "color": "Red",
-      "elements": ["Dragon", "Electric"],
-      "workSuitability": ["Electricity", "Transporting"],
+      "elements": [
+        "Dragon",
+        "Electric"
+      ],
+      "workSuitability": [
+        "Electricity",
+        "Transporting"
+      ],
       "cost": 7,
       "power": 1100,
       "strike": 3,
       "text": "CONT@Assault (This card can attack Pals in the stand state)\nAUTO@When the opposing combat Pal is put into the graveyard during this card's attack, stand this card.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-010",
@@ -3456,13 +4089,22 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Red",
-      "elements": ["Fire"],
-      "workSuitability": ["Kindling", "Harvesting", "Crafting", "Transporting"],
+      "elements": [
+        "Fire"
+      ],
+      "workSuitability": [
+        "Kindling",
+        "Harvesting",
+        "Crafting",
+        "Transporting"
+      ],
       "cost": 2,
       "power": 300,
       "strike": 1,
       "text": "",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-011",
@@ -3481,13 +4123,19 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Red",
-      "elements": ["Electric"],
-      "workSuitability": ["Electricity"],
+      "elements": [
+        "Electric"
+      ],
+      "workSuitability": [
+        "Electricity"
+      ],
       "cost": 3,
       "power": 200,
       "strike": 1,
       "text": "ACT@Interrupt (Hand@Quick@[①, discard this card] OR [Discard this card and 1 other card from hand] Nullify the opponent's attack. Battle damage does not occur)",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-012",
@@ -3506,13 +4154,19 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Red",
-      "elements": ["Fire"],
-      "workSuitability": ["Kindling"],
+      "elements": [
+        "Fire"
+      ],
+      "workSuitability": [
+        "Kindling"
+      ],
       "cost": 3,
       "power": 500,
       "strike": 1,
       "text": "",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-013",
@@ -3531,13 +4185,21 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Red",
-      "elements": ["Electric"],
-      "workSuitability": ["Electricity", "Harvesting", "Transporting"],
+      "elements": [
+        "Electric"
+      ],
+      "workSuitability": [
+        "Electricity",
+        "Harvesting",
+        "Transporting"
+      ],
       "cost": 7,
       "power": 1400,
       "strike": 3,
       "text": "AUTO@Brave 300 (OnAttack@This card gets Power@+300 until end of turn)",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-014",
@@ -3557,12 +4219,16 @@
       "subKind": null,
       "color": "Red",
       "elements": [],
-      "workSuitability": ["Kindling"],
+      "workSuitability": [
+        "Kindling"
+      ],
       "cost": 2,
       "power": 800,
       "strike": null,
       "text": "ACT@1Turn@[Assign 1 Pal] Get 3 Material@, and draw 1 card. \nACT@1Turn@[Consume 5 Material@] Look at your deck, choose up to 1 ◇8 or greater gear from the deck and add it to hand, and shuffle the deck.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-015",
@@ -3582,12 +4248,16 @@
       "subKind": null,
       "color": "Red",
       "elements": [],
-      "workSuitability": ["Collecting"],
+      "workSuitability": [
+        "Collecting"
+      ],
       "cost": 3,
       "power": 1000,
       "strike": null,
       "text": "ACT@1Turn@[Assign 1 Pal] Get 3 Material@, and draw 1 card. \nAUTO@At the end of your turn, get 1 Material@.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-016",
@@ -3612,7 +4282,9 @@
       "power": 900,
       "strike": null,
       "text": "AUTO@When your Pal is attacked, you may put this card into the graveyard. If you put a card this way, choose 1 attacking Pal, and deal 1500 Damage@.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-017",
@@ -3637,7 +4309,9 @@
       "power": null,
       "strike": null,
       "text": "AUTO@OnDeploy@Choose up to 3 Pals, and deal 1000 Damage@. \nACT@[Rest this card] Choose 1 Pal, and it gets Strike@+1 until end of turn.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-018",
@@ -3669,7 +4343,9 @@
       "power": null,
       "strike": null,
       "text": "CONT@When this card would be played, you may consume X Material@ and reduce this card's cost by X. It does not become ◇0 or less from this ability. \nACT@[Rest this card] Choose 1 Pal, it gets Power@+200 until end of turn, and if you have a ◇5 or greater Pal, choose all Pals, and deal 500 Damage@(Choose your Pals too).",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-019",
@@ -3694,7 +4370,9 @@
       "power": null,
       "strike": null,
       "text": "ACT@[Rest this card] Choose 1 Pal, and deal 200 Damage@. This card does not stand during your next stand phase.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-020",
@@ -3719,7 +4397,9 @@
       "power": null,
       "strike": null,
       "text": "AUTO@When your main name 《Mossanda Lux》 Pal consumes Material@ with ACT@, you may stand it. If you stood a card this way, return this card to hand. \nACT@[Rest this card] Choose 1 Pal, and it gets Power@+200 until end of turn.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-021",
@@ -3744,7 +4424,9 @@
       "power": null,
       "strike": null,
       "text": "Choose all of your Pals and gears, and stand them.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-022",
@@ -3783,7 +4465,9 @@
       "power": null,
       "strike": null,
       "text": "Look at the top 5 cards of your deck, choose up to 1 ◇8 or greater red card from among them and add it to hand, and shuffle the rest of the cards with the deck.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-023",
@@ -3815,7 +4499,9 @@
       "power": null,
       "strike": null,
       "text": "Quick@Choose 1 Pal, and deal 1000 Damage@.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-024",
@@ -3834,13 +4520,20 @@
       "kind": "Pal",
       "subKind": "Lucky Pal",
       "color": "Blue",
-      "elements": ["Ice"],
-      "workSuitability": ["Cooling", "Legendary"],
+      "elements": [
+        "Ice"
+      ],
+      "workSuitability": [
+        "Cooling",
+        "Legendary"
+      ],
       "cost": 8,
       "power": 1500,
       "strike": 3,
       "text": "CONT@Legendary (Only 1 〈Legendary〉 Pal with the same card name can be put into your base)\nCONT@Reduce the cost of Pals in your hand by 2. It does not become ◇0 or less from this ability. \nAUTO@At the end of your turn, draw until your hand has 4 cards.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-025",
@@ -3873,13 +4566,20 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Blue",
-      "elements": ["Ice"],
-      "workSuitability": ["Cooling", "Farming"],
+      "elements": [
+        "Ice"
+      ],
+      "workSuitability": [
+        "Cooling",
+        "Farming"
+      ],
       "cost": 5,
       "power": 700,
       "strike": 2,
       "text": "CONT@Reduce the cost of 〈Legendary〉 Pals in your hand by 1. It does not become ◇0 or less from this ability. \nAUTO@OnDeploy@Draw 1 card, choose 1 card from your hand, and discard it.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-026",
@@ -3912,13 +4612,20 @@
       "kind": "Pal",
       "subKind": "Lucky Pal",
       "color": "Blue",
-      "elements": ["Ice"],
-      "workSuitability": ["Harvesting", "Cooling"],
+      "elements": [
+        "Ice"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Cooling"
+      ],
       "cost": 6,
       "power": 1200,
       "strike": 2,
       "text": "AUTO@OnDeploy@Choose up to 101 main name 《Swee》 Pals from your hand, and deploy them.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-027",
@@ -3951,13 +4658,21 @@
       "kind": "Pal",
       "subKind": "Lucky Pal",
       "color": "Blue",
-      "elements": ["Ice"],
-      "workSuitability": ["Crafting", "Cooling", "Farming"],
+      "elements": [
+        "Ice"
+      ],
+      "workSuitability": [
+        "Crafting",
+        "Cooling",
+        "Farming"
+      ],
       "cost": 7,
       "power": 1000,
       "strike": 3,
       "text": "AUTO@Vigilance (At the end of your turn, stand this card)\nAUTO@When this card is assigned to a \"Farming\" structure, choose up to 1 ◇7 or less Pal, and rest it. While this card is in the base, that card does not stand.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-028",
@@ -3983,13 +4698,19 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Blue",
-      "elements": ["Ice"],
-      "workSuitability": ["Cooling"],
+      "elements": [
+        "Ice"
+      ],
+      "workSuitability": [
+        "Cooling"
+      ],
       "cost": 3,
       "power": 700,
       "strike": 1,
       "text": "AUTO@OnDeploy@You may reveal 1 〈Legendary〉 Pal from your hand, and if you did not reveal a card, rest this card.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-029",
@@ -4008,13 +4729,21 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Blue",
-      "elements": ["Water"],
-      "workSuitability": ["Harvesting", "Crafting", "Transporting"],
+      "elements": [
+        "Water"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Crafting",
+        "Transporting"
+      ],
       "cost": 4,
       "power": 600,
       "strike": 2,
       "text": "AUTO@OnAttack@You may reveal 3 blue cards from hand. If you revealed cards this way, this card gets Power@+500 until end of turn.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-030",
@@ -4033,13 +4762,20 @@
       "kind": "Pal",
       "subKind": "Lucky Pal",
       "color": "Blue",
-      "elements": ["Grass", "Water"],
-      "workSuitability": ["Harvesting"],
+      "elements": [
+        "Grass",
+        "Water"
+      ],
+      "workSuitability": [
+        "Harvesting"
+      ],
       "cost": 5,
       "power": 700,
       "strike": 2,
       "text": "CONT@This card gets Power@+300 for each of your structures. \nCONT@All of your structures get Durability@+500.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-031",
@@ -4058,13 +4794,20 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Blue",
-      "elements": ["Ice"],
-      "workSuitability": ["Harvesting", "Cooling"],
+      "elements": [
+        "Ice"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Cooling"
+      ],
       "cost": 8,
       "power": 1000,
       "strike": 3,
       "text": "AUTO@Vigilance (At the end of your turn, stand this card)\nAUTO@OnDeploy@Draw 1 card.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-032",
@@ -4083,13 +4826,23 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Blue",
-      "elements": ["Water", "Ice"],
-      "workSuitability": ["Harvesting", "Crafting", "Cooling", "Transporting"],
+      "elements": [
+        "Water",
+        "Ice"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Crafting",
+        "Cooling",
+        "Transporting"
+      ],
       "cost": 2,
       "power": 200,
       "strike": 1,
       "text": "AUTO@OnDeploy@Draw 1 card, choose 1 card from your hand, and discard it.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-033",
@@ -4115,13 +4868,20 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Blue",
-      "elements": ["Ice"],
-      "workSuitability": ["Harvesting", "Cooling"],
+      "elements": [
+        "Ice"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Cooling"
+      ],
       "cost": 3,
       "power": 400,
       "strike": 1,
       "text": "CONT@You may put up to 8 cards with the same card name as this card into your deck.\nAUTO@OnDeploy@If you have a total of 3 or more main name 《Sweepa》 and/or 《Swee》 Pals, draw 1 card.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-034",
@@ -4147,13 +4907,20 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Blue",
-      "elements": ["Water"],
-      "workSuitability": ["Harvesting", "Farming"],
+      "elements": [
+        "Water"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Farming"
+      ],
       "cost": 2,
       "power": 300,
       "strike": 1,
       "text": "",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-035",
@@ -4172,13 +4939,20 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Blue",
-      "elements": ["Water"],
-      "workSuitability": ["Harvesting", "Transporting"],
+      "elements": [
+        "Water"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Transporting"
+      ],
       "cost": 4,
       "power": 400,
       "strike": 2,
       "text": "ACT@Interrupt (Hand@Quick@[①, discard this card] OR [Discard this card and 1 other card from hand] Nullify the opponent's attack. Battle damage does not occur)",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-036",
@@ -4197,13 +4971,20 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Blue",
-      "elements": ["Ice"],
-      "workSuitability": ["Harvesting", "Cooling"],
+      "elements": [
+        "Ice"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Cooling"
+      ],
       "cost": 6,
       "power": 1200,
       "strike": 2,
       "text": "",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-037",
@@ -4222,13 +5003,19 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Blue",
-      "elements": ["Water"],
-      "workSuitability": ["Harvesting"],
+      "elements": [
+        "Water"
+      ],
+      "workSuitability": [
+        "Harvesting"
+      ],
       "cost": 7,
       "power": 1200,
       "strike": 3,
       "text": "ACT@Interrupt (Hand@Quick@[①, discard this card] OR [Discard this card and 1 other card from hand] Nullify the opponent's attack. Battle damage does not occur)",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-038",
@@ -4253,7 +5040,9 @@
       "power": 1600,
       "strike": null,
       "text": "AUTO@OnDeploy@Choose up to X ◇6 or less Pals or structures from your hand, and deploy them in the rest state. X is equal to the number of different card names among your structures with 《Antique》 in their card names (For example, if the current state has 4 《Antique Mirror》, and 《Antique Cabinet》 is deployed, deploy up to 2 cards).",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-039",
@@ -4280,12 +5069,16 @@
       "subKind": null,
       "color": "Blue",
       "elements": [],
-      "workSuitability": ["Harvesting"],
+      "workSuitability": [
+        "Harvesting"
+      ],
       "cost": 2,
       "power": 900,
       "strike": null,
       "text": "CONT@All of your blue Pals get Power@+200. \nAUTO@At the end of your turn, if you have 3 or more blue Pals, draw 1 card.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-040",
@@ -4310,7 +5103,9 @@
       "power": 900,
       "strike": null,
       "text": "ACT@1Turn@[Assign 1 Pal] Until end of the opponent's next turn, the Pal assigned to this card this turn cannot be chosen by the opponent's effects, and cannot be attacked.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-041",
@@ -4335,7 +5130,9 @@
       "power": 1200,
       "strike": null,
       "text": "AUTO@OnDeploy@Choose up to 1 ◇3 or less Pal, and return it to hand.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-042",
@@ -4360,7 +5157,9 @@
       "power": null,
       "strike": null,
       "text": "AUTO@OnDeploy@Choose up to 1 Pal, and rest it. That card does not stand during your opponent's next stand phase. \nACT@[Rest this card] Choose 1 Pal, it gets Power@+200 until end of turn, and if you have a ◇5 or greater Pal, draw 1 card.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-043",
@@ -4392,7 +5191,9 @@
       "power": null,
       "strike": null,
       "text": "CONT@Your main name 《Frostallion》 Pals cannot be chosen by the effects of your opponent's Pals. \nACT@[Rest this card] Choose 1 Pal, and it gets Power@+200 until end of turn.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-044",
@@ -4417,7 +5218,9 @@
       "power": null,
       "strike": null,
       "text": "AUTO@OnDeploy@Reveal the top 5 cards of your deck, choose any number of main name 《Swee》 Pals from among them, add them to hand, and shuffle the rest of the cards with the deck. \nACT@[Rest this card] Choose 1 Pal, and it gets Power@+200 until end of turn.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-045",
@@ -4442,7 +5245,9 @@
       "power": null,
       "strike": null,
       "text": "Choose 1 of your Pals, choose 1 Pal from your hand with the same cost as that card, and deploy it.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-046",
@@ -4481,7 +5286,9 @@
       "power": null,
       "strike": null,
       "text": "Look at the top 3 cards of your deck, choose up to 1 Pal and up to 1 structure from among them and add them to hand, and put the remaining cards on the bottom of the deck in any order.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-047",
@@ -4513,7 +5320,9 @@
       "power": null,
       "strike": null,
       "text": "Quick@Draw 1 card, choose up to 1 Pal, and rest it.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-048",
@@ -4532,13 +5341,21 @@
       "kind": "Pal",
       "subKind": "Lucky Pal",
       "color": "Green",
-      "elements": ["Ground"],
-      "workSuitability": ["Crafting", "Collecting", "Transporting"],
+      "elements": [
+        "Ground"
+      ],
+      "workSuitability": [
+        "Crafting",
+        "Collecting",
+        "Transporting"
+      ],
       "cost": 7,
       "power": 1200,
       "strike": 3,
       "text": "CONT@The cost of this card not in base is reduced by X. X is equal to the number of your Pals. It does not become ◇0 or less from this ability. \nAUTO@OnDeploy@Choose 1 of your Pals, and it gets Power@+500 until end of turn. \nAUTO@When this card is attacked, you may return this card to your hand.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-049",
@@ -4571,13 +5388,21 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Green",
-      "elements": ["Grass", "Ground"],
-      "workSuitability": ["Harvesting", "Collecting"],
+      "elements": [
+        "Grass",
+        "Ground"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Collecting"
+      ],
       "cost": 8,
       "power": 1200,
       "strike": 3,
       "text": "CONT@This card gets Power@+100 for each of your Ingredient@. \nAUTO@Breakthrough (When the opposing combat Pal is put into the graveyard during this card's attack, the opposing player is also dealt Damage@)",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-050",
@@ -4610,13 +5435,21 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Green",
-      "elements": ["Grass"],
-      "workSuitability": ["Harvesting", "Crafting", "Transporting"],
+      "elements": [
+        "Grass"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Crafting",
+        "Transporting"
+      ],
       "cost": 4,
       "power": 500,
       "strike": 2,
       "text": "ACT@[Consume 1 Ingredient@] Choose all of your green Pals, and they get Power@+300 until end of turn.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-051",
@@ -4649,13 +5482,21 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Green",
-      "elements": ["Ground"],
-      "workSuitability": ["Crafting", "Collecting", "Transporting"],
+      "elements": [
+        "Ground"
+      ],
+      "workSuitability": [
+        "Crafting",
+        "Collecting",
+        "Transporting"
+      ],
       "cost": 3,
       "power": 400,
       "strike": 1,
       "text": "AUTO@When this card attacks a structure, this card gets Power@+800 until end of turn.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-052",
@@ -4681,13 +5522,23 @@
       "kind": "Pal",
       "subKind": "Lucky Pal",
       "color": "Green",
-      "elements": ["Ground", "Water"],
-      "workSuitability": ["Harvesting", "Collecting", "Transporting", "Farming"],
+      "elements": [
+        "Ground",
+        "Water"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Collecting",
+        "Transporting",
+        "Farming"
+      ],
       "cost": 5,
       "power": 1000,
       "strike": 2,
       "text": "AUTO@When this card is put into the graveyard, get 6 Ingredient@.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-053",
@@ -4713,13 +5564,23 @@
       "kind": "Pal",
       "subKind": "Lucky Pal",
       "color": "Green",
-      "elements": ["Dragon", "Grass"],
-      "workSuitability": ["Harvesting", "Crafting", "Collecting", "Transporting"],
+      "elements": [
+        "Dragon",
+        "Grass"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Crafting",
+        "Collecting",
+        "Transporting"
+      ],
       "cost": 8,
       "power": 1500,
       "strike": 3,
       "text": "CONT@Taunt (Your opponent cannot attack other targets if a card with taunt can be targeted for an attack)\nCONT@This card cannot be chosen by the effects of structures and events.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-054",
@@ -4745,13 +5606,22 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Green",
-      "elements": ["Grass"],
-      "workSuitability": ["Harvesting", "Collecting", "Transporting", "Farming"],
+      "elements": [
+        "Grass"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Collecting",
+        "Transporting",
+        "Farming"
+      ],
       "cost": 2,
       "power": 100,
       "strike": 1,
       "text": "ACT@[Rest this card] Get 2 Ingredient@.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-055",
@@ -4777,13 +5647,21 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Green",
-      "elements": ["Grass"],
-      "workSuitability": ["Harvesting", "Crafting", "Collecting"],
+      "elements": [
+        "Grass"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Crafting",
+        "Collecting"
+      ],
       "cost": 3,
       "power": 400,
       "strike": 1,
       "text": "AUTO@When this card is put into the graveyard, increase your soul by 1 card in the rest state.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-056",
@@ -4809,13 +5687,19 @@
       "kind": "Pal",
       "subKind": "Lucky Pal",
       "color": "Green",
-      "elements": ["Ground"],
-      "workSuitability": ["Collecting"],
+      "elements": [
+        "Ground"
+      ],
+      "workSuitability": [
+        "Collecting"
+      ],
       "cost": 6,
       "power": 1300,
       "strike": 2,
       "text": "AUTO@When this card's opposing combat Pal is put into the graveyard, choose up to 1 structure or gear, and put it into the graveyard.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-057",
@@ -4834,13 +5718,19 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Green",
-      "elements": ["Ground"],
-      "workSuitability": ["Collecting"],
+      "elements": [
+        "Ground"
+      ],
+      "workSuitability": [
+        "Collecting"
+      ],
       "cost": 7,
       "power": 1400,
       "strike": 3,
       "text": "ACT@1Turn@[Consume 2 Ingredient@] This card gets Power@+500 until end of turn, choose up to 1 structure, and deal 1000 Damage@.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-058",
@@ -4859,13 +5749,20 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Green",
-      "elements": ["Grass"],
-      "workSuitability": ["Harvesting", "Crafting"],
+      "elements": [
+        "Grass"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Crafting"
+      ],
       "cost": 2,
       "power": 300,
       "strike": 1,
       "text": "",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-059",
@@ -4884,13 +5781,21 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Green",
-      "elements": ["Ground"],
-      "workSuitability": ["Harvesting", "Crafting", "Transporting"],
+      "elements": [
+        "Ground"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Crafting",
+        "Transporting"
+      ],
       "cost": 4,
       "power": 700,
       "strike": 2,
       "text": "",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-060",
@@ -4909,13 +5814,19 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Green",
-      "elements": ["Ground"],
-      "workSuitability": ["Harvesting"],
+      "elements": [
+        "Ground"
+      ],
+      "workSuitability": [
+        "Harvesting"
+      ],
       "cost": 5,
       "power": 600,
       "strike": 2,
       "text": "ACT@Interrupt (Hand@Quick@[①, discard this card] OR [Discard this card and 1 other card from hand] Nullify the opponent's attack. Battle damage does not occur)",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-061",
@@ -4934,13 +5845,19 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Green",
-      "elements": ["Ground"],
-      "workSuitability": ["Harvesting"],
+      "elements": [
+        "Ground"
+      ],
+      "workSuitability": [
+        "Harvesting"
+      ],
       "cost": 6,
       "power": 900,
       "strike": 2,
       "text": "ACT@Interrupt (Hand@Quick@[①, discard this card] OR [Discard this card and 1 other card from hand] Nullify the opponent's attack. Battle damage does not occur)",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-062",
@@ -4965,7 +5882,9 @@
       "power": 1500,
       "strike": null,
       "text": "ACT@1Turn@[Consume 3 Ingredient@] Choose 1 main name 《Mammorest》 Pal from your hand, and deploy it.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-063",
@@ -4992,12 +5911,16 @@
       "subKind": null,
       "color": "Green",
       "elements": [],
-      "workSuitability": ["Harvesting"],
+      "workSuitability": [
+        "Harvesting"
+      ],
       "cost": 2,
       "power": 800,
       "strike": null,
       "text": "ACT@1Turn@[Consume 1 Ingredient@, assign 1 Pal] Get 3 Ingredient@, gain 1 life, and draw 1 card.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-064",
@@ -5017,12 +5940,17 @@
       "subKind": null,
       "color": "Green",
       "elements": [],
-      "workSuitability": ["Kindling", "Electricity"],
+      "workSuitability": [
+        "Kindling",
+        "Electricity"
+      ],
       "cost": 4,
       "power": 1300,
       "strike": null,
       "text": "ACT@1Turn@[Consume 3 Ingredient@, assign 3 Pals] Get 5 Ingredient@, choose all of your Pals, stand them, and they get Power@+1000 until end of turn.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-065",
@@ -5042,12 +5970,16 @@
       "subKind": null,
       "color": "Green",
       "elements": [],
-      "workSuitability": ["Farming"],
+      "workSuitability": [
+        "Farming"
+      ],
       "cost": 1,
       "power": 600,
       "strike": null,
       "text": "ACT@1Turn@[Assign 1 Pal] Draw 1 card, choose 1 soul, and stand it.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-066",
@@ -5072,7 +6004,9 @@
       "power": 900,
       "strike": null,
       "text": "ACT@1Turn@Put the top card of your deck face down underneath this card (Only you can check the cards underneath). \nACT@1Turn@[②, Assign 1 Pal] Return all cards below this card to the owner's hand.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-067",
@@ -5097,7 +6031,9 @@
       "power": null,
       "strike": null,
       "text": "AUTO@When your main name 《Lifmunk》 Pal is deployed, choose up to 2 Pals, and they get Power@+300 until end of turn.\nACT@[Rest this card] Choose 1 Pal, and it gets Power@+200 until end of turn.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-068",
@@ -5129,7 +6065,9 @@
       "power": null,
       "strike": null,
       "text": "ACT@[Rest this card] Choose 1 Pal, it gets Power@+200 and the skill in 〈〉 until end of turn. 〈AUTO@When this card's opposing combat Pal is put into the graveyard, choose up to 2 souls, and stand them〉.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-069",
@@ -5154,7 +6092,9 @@
       "power": null,
       "strike": null,
       "text": "ACT@[Rest this card] Choose 1 Pal, and it gets Power@+300 until end of turn. If you have 10 or more souls, put this card into the graveyard.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-070",
@@ -5179,7 +6119,9 @@
       "power": null,
       "strike": null,
       "text": "Increase your soul by 10. If you had 10 or more souls before increasing, choose all of your souls, and stand them.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-071",
@@ -5218,7 +6160,9 @@
       "power": null,
       "strike": null,
       "text": "Quick@Choose 1 Pal, and it gets Power@+300 until end of turn.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-072",
@@ -5237,13 +6181,20 @@
       "kind": "Pal",
       "subKind": "Lucky Pal",
       "color": "Purple",
-      "elements": ["Dark"],
-      "workSuitability": ["Harvesting", "Legendary"],
+      "elements": [
+        "Dark"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Legendary"
+      ],
       "cost": 8,
       "power": 1500,
       "strike": 3,
       "text": "CONT@Legendary (Only 1 〈Legendary〉 Pal with the same card name can be put into your base)\nCONT@All of your other Pals get Power@+500. \nAUTO@At the end of your turn, your opponent discards until their hand has 4 cards.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-073",
@@ -5276,13 +6227,22 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Purple",
-      "elements": ["Dark", "Neutral"],
-      "workSuitability": ["Crafting", "Transporting", "Saya"],
+      "elements": [
+        "Dark",
+        "Neutral"
+      ],
+      "workSuitability": [
+        "Crafting",
+        "Transporting",
+        "Saya"
+      ],
       "cost": 8,
       "power": 700,
       "strike": 2,
       "text": "CONT@Hand@If your graveyard has 10 or more 〈Nocturnal〉 Pals, and it is night, reduce this card's cost by 5. \nCONT@Nocturnal (If it is night, this card gets Power@+300)",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-074",
@@ -5315,13 +6275,21 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Purple",
-      "elements": ["Dark"],
-      "workSuitability": ["Harvesting", "Collecting", "Transporting"],
+      "elements": [
+        "Dark"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Collecting",
+        "Transporting"
+      ],
       "cost": 4,
       "power": 500,
       "strike": 2,
       "text": "AUTO@OnDeploy@Put the top 3 cards of your deck into the graveyard. Choose up to 1 〈Legendary〉 Pal from your graveyard, and add it to hand.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-075",
@@ -5354,13 +6322,22 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Purple",
-      "elements": ["Dark", "Ground"],
-      "workSuitability": ["Harvesting", "Crafting", "Collecting"],
+      "elements": [
+        "Dark",
+        "Ground"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Crafting",
+        "Collecting"
+      ],
       "cost": 4,
       "power": 600,
       "strike": 2,
       "text": "CONT@Nocturnal (If it is night, this card gets Power@+300)",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-076",
@@ -5386,13 +6363,22 @@
       "kind": "Pal",
       "subKind": "Lucky Pal",
       "color": "Purple",
-      "elements": ["Grass", "Dark"],
-      "workSuitability": ["Harvesting", "Crafting", "Collecting"],
+      "elements": [
+        "Grass",
+        "Dark"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Crafting",
+        "Collecting"
+      ],
       "cost": 5,
       "power": 700,
       "strike": 2,
       "text": "AUTO@When your Pal is assigned, stand that Pal. That Pal cannot be assigned to the structure it was assigned to until end of turn.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-077",
@@ -5418,13 +6404,19 @@
       "kind": "Pal",
       "subKind": "Lucky Pal",
       "color": "Purple",
-      "elements": ["Dark"],
-      "workSuitability": ["Kindling"],
+      "elements": [
+        "Dark"
+      ],
+      "workSuitability": [
+        "Kindling"
+      ],
       "cost": 6,
       "power": 1200,
       "strike": 2,
       "text": "CONT@Nocturnal (If it is night, this card gets Power@+300)\nAUTO@OnDeploy@Choose up to 1 ◇7 or greater Pal, and it gets Power@-1200 until end of turn (It is not put into the graveyard even if Power@ becomes 0 or less).",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-078",
@@ -5450,13 +6442,19 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Purple",
-      "elements": ["Dark"],
-      "workSuitability": ["Harvesting"],
+      "elements": [
+        "Dark"
+      ],
+      "workSuitability": [
+        "Harvesting"
+      ],
       "cost": 3,
       "power": 400,
       "strike": 1,
       "text": "AUTO@OnDeploy@You may reveal 1 〈Legendary〉 Pal from hand. If you revealed a card this way, choose 1 Pal, and it gets Power@-500 until end of turn (It is not put into the graveyard even if Power@ becomes 0 or less).",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-079",
@@ -5482,13 +6480,20 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Purple",
-      "elements": ["Dark"],
-      "workSuitability": ["Harvesting", "Farming"],
+      "elements": [
+        "Dark"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Farming"
+      ],
       "cost": 3,
       "power": 300,
       "strike": 1,
       "text": "AUTO@When this card is assigned to a \"Farming\" structure, your opponent discards 1 card from hand.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-080",
@@ -5507,13 +6512,23 @@
       "kind": "Pal",
       "subKind": "Lucky Pal",
       "color": "Purple",
-      "elements": ["Dark", "Fire"],
-      "workSuitability": ["Kindling", "Crafting", "Collecting", "Farming"],
+      "elements": [
+        "Dark",
+        "Fire"
+      ],
+      "workSuitability": [
+        "Kindling",
+        "Crafting",
+        "Collecting",
+        "Farming"
+      ],
       "cost": 7,
       "power": 1200,
       "strike": 3,
       "text": "AUTO@OnAttack@Reveal the top 3 cards of your deck, choose up to 1 Pal from among them and add it to hand, and put the remaining cards into the graveyard.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-081",
@@ -5532,13 +6547,21 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Purple",
-      "elements": ["Dark"],
-      "workSuitability": ["Harvesting", "Crafting", "Transporting"],
+      "elements": [
+        "Dark"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Crafting",
+        "Transporting"
+      ],
       "cost": 2,
       "power": 200,
       "strike": 1,
       "text": "AUTO@OnAttack@If it is night, choose up to 1 ◇4 or less Pal in the stand state, and put it into the graveyard.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-082",
@@ -5564,13 +6587,22 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Purple",
-      "elements": ["Fire", "Dark"],
-      "workSuitability": ["Kindling", "Crafting", "Transporting"],
+      "elements": [
+        "Fire",
+        "Dark"
+      ],
+      "workSuitability": [
+        "Kindling",
+        "Crafting",
+        "Transporting"
+      ],
       "cost": 7,
       "power": 1200,
       "strike": 3,
       "text": "ACT@Interrupt (Hand@Quick@[①, discard this card] OR [Discard this card and 1 other card from hand] Nullify the opponent's attack. Battle damage does not occur)",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-083",
@@ -5596,13 +6628,21 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Purple",
-      "elements": ["Dark", "Water"],
-      "workSuitability": ["Harvesting", "Transporting"],
+      "elements": [
+        "Dark",
+        "Water"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Transporting"
+      ],
       "cost": 2,
       "power": 300,
       "strike": 1,
       "text": "",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-084",
@@ -5621,13 +6661,23 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Purple",
-      "elements": ["Fire", "Dark"],
-      "workSuitability": ["Kindling", "Crafting", "Collecting", "Transporting"],
+      "elements": [
+        "Fire",
+        "Dark"
+      ],
+      "workSuitability": [
+        "Kindling",
+        "Crafting",
+        "Collecting",
+        "Transporting"
+      ],
       "cost": 5,
       "power": 600,
       "strike": 2,
       "text": "ACT@Interrupt (Hand@Quick@[①, discard this card] OR [Discard this card and 1 other card from hand] Nullify the opponent's attack. Battle damage does not occur)",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-085",
@@ -5646,13 +6696,21 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Purple",
-      "elements": ["Dark"],
-      "workSuitability": ["Crafting", "Collecting", "Transporting"],
+      "elements": [
+        "Dark"
+      ],
+      "workSuitability": [
+        "Crafting",
+        "Collecting",
+        "Transporting"
+      ],
       "cost": 6,
       "power": 1200,
       "strike": 2,
       "text": "",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-086",
@@ -5672,12 +6730,17 @@
       "subKind": null,
       "color": "Purple",
       "elements": [],
-      "workSuitability": ["Electricity", "Crafting"],
+      "workSuitability": [
+        "Electricity",
+        "Crafting"
+      ],
       "cost": 4,
       "power": 1200,
       "strike": null,
       "text": "ACT@1Turn@[Assign X Pals] Choose X normal Pals without 〈Interrupt〉 from your graveyard, and return them to hand.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-087",
@@ -5704,12 +6767,16 @@
       "subKind": null,
       "color": "Purple",
       "elements": [],
-      "workSuitability": ["Electricity"],
+      "workSuitability": [
+        "Electricity"
+      ],
       "cost": 5,
       "power": 1500,
       "strike": null,
       "text": "ACT@1Turn@ [Put the top 3 cards of the deck into the graveyard] It becomes night until the end of the opponent's next turn. \nCONT@All of your 〈Nocturnal〉 Pals get the skill in 〈〉. 〈AUTO@Retaliate (When this card is put into the graveyard during battle, put the opposing combat Pal into the graveyard\n)〉.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-088",
@@ -5734,7 +6801,9 @@
       "power": 700,
       "strike": null,
       "text": "AUTO@When your opponent's ◇5 or less Pal attacks, that Pal gets Power@-500 until end of turn (It is not put into the graveyard even if Power@ becomes 0 or less).",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-089",
@@ -5759,7 +6828,9 @@
       "power": 1100,
       "strike": null,
       "text": "ACT@1Turn@[Put the top 3 cards of the deck into the graveyard] It becomes night until the end of the opponent's next turn. \nAUTO@At the end of your turn, if you have a 〈Nocturnal〉 Pal in the rest state, choose up to 1 ◇3 or less Pal, and put it into the graveyard.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-090",
@@ -5784,7 +6855,9 @@
       "power": null,
       "strike": null,
       "text": "CONT@During your turn, all of your purple Pals get Power@+100. \nACT@[Rest this card] Choose up to 7 of your opponent's Material@ and/or Ingredient@ in total, and your opponent loses them. Put this card into the graveyard.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-091",
@@ -5809,7 +6882,9 @@
       "power": null,
       "strike": null,
       "text": "AUTO@When your main name 《Frostallion Noct》 Pal is deployed, choose up to 1 ◇3 or less Pal from your graveyard, and deploy it in the rest state. \nACT@[Rest this card] Choose 1 Pal, and it gets Power@+200 until end of turn.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-092",
@@ -5834,7 +6909,9 @@
       "power": null,
       "strike": null,
       "text": "CONT@Your opponent cannot gain life. \nACT@[Rest this card] Choose 1 Pal, it gets Power@+200 until end of turn, if you have a ◇5 or greater Pal, choose up to 1 ◇5 or less Pal, and put it into the graveyard.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-093",
@@ -5859,7 +6936,9 @@
       "power": null,
       "strike": null,
       "text": "Choose all Pals, and put them into the graveyard.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-094",
@@ -5898,7 +6977,9 @@
       "power": null,
       "strike": null,
       "text": "Choose 1 Pal, and it gets Power@-1000 until end of turn. If it is night, put it into the graveyard instead (It is not put into the graveyard even if Power@ becomes 0 or less).",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-095",
@@ -5930,7 +7011,9 @@
       "power": null,
       "strike": null,
       "text": "Quick@Choose 1 Pal, and it gets the skill in 〈〉 until end of turn. 〈AUTO@Retaliate (When this card is put into the graveyard during battle, put the opposing combat Pal into the graveyard)〉.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-096",
@@ -5949,13 +7032,20 @@
       "kind": "Pal",
       "subKind": "Lucky Pal",
       "color": "Colorless",
-      "elements": ["Dragon"],
-      "workSuitability": ["Harvesting", "Legendary"],
+      "elements": [
+        "Dragon"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Legendary"
+      ],
       "cost": 8,
       "power": 1700,
       "strike": 3,
       "text": "CONT@Legendary (Only 1 〈Legendary〉 Pal with the same card name can be put into your base)\nACT@1Turn@[Exile 2 ◇7 or greater Pals from the graveyard] This card gets the skill in 〈〉 until end of turn. 〈AUTO@Vigilance〉. Then, if all of the cards exiled by this ability have 〈Legendary〉, choose up to 3 〈Legendary〉 Pals, and stand them.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-097",
@@ -5988,13 +7078,19 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Colorless",
-      "elements": ["Neutral"],
-      "workSuitability": ["Farming"],
+      "elements": [
+        "Neutral"
+      ],
+      "workSuitability": [
+        "Farming"
+      ],
       "cost": 3,
       "power": 300,
       "strike": 1,
       "text": "AUTO@When this card is assigned to a \"Farming\" structure, gain 1 life.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-098",
@@ -6013,13 +7109,19 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Colorless",
-      "elements": ["Neutral"],
-      "workSuitability": ["Collecting"],
+      "elements": [
+        "Neutral"
+      ],
+      "workSuitability": [
+        "Collecting"
+      ],
       "cost": 6,
       "power": 900,
       "strike": 2,
       "text": "ACT@Interrupt (Hand@Quick@[①, discard this card] OR [Discard this card and 1 other card from hand] Nullify the opponent's attack. Battle damage does not occur)",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-099",
@@ -6044,7 +7146,9 @@
       "power": null,
       "strike": null,
       "text": "Look at the top 5 cards of your deck, choose up to 1 〈Legendary〉 Pal from among them and add it to hand, and shuffle the rest of the cards with the deck. If you chose 0 cards, return this card to hand.",
-      "sets": ["EBP02"],
+      "sets": [
+        "EBP02"
+      ],
       "printings": [
         {
           "number": "EBP02-100",
@@ -6076,7 +7180,12 @@
       "power": null,
       "strike": null,
       "text": "",
-      "sets": ["EBP01", "ETD01", "ETD02", "PR2026"],
+      "sets": [
+        "EBP01",
+        "ETD01",
+        "ETD02",
+        "PR2026"
+      ],
       "printings": [
         {
           "number": "ESOUL-000",
@@ -6148,13 +7257,22 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Red",
-      "elements": ["Electric"],
-      "workSuitability": ["Electricity", "Crafting", "Collecting", "Transporting"],
+      "elements": [
+        "Electric"
+      ],
+      "workSuitability": [
+        "Electricity",
+        "Crafting",
+        "Collecting",
+        "Transporting"
+      ],
       "cost": 6,
       "power": 1000,
       "strike": 2,
       "text": "AUTO@OnDeploy@Choose all of your opponent's Pals, and deal 300 Damage@.",
-      "sets": ["ESS01"],
+      "sets": [
+        "ESS01"
+      ],
       "printings": [
         {
           "number": "ESS01-001",
@@ -6180,13 +7298,21 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Blue",
-      "elements": ["Ice", "Dragon"],
-      "workSuitability": ["Harvesting", "Cooling"],
+      "elements": [
+        "Ice",
+        "Dragon"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Cooling"
+      ],
       "cost": 6,
       "power": 1000,
       "strike": 2,
       "text": "AUTO@When this card's opposing combat Pal is put into the graveyard, draw 1 card.",
-      "sets": ["ESS01"],
+      "sets": [
+        "ESS01"
+      ],
       "printings": [
         {
           "number": "ESS01-002",
@@ -6212,13 +7338,22 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Purple",
-      "elements": ["Dark"],
-      "workSuitability": ["Crafting", "Collecting", "Transporting", "Farming"],
+      "elements": [
+        "Dark"
+      ],
+      "workSuitability": [
+        "Crafting",
+        "Collecting",
+        "Transporting",
+        "Farming"
+      ],
       "cost": 3,
       "power": 300,
       "strike": 1,
       "text": "CONT@Nocturnal (If it is night, this card gets Power@+300)\nAUTO@OnDeploy@If it is night, choose up to 1 structure, and it gets Durability@-500 until end of turn (It is not put into the graveyard even if Durability@ becomes 0 or less).",
-      "sets": ["ESS01"],
+      "sets": [
+        "ESS01"
+      ],
       "printings": [
         {
           "number": "ESS01-003",
@@ -6244,13 +7379,22 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Colorless",
-      "elements": ["Neutral"],
-      "workSuitability": ["Harvesting", "Crafting", "Collecting", "Transporting"],
+      "elements": [
+        "Neutral"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Crafting",
+        "Collecting",
+        "Transporting"
+      ],
       "cost": 3,
       "power": 300,
       "strike": 1,
       "text": "CONT@If you have 5 or more souls, this card gets Power@+200. \nCONT@If you have 10 or more souls, this card gets Power@+200.",
-      "sets": ["ESS01"],
+      "sets": [
+        "ESS01"
+      ],
       "printings": [
         {
           "number": "ESS01-004",
@@ -6276,13 +7420,22 @@
       "kind": "Pal",
       "subKind": "Lucky Pal",
       "color": "Colorless",
-      "elements": ["Dragon"],
-      "workSuitability": ["Harvesting", "Crafting", "Collecting", "Transporting"],
+      "elements": [
+        "Dragon"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Crafting",
+        "Collecting",
+        "Transporting"
+      ],
       "cost": 6,
       "power": 1300,
       "strike": 2,
       "text": "AUTO@When this card attacks a Pal or structure, choose up to 1 Pal or structure, and deal 700 Damage@.",
-      "sets": ["ESS01"],
+      "sets": [
+        "ESS01"
+      ],
       "printings": [
         {
           "number": "ESS01-005",
@@ -6308,13 +7461,22 @@
       "kind": "Pal",
       "subKind": "Lucky Pal",
       "color": "Red",
-      "elements": ["Electric"],
-      "workSuitability": ["Electricity", "Crafting", "Collecting", "Transporting"],
+      "elements": [
+        "Electric"
+      ],
+      "workSuitability": [
+        "Electricity",
+        "Crafting",
+        "Collecting",
+        "Transporting"
+      ],
       "cost": 7,
       "power": 1600,
       "strike": 4,
       "text": "CONT@Assault (This card can attack Pals in the stand state)",
-      "sets": ["ETD01"],
+      "sets": [
+        "ETD01"
+      ],
       "printings": [
         {
           "number": "ETD01-001",
@@ -6347,13 +7509,19 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Red",
-      "elements": ["Electric"],
-      "workSuitability": ["Electricity"],
+      "elements": [
+        "Electric"
+      ],
+      "workSuitability": [
+        "Electricity"
+      ],
       "cost": 2,
       "power": 300,
       "strike": 1,
       "text": "",
-      "sets": ["ETD01"],
+      "sets": [
+        "ETD01"
+      ],
       "printings": [
         {
           "number": "ETD01-002",
@@ -6372,13 +7540,20 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Red",
-      "elements": ["Fire"],
-      "workSuitability": ["Kindling", "Farming"],
+      "elements": [
+        "Fire"
+      ],
+      "workSuitability": [
+        "Kindling",
+        "Farming"
+      ],
       "cost": 3,
       "power": 500,
       "strike": 1,
       "text": "",
-      "sets": ["ETD01"],
+      "sets": [
+        "ETD01"
+      ],
       "printings": [
         {
           "number": "ETD01-003",
@@ -6397,13 +7572,19 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Red",
-      "elements": ["Fire"],
-      "workSuitability": ["Kindling"],
+      "elements": [
+        "Fire"
+      ],
+      "workSuitability": [
+        "Kindling"
+      ],
       "cost": 4,
       "power": 400,
       "strike": 2,
       "text": "ACT@Interrupt (Hand@Quick@[①, discard this card] OR [Discard this card and 1 other card from hand] Nullify the opponent's attack. Battle damage does not occur)",
-      "sets": ["ETD01"],
+      "sets": [
+        "ETD01"
+      ],
       "printings": [
         {
           "number": "ETD01-004",
@@ -6422,13 +7603,20 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Red",
-      "elements": ["Fire"],
-      "workSuitability": ["Kindling", "Collecting"],
+      "elements": [
+        "Fire"
+      ],
+      "workSuitability": [
+        "Kindling",
+        "Collecting"
+      ],
       "cost": 5,
       "power": 800,
       "strike": 2,
       "text": "AUTO@OnDeploy@Get 2 Material@.",
-      "sets": ["ETD01"],
+      "sets": [
+        "ETD01"
+      ],
       "printings": [
         {
           "number": "ETD01-005",
@@ -6454,13 +7642,22 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Red",
-      "elements": ["Electric"],
-      "workSuitability": ["Electricity", "Crafting", "Collecting", "Transporting"],
+      "elements": [
+        "Electric"
+      ],
+      "workSuitability": [
+        "Electricity",
+        "Crafting",
+        "Collecting",
+        "Transporting"
+      ],
       "cost": 6,
       "power": 1100,
       "strike": 2,
       "text": "ACT@[Consume 2 Material@] This card gets Power@+500 until end of turn.",
-      "sets": ["ETD01"],
+      "sets": [
+        "ETD01"
+      ],
       "printings": [
         {
           "number": "ETD01-006",
@@ -6479,13 +7676,20 @@
       "kind": "Pal",
       "subKind": "Lucky Pal",
       "color": "Red",
-      "elements": ["Fire"],
-      "workSuitability": ["Kindling", "Collecting"],
+      "elements": [
+        "Fire"
+      ],
+      "workSuitability": [
+        "Kindling",
+        "Collecting"
+      ],
       "cost": 8,
       "power": 1600,
       "strike": 3,
       "text": "AUTO@OnDeploy@Choose up to 1 Pal, and deal 1000 Damage@.",
-      "sets": ["ETD01"],
+      "sets": [
+        "ETD01"
+      ],
       "printings": [
         {
           "number": "ETD01-007",
@@ -6512,12 +7716,16 @@
       "subKind": null,
       "color": "Red",
       "elements": [],
-      "workSuitability": ["Collecting"],
+      "workSuitability": [
+        "Collecting"
+      ],
       "cost": 1,
       "power": 600,
       "strike": null,
       "text": "ACT@1Turn@[Assign 1 Pal] Get 3 Material@, and draw 1 card. (You can rest your standing Pal to assign it)",
-      "sets": ["ETD01"],
+      "sets": [
+        "ETD01"
+      ],
       "printings": [
         {
           "number": "ETD01-008",
@@ -6544,12 +7752,16 @@
       "subKind": null,
       "color": "Red",
       "elements": [],
-      "workSuitability": ["Crafting"],
+      "workSuitability": [
+        "Crafting"
+      ],
       "cost": 3,
       "power": 1100,
       "strike": null,
       "text": "ACT@1Turn@[Consume 1 Material@, assign 1 Pal] Choose up to 1 Pal, and deal 800 Damage@. Choose all of your Pals, and they get Strike@+1 until end of turn. (You can rest your standing Pal to assign it)",
-      "sets": ["ETD01"],
+      "sets": [
+        "ETD01"
+      ],
       "printings": [
         {
           "number": "ETD01-009",
@@ -6574,7 +7786,9 @@
       "power": null,
       "strike": null,
       "text": "AUTO@OnDeploy@Choose up to 1 Pal, and deal 1500 Damage@. \nACT@[Rest this card] Choose 1 Pal, and it gets Power@+200 until end of turn.",
-      "sets": ["ETD01"],
+      "sets": [
+        "ETD01"
+      ],
       "printings": [
         {
           "number": "ETD01-010",
@@ -6599,7 +7813,9 @@
       "power": null,
       "strike": null,
       "text": "Quick@Choose 1 Pal, and deal 500 Damage@.",
-      "sets": ["ETD01"],
+      "sets": [
+        "ETD01"
+      ],
       "printings": [
         {
           "number": "ETD01-011",
@@ -6625,13 +7841,21 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Blue",
-      "elements": ["Dragon", "Water"],
-      "workSuitability": ["Harvesting", "Collecting"],
+      "elements": [
+        "Dragon",
+        "Water"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Collecting"
+      ],
       "cost": 6,
       "power": 900,
       "strike": 2,
       "text": "AUTO@OnDeploy@Draw 2 cards, choose 1 card from your hand, and put it on the top of the deck.",
-      "sets": ["ETD01"],
+      "sets": [
+        "ETD01"
+      ],
       "printings": [
         {
           "number": "ETD01-012",
@@ -6664,13 +7888,19 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Blue",
-      "elements": ["Ice"],
-      "workSuitability": ["Cooling"],
+      "elements": [
+        "Ice"
+      ],
+      "workSuitability": [
+        "Cooling"
+      ],
       "cost": 2,
       "power": 300,
       "strike": 1,
       "text": "",
-      "sets": ["ETD01"],
+      "sets": [
+        "ETD01"
+      ],
       "printings": [
         {
           "number": "ETD01-013",
@@ -6689,13 +7919,23 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Blue",
-      "elements": ["Water", "Ice"],
-      "workSuitability": ["Harvesting", "Crafting", "Cooling", "Transporting"],
+      "elements": [
+        "Water",
+        "Ice"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Crafting",
+        "Cooling",
+        "Transporting"
+      ],
       "cost": 3,
       "power": 500,
       "strike": 1,
       "text": "",
-      "sets": ["ETD01"],
+      "sets": [
+        "ETD01"
+      ],
       "printings": [
         {
           "number": "ETD01-014",
@@ -6721,13 +7961,22 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Blue",
-      "elements": ["Ice"],
-      "workSuitability": ["Harvesting", "Crafting", "Cooling", "Transporting"],
+      "elements": [
+        "Ice"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Crafting",
+        "Cooling",
+        "Transporting"
+      ],
       "cost": 4,
       "power": 600,
       "strike": 2,
       "text": "AUTO@OnDeploy@Choose up to 1 ◇3 or less Pal, and rest it.",
-      "sets": ["ETD01"],
+      "sets": [
+        "ETD01"
+      ],
       "printings": [
         {
           "number": "ETD01-015",
@@ -6746,13 +7995,20 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Blue",
-      "elements": ["Ice"],
-      "workSuitability": ["Collecting", "Cooling"],
+      "elements": [
+        "Ice"
+      ],
+      "workSuitability": [
+        "Collecting",
+        "Cooling"
+      ],
       "cost": 5,
       "power": 600,
       "strike": 2,
       "text": "ACT@Interrupt (Hand@Quick@[①, discard this card] OR [Discard this card and 1 other card from hand] Nullify the opponent's attack. Battle damage does not occur)",
-      "sets": ["ETD01"],
+      "sets": [
+        "ETD01"
+      ],
       "printings": [
         {
           "number": "ETD01-016",
@@ -6771,13 +8027,19 @@
       "kind": "Pal",
       "subKind": "Lucky Pal",
       "color": "Blue",
-      "elements": ["Water"],
-      "workSuitability": ["Harvesting"],
+      "elements": [
+        "Water"
+      ],
+      "workSuitability": [
+        "Harvesting"
+      ],
       "cost": 7,
       "power": 1200,
       "strike": 3,
       "text": "AUTO@Vigilance (At the end of your turn, stand this card)",
-      "sets": ["ETD01"],
+      "sets": [
+        "ETD01"
+      ],
       "printings": [
         {
           "number": "ETD01-017",
@@ -6803,13 +8065,21 @@
       "kind": "Pal",
       "subKind": "Lucky Pal",
       "color": "Blue",
-      "elements": ["Ice", "Ground"],
-      "workSuitability": ["Collecting", "Cooling"],
+      "elements": [
+        "Ice",
+        "Ground"
+      ],
+      "workSuitability": [
+        "Collecting",
+        "Cooling"
+      ],
       "cost": 8,
       "power": 1700,
       "strike": 3,
       "text": "CONT@This card gets Power@+200 for each of your structures. \nACT@[Discard 1 structure from hand] This card gets Strike@+1 until end of turn.",
-      "sets": ["ETD01"],
+      "sets": [
+        "ETD01"
+      ],
       "printings": [
         {
           "number": "ETD01-018",
@@ -6841,7 +8111,9 @@
       "power": 1200,
       "strike": null,
       "text": "AUTO@OnDeploy@Choose up to 1 Pal, and it gets Power@+1000 until end of turn.",
-      "sets": ["ETD01"],
+      "sets": [
+        "ETD01"
+      ],
       "printings": [
         {
           "number": "ETD01-019",
@@ -6861,12 +8133,16 @@
       "subKind": null,
       "color": "Blue",
       "elements": [],
-      "workSuitability": ["Crafting"],
+      "workSuitability": [
+        "Crafting"
+      ],
       "cost": 3,
       "power": 1100,
       "strike": null,
       "text": "ACT@1Turn@[Assign 1 Pal] Reveal the top card of your deck, if it is a ◇6 or less structure or gear, you may deploy it. If you did not deploy it, add it to hand. (You can rest your standing Pal to assign it)",
-      "sets": ["ETD01"],
+      "sets": [
+        "ETD01"
+      ],
       "printings": [
         {
           "number": "ETD01-020",
@@ -6891,7 +8167,9 @@
       "power": null,
       "strike": null,
       "text": "AUTO@OnDeploy@Draw 1 card. \nACT@[Rest this card] Choose 1 Pal, and it gets Power@+200 until end of turn.",
-      "sets": ["ETD01"],
+      "sets": [
+        "ETD01"
+      ],
       "printings": [
         {
           "number": "ETD01-021",
@@ -6916,7 +8194,9 @@
       "power": null,
       "strike": null,
       "text": "Quick@Choose 1 Pal, and it gets Strike@-3 until end of turn. That card does not stand during your opponent's next stand phase.",
-      "sets": ["ETD01"],
+      "sets": [
+        "ETD01"
+      ],
       "printings": [
         {
           "number": "ETD01-022",
@@ -6942,13 +8222,22 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Colorless",
-      "elements": ["Neutral"],
-      "workSuitability": ["Crafting", "Transporting", "Farming"],
+      "elements": [
+        "Neutral"
+      ],
+      "workSuitability": [
+        "Crafting",
+        "Transporting",
+        "Farming"
+      ],
       "cost": 2,
       "power": 200,
       "strike": 1,
       "text": "CONT@This card cannot be attacked by ◇4 or greater Pals.",
-      "sets": ["ETD01", "PR2026"],
+      "sets": [
+        "ETD01",
+        "PR2026"
+      ],
       "printings": [
         {
           "number": "EPR-001",
@@ -6981,13 +8270,21 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Colorless",
-      "elements": ["Neutral"],
-      "workSuitability": ["Harvesting", "Crafting", "Transporting"],
+      "elements": [
+        "Neutral"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Crafting",
+        "Transporting"
+      ],
       "cost": 2,
       "power": 200,
       "strike": 1,
       "text": "AUTO@When this card is put into the graveyard, get 1 Material@.",
-      "sets": ["ETD01"],
+      "sets": [
+        "ETD01"
+      ],
       "printings": [
         {
           "number": "ETD01-024",
@@ -7013,13 +8310,22 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Green",
-      "elements": ["Grass"],
-      "workSuitability": ["Harvesting", "Crafting", "Collecting", "Transporting"],
+      "elements": [
+        "Grass"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Crafting",
+        "Collecting",
+        "Transporting"
+      ],
       "cost": 5,
       "power": 900,
       "strike": 2,
       "text": "",
-      "sets": ["ETD02"],
+      "sets": [
+        "ETD02"
+      ],
       "printings": [
         {
           "number": "ETD02-001",
@@ -7052,13 +8358,20 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Green",
-      "elements": ["Grass", "Ground"],
-      "workSuitability": ["Harvesting"],
+      "elements": [
+        "Grass",
+        "Ground"
+      ],
+      "workSuitability": [
+        "Harvesting"
+      ],
       "cost": 2,
       "power": 300,
       "strike": 1,
       "text": "",
-      "sets": ["ETD02"],
+      "sets": [
+        "ETD02"
+      ],
       "printings": [
         {
           "number": "ETD02-002",
@@ -7077,13 +8390,21 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Green",
-      "elements": ["Grass"],
-      "workSuitability": ["Harvesting", "Crafting", "Transporting"],
+      "elements": [
+        "Grass"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Crafting",
+        "Transporting"
+      ],
       "cost": 3,
       "power": 400,
       "strike": 1,
       "text": "AUTO@OnDeploy@Get 2 Ingredient@.",
-      "sets": ["ETD02"],
+      "sets": [
+        "ETD02"
+      ],
       "printings": [
         {
           "number": "ETD02-003",
@@ -7109,13 +8430,21 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Green",
-      "elements": ["Grass", "Dragon"],
-      "workSuitability": ["Harvesting", "Collecting"],
+      "elements": [
+        "Grass",
+        "Dragon"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Collecting"
+      ],
       "cost": 4,
       "power": 400,
       "strike": 2,
       "text": "ACT@Interrupt (Hand@Quick@[①, discard this card] OR [Discard this card and 1 other card from hand] Nullify the opponent's attack. Battle damage does not occur)",
-      "sets": ["ETD02"],
+      "sets": [
+        "ETD02"
+      ],
       "printings": [
         {
           "number": "ETD02-004",
@@ -7134,13 +8463,19 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Green",
-      "elements": ["Ground"],
-      "workSuitability": ["Collecting"],
+      "elements": [
+        "Ground"
+      ],
+      "workSuitability": [
+        "Collecting"
+      ],
       "cost": 6,
       "power": 800,
       "strike": 2,
       "text": "CONT@Taunt (Your opponent cannot attack other targets if a card with taunt can be targeted for an attack)\nACT@[Consume 2 Ingredient@] This card gets Power@+500 until end of turn.",
-      "sets": ["ETD02"],
+      "sets": [
+        "ETD02"
+      ],
       "printings": [
         {
           "number": "ETD02-005",
@@ -7159,13 +8494,19 @@
       "kind": "Pal",
       "subKind": "Lucky Pal",
       "color": "Green",
-      "elements": ["Grass"],
-      "workSuitability": ["Harvesting"],
+      "elements": [
+        "Grass"
+      ],
+      "workSuitability": [
+        "Harvesting"
+      ],
       "cost": 7,
       "power": 1500,
       "strike": 3,
       "text": "CONT@Taunt (Your opponent cannot attack other targets if a card with taunt can be targeted for an attack)",
-      "sets": ["ETD02"],
+      "sets": [
+        "ETD02"
+      ],
       "printings": [
         {
           "number": "ETD02-006",
@@ -7191,13 +8532,21 @@
       "kind": "Pal",
       "subKind": "Lucky Pal",
       "color": "Green",
-      "elements": ["Grass", "Ground"],
-      "workSuitability": ["Harvesting", "Collecting"],
+      "elements": [
+        "Grass",
+        "Ground"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Collecting"
+      ],
       "cost": 8,
       "power": 2000,
       "strike": 4,
       "text": "AUTO@When this card is put into the graveyard, get 3 Ingredient@.",
-      "sets": ["ETD02"],
+      "sets": [
+        "ETD02"
+      ],
       "printings": [
         {
           "number": "ETD02-007",
@@ -7224,12 +8573,16 @@
       "subKind": null,
       "color": "Green",
       "elements": [],
-      "workSuitability": ["Harvesting"],
+      "workSuitability": [
+        "Harvesting"
+      ],
       "cost": 1,
       "power": 600,
       "strike": null,
       "text": "ACT@1Turn@[Assign 1 Pal] Get 3 Ingredient@, and draw 1 card. (You can rest your standing Pal to assign it)",
-      "sets": ["ETD02"],
+      "sets": [
+        "ETD02"
+      ],
       "printings": [
         {
           "number": "ETD02-008",
@@ -7256,12 +8609,16 @@
       "subKind": null,
       "color": "Green",
       "elements": [],
-      "workSuitability": ["Kindling"],
+      "workSuitability": [
+        "Kindling"
+      ],
       "cost": 3,
       "power": 1100,
       "strike": null,
       "text": "ACT@1Turn@[Consume 2 Ingredient@, assign 1 Pal] You gain 1 life, choose all of your Pals, and they get Power@+1000 until end of turn. (You can rest your standing Pal to assign it)",
-      "sets": ["ETD02"],
+      "sets": [
+        "ETD02"
+      ],
       "printings": [
         {
           "number": "ETD02-009",
@@ -7286,7 +8643,9 @@
       "power": null,
       "strike": null,
       "text": "ACT@[Rest this card] Choose 1 Pal, and it gets Power@+900 until end of turn.",
-      "sets": ["ETD02"],
+      "sets": [
+        "ETD02"
+      ],
       "printings": [
         {
           "number": "ETD02-010",
@@ -7311,7 +8670,9 @@
       "power": null,
       "strike": null,
       "text": "Quick@Choose 1 Pal, and it gets Power@+500 until end of turn.",
-      "sets": ["ETD02"],
+      "sets": [
+        "ETD02"
+      ],
       "printings": [
         {
           "number": "ETD02-011",
@@ -7330,13 +8691,21 @@
       "kind": "Pal",
       "subKind": "Lucky Pal",
       "color": "Purple",
-      "elements": ["Dragon", "Dark"],
-      "workSuitability": ["Crafting", "Collecting"],
+      "elements": [
+        "Dragon",
+        "Dark"
+      ],
+      "workSuitability": [
+        "Crafting",
+        "Collecting"
+      ],
       "cost": 8,
       "power": 1200,
       "strike": 3,
       "text": "AUTO@OnDeploy@Choose up to 1 Pal, and it gets Power@-1000 until end of turn (It is not put into the graveyard even if Power@ becomes 0 or less). \nAUTO@OnAttack@Choose all Pals with Power@300 or less, and put them into the graveyard (Choose your Pals too).",
-      "sets": ["ETD02"],
+      "sets": [
+        "ETD02"
+      ],
       "printings": [
         {
           "number": "ETD02-012",
@@ -7369,13 +8738,19 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Purple",
-      "elements": ["Dark"],
-      "workSuitability": ["Harvesting"],
+      "elements": [
+        "Dark"
+      ],
+      "workSuitability": [
+        "Harvesting"
+      ],
       "cost": 2,
       "power": 300,
       "strike": 1,
       "text": "",
-      "sets": ["ETD02"],
+      "sets": [
+        "ETD02"
+      ],
       "printings": [
         {
           "number": "ETD02-013",
@@ -7394,13 +8769,21 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Purple",
-      "elements": ["Dark"],
-      "workSuitability": ["Harvesting", "Crafting", "Transporting"],
+      "elements": [
+        "Dark"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Crafting",
+        "Transporting"
+      ],
       "cost": 3,
       "power": 200,
       "strike": 1,
       "text": "AUTO@When this card is put into the graveyard, your opponent chooses 1 card from their hand, and discards it.",
-      "sets": ["ETD02"],
+      "sets": [
+        "ETD02"
+      ],
       "printings": [
         {
           "number": "ETD02-014",
@@ -7426,13 +8809,20 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Purple",
-      "elements": ["Dark"],
-      "workSuitability": ["Collecting", "Farming"],
+      "elements": [
+        "Dark"
+      ],
+      "workSuitability": [
+        "Collecting",
+        "Farming"
+      ],
       "cost": 4,
       "power": 300,
       "strike": 2,
       "text": "CONT@Stealth (This card cannot be blocked)",
-      "sets": ["ETD02"],
+      "sets": [
+        "ETD02"
+      ],
       "printings": [
         {
           "number": "ETD02-015",
@@ -7451,13 +8841,23 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Purple",
-      "elements": ["Fire", "Dark"],
-      "workSuitability": ["Kindling", "Crafting", "Collecting", "Transporting"],
+      "elements": [
+        "Fire",
+        "Dark"
+      ],
+      "workSuitability": [
+        "Kindling",
+        "Crafting",
+        "Collecting",
+        "Transporting"
+      ],
       "cost": 5,
       "power": 900,
       "strike": 2,
       "text": "",
-      "sets": ["ETD02"],
+      "sets": [
+        "ETD02"
+      ],
       "printings": [
         {
           "number": "ETD02-016",
@@ -7483,13 +8883,21 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Purple",
-      "elements": ["Fire", "Dark"],
-      "workSuitability": ["Kindling", "Collecting"],
+      "elements": [
+        "Fire",
+        "Dark"
+      ],
+      "workSuitability": [
+        "Kindling",
+        "Collecting"
+      ],
       "cost": 6,
       "power": 900,
       "strike": 2,
       "text": "ACT@Interrupt (Hand@Quick@[①, discard this card] OR [Discard this card and 1 other card from hand] Nullify the opponent's attack. Battle damage does not occur)",
-      "sets": ["ETD02"],
+      "sets": [
+        "ETD02"
+      ],
       "printings": [
         {
           "number": "ETD02-017",
@@ -7508,13 +8916,19 @@
       "kind": "Pal",
       "subKind": "Lucky Pal",
       "color": "Purple",
-      "elements": ["Dark"],
-      "workSuitability": ["Crafting"],
+      "elements": [
+        "Dark"
+      ],
+      "workSuitability": [
+        "Crafting"
+      ],
       "cost": 7,
       "power": 1000,
       "strike": 3,
       "text": "CONT@Stealth (This card cannot be blocked)\nAUTO@OnAttack@Gain 1 life.",
-      "sets": ["ETD02"],
+      "sets": [
+        "ETD02"
+      ],
       "printings": [
         {
           "number": "ETD02-018",
@@ -7546,7 +8960,9 @@
       "power": 900,
       "strike": null,
       "text": "ACT@1Turn@[Assign 1 Pal] If there are no Pals exiled by this card in the exile zone, choose 1 Pal, and exile it. (You can rest your standing Pal to assign it)\nAUTO@When this card leaves the base, deploy the Pal exiled by this card into the owner's base in the rest state.",
-      "sets": ["ETD02"],
+      "sets": [
+        "ETD02"
+      ],
       "printings": [
         {
           "number": "ETD02-019",
@@ -7571,7 +8987,9 @@
       "power": null,
       "strike": null,
       "text": "ACT@[Rest this card] Choose 1 Pal, and it gets Power@+200 and the skill in 〈〉 until end of turn. 〈CONT@Stealth (This card cannot be blocked)〉.",
-      "sets": ["ETD02"],
+      "sets": [
+        "ETD02"
+      ],
       "printings": [
         {
           "number": "ETD02-020",
@@ -7596,7 +9014,9 @@
       "power": null,
       "strike": null,
       "text": "Choose 1 Pal, and put it into the graveyard.",
-      "sets": ["ETD02"],
+      "sets": [
+        "ETD02"
+      ],
       "printings": [
         {
           "number": "ETD02-021",
@@ -7628,7 +9048,9 @@
       "power": null,
       "strike": null,
       "text": "Choose 1 ◇8 or less Pal from your graveyard, and deploy it in the rest state.",
-      "sets": ["ETD02"],
+      "sets": [
+        "ETD02"
+      ],
       "printings": [
         {
           "number": "ETD02-022",
@@ -7647,13 +9069,22 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Colorless",
-      "elements": ["Neutral"],
-      "workSuitability": ["Harvesting", "Crafting", "Collecting", "Transporting"],
+      "elements": [
+        "Neutral"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Crafting",
+        "Collecting",
+        "Transporting"
+      ],
       "cost": 2,
       "power": 200,
       "strike": 1,
       "text": "CONT@This card cannot be attacked by ◇3 or less Pals.",
-      "sets": ["ETD02"],
+      "sets": [
+        "ETD02"
+      ],
       "printings": [
         {
           "number": "ETD02-023",
@@ -7679,13 +9110,20 @@
       "kind": "Pal",
       "subKind": "Normal Pal",
       "color": "Colorless",
-      "elements": ["Neutral"],
-      "workSuitability": ["Harvesting", "Farming"],
+      "elements": [
+        "Neutral"
+      ],
+      "workSuitability": [
+        "Harvesting",
+        "Farming"
+      ],
       "cost": 2,
       "power": 200,
       "strike": 1,
       "text": "AUTO@When this card is put into the graveyard, get 1 Ingredient@.",
-      "sets": ["ETD02"],
+      "sets": [
+        "ETD02"
+      ],
       "printings": [
         {
           "number": "ETD02-024",

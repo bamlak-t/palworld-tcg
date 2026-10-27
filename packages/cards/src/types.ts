@@ -1,7 +1,9 @@
 export type CardKind = 'Pal' | 'Structure' | 'Gear' | 'Event' | 'Soul';
 export type PalSubKind = 'Normal Pal' | 'Lucky Pal';
 export type CardColor = 'Red' | 'Blue' | 'Green' | 'Purple';
-export type Element = 'Neutral' | 'Fire' | 'Water' | 'Grass' | 'Electric' | 'Ground' | 'Ice' | 'Dark' | 'Dragon';
+export type Element =
+  | 'Neutral' | 'Fire' | 'Water' | 'Grass' | 'Electric'
+  | 'Ground' | 'Ice' | 'Dark' | 'Dragon';
 
 /** One physical printing (alt arts, promos) of a card. */
 export interface Printing {

@@ -1,6 +1,8 @@
 /** Splits official card text into plain text and icon tokens for rendering. */
 export type TextToken =
-  { kind: 'text'; value: string } | { kind: 'icon'; token: string; file: string } | { kind: 'newline' };
+  | { kind: 'text'; value: string }
+  | { kind: 'icon'; token: string; file: string }
+  | { kind: 'newline' };
 
 export function tokenizeText(text: string, textIcons: Record<string, string>): TextToken[] {
   // Longest tokens first so "◇10" wins over "◇1".
