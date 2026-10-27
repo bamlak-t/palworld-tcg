@@ -191,6 +191,7 @@ export interface Resolution {
   x?: number;
   /** Pals assigned to pay the cost. */
   assignedIds?: string[];
+  exiledIds?: string[];
 }
 
 /** A decision the engine is waiting on. Options are always listed by the engine. */

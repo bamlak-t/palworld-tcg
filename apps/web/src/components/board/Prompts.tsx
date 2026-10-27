@@ -5,6 +5,7 @@ import { Maximize2 } from 'lucide-react';
 import { getCard } from '@pal/cards';
 import type { Action, GameView, PendingChoice, Seat } from '@pal/engine';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import { GameCard } from '@/components/game/GameCard';
 import { cn } from '@/lib/utils';
@@ -162,8 +163,10 @@ function EffectChoice({
 
   return (
     <Modal title={source?.mainName ?? 'Choose'} description={pending.prompt}>
-      {labels.length > 0 ? (
-        <div className="flex justify-center gap-2">
+      {labels.length > LONG_LIST ? (
+        <SearchList options={labels} onPick={(id) => dispatch({ type: 'answer', choice: [id] })} />
+      ) : labels.length > 0 ? (
+        <div className="flex flex-wrap justify-center gap-2">
           {labels.map((o) => (
             <Button
               key={o.id}
@@ -190,6 +193,34 @@ function EffectChoice({
         </>
       )}
     </Modal>
+  );
+}
+
+/** Above this many text options (e.g. "declare a card name"), show a searchable list. */
+const LONG_LIST = 8;
+
+function SearchList({ options, onPick }: { options: { id: string; label?: string }[]; onPick: (id: string) => void }) {
+  const [query, setQuery] = useState('');
+  const q = query.trim().toLowerCase();
+  const shown = options.filter((o) => (o.label ?? o.id).toLowerCase().includes(q));
+  return (
+    <div className="flex flex-col gap-2">
+      <Input autoFocus placeholder="Search" value={query} onChange={(e) => setQuery(e.target.value)} />
+      <ul className="max-h-72 overflow-y-auto rounded-md border">
+        {shown.map((o) => (
+          <li key={o.id}>
+            <button
+              type="button"
+              className="w-full px-3 py-1.5 text-left text-sm hover:bg-muted"
+              onClick={() => onPick(o.id)}
+            >
+              {o.label ?? o.id}
+            </button>
+          </li>
+        ))}
+        {shown.length === 0 && <li className="px-3 py-1.5 text-sm text-muted-foreground">No matches</li>}
+      </ul>
+    </div>
   );
 }
 

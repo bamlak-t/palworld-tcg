@@ -466,6 +466,7 @@ function activate(ctx: Ctx, seat: Seat, action: ActionOf<'activate'>, inQuickSte
       ability: ref,
       x,
       assignedIds: choice.assignIds ?? (choice.assignId ? [choice.assignId] : []),
+      exiledIds: choice.exileIds ?? [],
     })
   )
     return;
@@ -746,6 +747,19 @@ function lethalAndLosses(ctx: Ctx): boolean {
     lethal.some((c) => c.id === combat.targetId)
       ? { seat: s.cards[combat.targetId]!.owner, amount: strikeOf(s, attacker) }
       : null;
+
+  // "When this card's opposing combat Pal is put into the graveyard": queued from the
+  // cards as they are now, before either leaves the base.
+  if (combat) {
+    for (const [mine, theirs] of [
+      [combat.attackerId, combat.targetId],
+      [combat.targetId, combat.attackerId],
+    ] as const) {
+      const self = s.cards[mine];
+      if (self && isPal(self) && lethal.some((c) => c.id === theirs) && isPal(s.cards[theirs]!))
+        enqueue(ctx, self, 'onBeatOpponent', { subjectId: theirs });
+    }
+  }
 
   for (const c of lethal) {
     leaveBase(ctx, c, 'graveyard');

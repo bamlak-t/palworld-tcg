@@ -101,6 +101,26 @@ export const millForNight: ActAbility = {
   effect: (e) => e.setNightUntilEndOfOpponentsNextTurn(),
 };
 
+/** "Reveal/look at the top N, choose up to 1 [match] to hand, put the rest into the graveyard." */
+export function revealTopToHand(e: EffectApi, n: number, what: string, match: (c: CardInstance) => boolean, min = 0) {
+  const top = e.lookTop(n);
+  e.reveal(top);
+  const options = top.filter(match);
+  const [chosen] = e.choose({ prompt: `Choose ${min ? 1 : 'up to 1'} ${what} to add to hand.`, options, min, max: 1 });
+  if (chosen) e.addToHand(e.s.cards[chosen]!);
+  e.millTop(top.length - (chosen ? 1 : 0));
+}
+
+/** Rest a Pal; it doesn't stand during its controller's next stand phase. */
+export const restAndSkip = (e: EffectApi, c: CardInstance) => {
+  e.rest(c);
+  e.skipNextStand(c);
+};
+
+/** Number of different card names with 《Antique》 among your structures (Antique Curtain, Cabinet). */
+export const antiqueNameCount = (e: EffectApi) =>
+  new Set(e.structuresOf(e.me).flatMap((c) => e.names(c).filter((n) => n.includes('Antique')))).size;
+
 // Card facts ----------------------------------------------------------------
 
 export const isPalDef = (def: CardDef) => def.kind === 'Pal';

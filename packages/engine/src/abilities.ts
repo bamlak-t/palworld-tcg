@@ -18,6 +18,8 @@ export interface EffectApi {
   readonly x: number;
   /** Pals assigned to pay this ability's cost. */
   readonly assigned: CardInstance[];
+  /** Cards exiled to pay this ability's cost. */
+  readonly exiledForCost: CardInstance[];
 
   // Queries
   pals(filter?: (c: CardInstance) => boolean): CardInstance[];
@@ -112,6 +114,8 @@ export interface EffectApi {
   setNightUntilEndOfOpponentsNextTurn(): void;
   nullifyAttack(): void;
   setTurnFlag(flag: 'mustAttack' | 'noAssign', seat?: Seat): void;
+  /** The Pal can't be assigned to this structure again this turn. */
+  blockAssign(pal: CardInstance, structure: CardInstance): void;
   /** Queues this card's delayed[key] ability for the end of the current turn. */
   atEndOfTurn(key: string): void;
   declareName(name: string): void;
@@ -195,6 +199,7 @@ export interface CardScript {
   onAssign?: Effect;
   onAttacked?: Effect;
   onBattleEnd?: Effect;
+  /** "When this card's opposing combat Pal is put into the graveyard" (subject: that Pal). */
   onBeatOpponent?: Effect;
   onInterrupt?: Effect;
   watchers?: Watcher[];

@@ -5,6 +5,7 @@ import { costOf, defOf, isPal, isStructure } from '../cards.ts';
 import { hasKeyword, hasMainName, isNight } from '../stats.ts';
 import type { CardInstance } from '../types.ts';
 import {
+  antiqueNameCount,
   assignForResource,
   colorOf,
   costAtMost,
@@ -15,6 +16,8 @@ import {
   isPalDef,
   millForNight,
   restForPower,
+  restAndSkip,
+  revealTopToHand,
   searchTop,
   workOf,
 } from './shared.ts';
@@ -22,22 +25,6 @@ import {
 const isRed = (c: CardInstance) => colorOf(c) === 'Red';
 const myPal = (self: CardInstance, c: CardInstance) => isPal(c) && c.owner === self.owner;
 const gearCount = (e: EffectApi) => e.gearsOf(e.me).length;
-
-/** "Reveal/look at the top N, choose up to 1 [match] to hand, put the rest into the graveyard." */
-function revealTopToHand(e: EffectApi, n: number, what: string, match: (c: CardInstance) => boolean, min = 0) {
-  const top = e.lookTop(n);
-  e.reveal(top);
-  const options = top.filter(match);
-  const [chosen] = e.choose({ prompt: `Choose ${min ? 1 : 'up to 1'} ${what} to add to hand.`, options, min, max: 1 });
-  if (chosen) e.addToHand(e.s.cards[chosen]!);
-  e.millTop(top.length - (chosen ? 1 : 0));
-}
-
-/** Rest a Pal; it doesn't stand during its controller's next stand phase. */
-const restAndSkip = (e: EffectApi, c: CardInstance) => {
-  e.rest(c);
-  e.skipNextStand(c);
-};
 
 const breakthroughAct = {
   label: '+500 power and Breakthrough',
@@ -341,8 +328,7 @@ export const EBP01: Record<string, CardScript> = {
   // Antique Curtain
   'EBP01-039': {
     onDeploy: (e) => {
-      const names = new Set(e.structuresOf(e.me).flatMap((c) => e.names(c).filter((n) => n.includes('Antique'))));
-      const x = names.size;
+      const x = antiqueNameCount(e);
       for (const c of e.chooseUpTo(x, `Choose up to ${x} of your opponent's Pals to return to hand.`, e.palsOf(e.opp)))
         e.addToHand(c);
     },

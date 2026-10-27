@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Copy, Download, Maximize2, Minus, Plus, Search, Trash2, Upload } from 'lucide-react';
 import { getCard, type CardDef } from '@pal/cards';
-import { copyLimit, isImplemented } from '@pal/engine';
+import { copyLimit } from '@pal/engine';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
@@ -221,7 +221,6 @@ function CardPool(props: {
   const [kinds, setKinds] = useState<string[]>([]);
   const [colors, setColors] = useState<string[]>([]);
   const [lucky, setLucky] = useState(false);
-  const [playableOnly, setPlayableOnly] = useState(false);
 
   const cards = useMemo(
     () =>
@@ -232,8 +231,8 @@ function CardPool(props: {
         colors,
         subKind: lucky ? 'Lucky Pal' : '',
         sort: 'cost',
-      }).filter((c) => !playableOnly || isImplemented(c.id)),
-    [query, kinds, colors, lucky, playableOnly],
+      }),
+    [query, kinds, colors, lucky],
   );
 
   return (
@@ -285,15 +284,6 @@ function CardPool(props: {
         >
           Lucky
         </Button>
-        <Button
-          size="sm"
-          variant={playableOnly ? 'default' : 'outline'}
-          onClick={() => setPlayableOnly((v) => !v)}
-          aria-pressed={playableOnly}
-          title="Only cards whose text the game fully enforces"
-        >
-          Fully playable only
-        </Button>
       </div>
       <p className="text-xs text-muted-foreground">
         {cards.length} cards
@@ -316,22 +306,10 @@ function CardPool(props: {
               >
                 <CardFace card={c} className="aspect-[400/559] bg-muted" />
               </button>
-              {(n > 0 || !isImplemented(c.id)) && (
-                <div className="pointer-events-none absolute top-1 right-1 flex flex-col items-end gap-0.5">
-                  {n > 0 && (
-                    <span className="rounded-full bg-primary px-1.5 text-xs font-bold text-primary-foreground tabular-nums">
-                      ×{n}
-                    </span>
-                  )}
-                  {!isImplemented(c.id) && (
-                    <span
-                      className="rounded bg-amber-500/90 px-1 text-[9px] font-bold text-amber-950"
-                      title="This card's text isn't automated yet"
-                    >
-                      Stats only
-                    </span>
-                  )}
-                </div>
+              {n > 0 && (
+                <span className="pointer-events-none absolute top-1 right-1 rounded-full bg-primary px-1.5 text-xs font-bold text-primary-foreground tabular-nums">
+                  ×{n}
+                </span>
               )}
 
               <div className="absolute right-1 bottom-1 flex gap-1 opacity-0 transition group-hover:opacity-100 focus-within:opacity-100">
@@ -429,12 +407,6 @@ function DeckPanel(props: {
           ))}
         </ul>
       )}
-      {check.unscripted.length > 0 && (
-        <p className="rounded-md bg-amber-500/15 px-2 py-1.5 text-xs text-amber-800 dark:text-amber-300">
-          {check.unscripted.length} card{check.unscripted.length > 1 ? 's' : ''} marked "Stats only": their text isn't
-          automated yet, so in a game they only use their cost, power and strike.
-        </p>
-      )}
 
       <div className="flex max-h-[50dvh] flex-col gap-3 overflow-y-auto pr-1 lg:max-h-[calc(100dvh-24rem)]">
         {groups.length === 0 && <p className="py-6 text-center text-sm text-muted-foreground">No cards yet.</p>}
@@ -453,9 +425,6 @@ function DeckPanel(props: {
                     onClick={() => props.onInspect(def)}
                   >
                     {def.name}
-                    {!isImplemented(def.id) && (
-                      <span className="ml-1 text-[10px] text-amber-600 dark:text-amber-400">stats only</span>
-                    )}
                   </button>
                   {!props.readOnly && (
                     <button

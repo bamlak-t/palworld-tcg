@@ -194,6 +194,9 @@ function makeApi(ctx: Ctx, r: Resolution): EffectApi {
     me,
     opp,
     x: r.x ?? 0,
+    get exiledForCost() {
+      return (r.exiledIds ?? []).map((id) => card(ctx.s, id));
+    },
     get assigned() {
       return (r.assignedIds ?? []).map((id) => card(ctx.s, id));
     },
@@ -426,6 +429,9 @@ function makeApi(ctx: Ctx, r: Resolution): EffectApi {
       const flags = (s().turnFlags ??= { mustAttack: [], noAssign: [] });
       if (!flags[flag].includes(seat)) flags[flag].push(seat);
     },
+    blockAssign(pal, structure) {
+      (s().turnMemory ??= []).push(blockKey(structure.id, pal.id));
+    },
     atEndOfTurn(key) {
       (s().delayed ??= []).push({ sourceId: r.sourceId, cardId: r.cardId, controller: me, key, atTurn: s().turn });
     },
@@ -440,10 +446,18 @@ function makeApi(ctx: Ctx, r: Resolution): EffectApi {
 // Activated ability costs (§10.4)
 // ---------------------------------------------------------------------------
 
+const blockKey = (structureId: string, palId: string) => `noAssign:${structureId}:${palId}`;
+
 const assignable = (s: GameState, seat: Seat, self: CardInstance) =>
   s.turnFlags?.noAssign.includes(seat)
     ? []
-    : s.players[seat].base.filter((id) => id !== self.id && isPal(s.cards[id]!) && !s.cards[id]!.rested);
+    : s.players[seat].base.filter(
+        (id) =>
+          id !== self.id &&
+          isPal(s.cards[id]!) &&
+          !s.cards[id]!.rested &&
+          !(s.turnMemory ?? []).includes(blockKey(self.id, id)),
+      );
 
 const discardable = (s: GameState, seat: Seat, self: CardInstance, spec: CostSpec) =>
   s.players[seat].hand.filter((id) => {

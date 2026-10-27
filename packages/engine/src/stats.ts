@@ -51,11 +51,22 @@ export function strikeOf(s: GameState, c: CardInstance): number {
   return strike;
 }
 
+// Auras can give keywords based on other keywords (Chandelier: your Nocturnal Pals get
+// Retaliate), so a question already being answered counts as "no" to stop loops.
+const askingKeyword = new Set<string>();
+
 export function hasKeyword(s: GameState, c: CardInstance, kw: Keyword): boolean {
   if (printedKeywordValues(c.cardId).has(kw)) return true;
   if (c.modifiers.some((m) => m.stat === 'keyword' && m.keyword === kw)) return true;
   if (!inBase(s, c)) return false;
-  return auras(s).some(({ src, aura }) => aura.keywords?.(s, src, c).includes(kw) ?? false);
+  const key = `${c.id}:${kw}`;
+  if (askingKeyword.has(key)) return false;
+  askingKeyword.add(key);
+  try {
+    return auras(s).some(({ src, aura }) => aura.keywords?.(s, src, c).includes(kw) ?? false);
+  } finally {
+    askingKeyword.delete(key);
+  }
 }
 
 export const hasFlag = (c: CardInstance, flag: CardFlag) =>

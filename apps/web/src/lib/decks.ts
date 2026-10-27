@@ -1,7 +1,7 @@
 /** Saved decks (in this browser) plus the built-in trial decks. */
 import { useSyncExternalStore } from 'react';
 import { getCard, getCardByName, isLuckyPal } from '@pal/cards';
-import { isImplemented, MAX_COPIES, MAX_LUCKY, MAIN_DECK_SIZE, TRIAL_DECKS, validateDeck } from '@pal/engine';
+import { MAX_COPIES, MAX_LUCKY, MAIN_DECK_SIZE, TRIAL_DECKS, validateDeck } from '@pal/engine';
 
 export interface DeckList {
   id: string;
@@ -95,15 +95,12 @@ export const luckyCount = (deck: DeckList) =>
 export interface DeckCheck {
   /** Rule problems: the deck can't be played until these are fixed. */
   problems: string[];
-  /** Cards whose text the engine doesn't enforce yet (they play with stats only). */
-  unscripted: string[];
   legal: boolean;
 }
 
 export function checkDeck(deck: DeckList): DeckCheck {
   const problems = validateDeck(expandDeck(deck));
-  const unscripted = Object.keys(deck.cards).filter((id) => !isImplemented(id));
-  return { problems, unscripted, legal: problems.length === 0 };
+  return { problems, legal: problems.length === 0 };
 }
 
 export const DECK_RULES = { size: MAIN_DECK_SIZE, copies: MAX_COPIES, lucky: MAX_LUCKY };
