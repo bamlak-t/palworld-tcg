@@ -133,7 +133,14 @@ export function fireWatchers(ctx: Ctx, on: Watcher['on'], subject: CardInstance)
           if (w.filter && !w.filter(ctx.s, watcherCard, subject)) return;
           push(
             ctx,
-            { sourceId: id, cardId: watcherCard.cardId, controller: watcherCard.owner, trigger: 'watch', key: String(i), subjectId: subject.id },
+            {
+              sourceId: id,
+              cardId: watcherCard.cardId,
+              controller: watcherCard.owner,
+              trigger: 'watch',
+              key: String(i),
+              subjectId: subject.id,
+            },
             watcherCard,
           );
         });

@@ -58,7 +58,8 @@ export function hasKeyword(s: GameState, c: CardInstance, kw: Keyword): boolean 
   return auras(s).some(({ src, aura }) => aura.keywords?.(s, src, c).includes(kw) ?? false);
 }
 
-export const hasFlag = (c: CardInstance, flag: CardFlag) => c.modifiers.some((m) => m.stat === 'flag' && m.flag === flag);
+export const hasFlag = (c: CardInstance, flag: CardFlag) =>
+  c.modifiers.some((m) => m.stat === 'flag' && m.flag === flag);
 
 /** The number on Brave N / Serious N. */
 export const keywordValue = (c: CardInstance, kw: Keyword): number => printedKeywordValues(c.cardId).get(kw) ?? 0;

@@ -1,5 +1,13 @@
-import { KEYWORDS, type BattleState, type CardInstance, type GameState, type Keyword, type PendingChoice, type Seat } from './types.ts';
-import { hasKeyword, powerOf, strikeOf } from './stats.ts';
+import {
+  KEYWORDS,
+  type BattleState,
+  type CardInstance,
+  type GameState,
+  type Keyword,
+  type PendingChoice,
+  type Seat,
+} from './types.ts';
+import { costToPlay, hasKeyword, isNight, powerOf, strikeOf } from './stats.ts';
 
 export type Viewer = Seat | 'spectator';
 
@@ -40,6 +48,8 @@ export interface GameView {
   night: boolean;
   /** Current power, strike and keywords of cards in either base. */
   stats: Record<string, CardStats>;
+  /** What each card in the viewer's hand costs to play right now (after reductions). */
+  handCosts: Record<string, number>;
   /** Event cards currently resolving (public, §4.11). */
   resolving: CardInstance[];
   result: GameState['result'];
@@ -76,12 +86,19 @@ export function viewFor(s: GameState, viewer: Viewer): GameView {
     phase: s.phase,
     battle: s.battle,
     pending: redactPending(s.pending, viewer),
-    night: s.nightUntilTurn !== null,
+    night: isNight(s),
+    handCosts:
+      viewer === 'spectator'
+        ? {}
+        : Object.fromEntries(s.players[viewer].hand.map((id) => [id, costToPlay(s, viewer, s.cards[id]!)])),
     resolving: cards(s.resolutionZone),
     stats: Object.fromEntries(
       [...s.players[0].base, ...s.players[1].base].map((id) => {
         const c = s.cards[id]!;
-        return [id, { power: powerOf(s, c), strike: strikeOf(s, c), keywords: KEYWORDS.filter((k) => hasKeyword(s, c, k)) }];
+        return [
+          id,
+          { power: powerOf(s, c), strike: strikeOf(s, c), keywords: KEYWORDS.filter((k) => hasKeyword(s, c, k)) },
+        ];
       }),
     ),
     result: s.result,

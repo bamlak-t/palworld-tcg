@@ -7,7 +7,15 @@
  * the answers so far. Effects are deterministic, so the replay reaches the same point.
  */
 import { defOf, isPal, isStructure } from './cards.ts';
-import { allActs, getScript, grantedScript, type ActAbility, type CardScript, type CostSpec, type EffectApi } from './abilities.ts';
+import {
+  allActs,
+  getScript,
+  grantedScript,
+  type ActAbility,
+  type CardScript,
+  type CostSpec,
+  type EffectApi,
+} from './abilities.ts';
 import {
   assign,
   butcher,
@@ -166,7 +174,14 @@ function makeApi(ctx: Ctx, r: Resolution): EffectApi {
   const addModifier = (c: CardInstance, m: Omit<Modifier, 'source' | 'duration' | 'untilTurn'>, duration: Duration) => {
     if (!inBase(s(), c)) return;
     c.modifiers.push({ ...m, source: sourceName, ...stored(ctx, me, duration) });
-    ctx.events.push({ type: 'modified', instanceId: c.id, stat: m.stat, amount: m.amount, keyword: m.keyword, source: sourceName });
+    ctx.events.push({
+      type: 'modified',
+      instanceId: c.id,
+      stat: m.stat,
+      amount: m.amount,
+      keyword: m.keyword,
+      source: sourceName,
+    });
   };
 
   const api: EffectApi = {
@@ -178,6 +193,7 @@ function makeApi(ctx: Ctx, r: Resolution): EffectApi {
     },
     me,
     opp,
+    x: r.x ?? 0,
     get subject() {
       return subjectId ? s().cards[subjectId] : undefined;
     },
@@ -282,7 +298,13 @@ function makeApi(ctx: Ctx, r: Resolution): EffectApi {
       for (let m = Math.max(0, total - p.ingredient); m <= Math.min(total, p.material); m++) {
         options.push({ id: `${m}`, label: `${m} Material + ${total - m} Ingredient` });
       }
-      const [pick] = choose({ prompt: `Choose ${total} Material and/or Ingredient to remove.`, options, min: 1, max: 1, chooser });
+      const [pick] = choose({
+        prompt: `Choose ${total} Material and/or Ingredient to remove.`,
+        options,
+        min: 1,
+        max: 1,
+        chooser,
+      });
       const m = Number(pick);
       for (const [resource, amount] of [
         ['material', m],
@@ -424,7 +446,9 @@ const butcherable = (s: GameState, seat: Seat, self: CardInstance, spec: CostSpe
   s.players[seat].base.filter((id) => isPal(s.cards[id]!) && (spec.butcher !== 'other' || id !== self.id));
 
 const exilable = (s: GameState, seat: Seat, spec: CostSpec) =>
-  s.players[seat].graveyard.filter((id) => !spec.exileFromGraveyard?.filter || spec.exileFromGraveyard.filter(defOf(s.cards[id]!)));
+  s.players[seat].graveyard.filter(
+    (id) => !spec.exileFromGraveyard?.filter || spec.exileFromGraveyard.filter(defOf(s.cards[id]!)),
+  );
 
 /**
  * Ways the seat can pay this ability's cost right now, for listing legal actions. Costs
@@ -456,7 +480,9 @@ export function costChoices(s: GameState, seat: Seat, self: CardInstance, abilit
     const xMax = spec.xMaterial ? p.material : spec.xIngredient ? p.ingredient : 0;
     const xMin = spec.xMaterial?.min ?? spec.xIngredient?.min ?? 0;
     const xOptions: (number | undefined)[] =
-      spec.xMaterial || spec.xIngredient ? Array.from({ length: Math.max(0, xMax - xMin + 1) }, (_, i) => xMin + i) : [undefined];
+      spec.xMaterial || spec.xIngredient
+        ? Array.from({ length: Math.max(0, xMax - xMin + 1) }, (_, i) => xMin + i)
+        : [undefined];
 
     for (const assignIds of assignOptions)
       for (const discardIds of discardOptions)
@@ -490,7 +516,13 @@ function basicPayable(s: GameState, seat: Seat, self: CardInstance, spec: CostSp
 const assignIdsOf = (c: CostChoice) => c.assignIds ?? (c.assignId ? [c.assignId] : []);
 
 /** Checks a submitted cost choice directly against the rules of the cost. */
-export function isValidCostChoice(s: GameState, seat: Seat, self: CardInstance, ability: ActAbility, choice: CostChoice) {
+export function isValidCostChoice(
+  s: GameState,
+  seat: Seat,
+  self: CardInstance,
+  ability: ActAbility,
+  choice: CostChoice,
+) {
   const spec = ability.costs[choice.option ?? 0];
   if (!spec || !basicPayable(s, seat, self, spec)) return false;
   const p = s.players[seat];
@@ -498,7 +530,8 @@ export function isValidCostChoice(s: GameState, seat: Seat, self: CardInstance, 
 
   const assignIds = assignIdsOf(choice);
   const pals = assignable(s, seat, self);
-  const wantAssign = spec.assign === true ? 1 : typeof spec.assign === 'number' ? spec.assign : spec.assign === 'X' ? -1 : 0;
+  const wantAssign =
+    spec.assign === true ? 1 : typeof spec.assign === 'number' ? spec.assign : spec.assign === 'X' ? -1 : 0;
   if (wantAssign === 0 && assignIds.length > 0) return false;
   if (wantAssign > 0 && assignIds.length !== wantAssign) return false;
   if (wantAssign === -1 && assignIds.length < 1) return false;
@@ -513,7 +546,10 @@ export function isValidCostChoice(s: GameState, seat: Seat, self: CardInstance, 
     if (!distinct(discards) || !discards.every((id) => allowed.includes(id))) return false;
   }
 
-  if (spec.butcher ? !choice.butcherId || !butcherable(s, seat, self, spec).includes(choice.butcherId) : choice.butcherId) return false;
+  if (
+    spec.butcher ? !choice.butcherId || !butcherable(s, seat, self, spec).includes(choice.butcherId) : choice.butcherId
+  )
+    return false;
 
   const exiles = choice.exileIds ?? [];
   if (spec.exileFromGraveyard) {
@@ -524,7 +560,8 @@ export function isValidCostChoice(s: GameState, seat: Seat, self: CardInstance, 
   if (spec.xMaterial || spec.xIngredient) {
     const x = choice.x;
     const max = spec.xMaterial ? p.material : p.ingredient;
-    if (x === undefined || !Number.isInteger(x) || x < (spec.xMaterial ?? spec.xIngredient)!.min || x > max) return false;
+    if (x === undefined || !Number.isInteger(x) || x < (spec.xMaterial ?? spec.xIngredient)!.min || x > max)
+      return false;
   } else if (choice.x !== undefined) return false;
   return true;
 }

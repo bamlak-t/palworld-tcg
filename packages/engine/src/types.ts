@@ -187,6 +187,8 @@ export interface Resolution {
   controller: Seat;
   ability: AbilityRef;
   answers: string[][];
+  /** The X paid in the cost (Material/Ingredient consumed, Pals assigned or cards discarded). */
+  x?: number;
 }
 
 /** A decision the engine is waiting on. Options are always listed by the engine. */
@@ -293,7 +295,7 @@ export type GameEvent =
   | { type: 'destroyed'; instanceId: string; cardId: string; reason: 'lethal' | 'overload' | 'effect' }
   | { type: 'battleEnded' }
   | { type: 'attackNullified'; byCardId: string }
-  | { type: 'abilityActivated'; seat: Seat; instanceId: string; cardId: string; index: number }
+  | { type: 'abilityActivated'; seat: Seat; instanceId: string; cardId: string; index: number; label: string }
   | { type: 'triggered'; instanceId: string; cardId: string; trigger: TriggerKind }
   | { type: 'damageDealt'; sourceId: string; targetId: string; amount: number }
   | { type: 'modified'; instanceId: string; stat: Modifier['stat']; amount: number; keyword?: Keyword; source: string }

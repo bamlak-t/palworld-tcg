@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Copy, Download, Maximize2, Minus, Plus, Search, Trash2, Upload } from 'lucide-react';
 import { getCard, type CardDef } from '@pal/cards';
-import { isImplemented } from '@pal/engine';
+import { copyLimit, isImplemented } from '@pal/engine';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
@@ -145,7 +145,7 @@ function DeckEditor({
 
   const add = (id: string) => {
     const n = deck.cards[id] ?? 0;
-    if (n >= DECK_RULES.copies) return;
+    if (n >= copyLimit(id)) return;
     update({ ...deck.cards, [id]: n + 1 });
   };
   const removeOne = (id: string) => {
@@ -306,7 +306,7 @@ function CardPool(props: {
             <li key={c.id} className="group relative">
               <button
                 type="button"
-                disabled={props.readOnly || n >= DECK_RULES.copies}
+                disabled={props.readOnly || n >= copyLimit(c.id)}
                 onClick={() => props.onAdd(c.id)}
                 title={props.readOnly ? c.name : `Add ${c.name}`}
                 className={cn(
@@ -472,7 +472,7 @@ function DeckPanel(props: {
                     <button
                       type="button"
                       aria-label={`Add one ${def.name}`}
-                      disabled={n >= DECK_RULES.copies}
+                      disabled={n >= copyLimit(def.id)}
                       onClick={() => props.onAdd(def.id)}
                       className="rounded p-0.5 hover:bg-muted disabled:opacity-30"
                     >

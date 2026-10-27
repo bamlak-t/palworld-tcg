@@ -2,8 +2,8 @@
  * Turn flow: setup, phases, main-phase actions, battle and check timing.
  * Section numbers (§x.y) refer to the Comprehensive Rules ver. 1.00.
  */
-import { costOf, defOf, isPal, isStructure } from './cards.ts';
-import { getScript } from './abilities.ts';
+import { defOf, isPal, isStructure } from './cards.ts';
+import { allActs, getScript, INTERRUPT, type ActAbility } from './abilities.ts';
 import { SOUL_COUNT } from './deck.ts';
 import { costChoices, isValidCostChoice, payCost, runResolution, startResolution } from './effects.ts';
 import {
@@ -14,6 +14,7 @@ import {
   endGame,
   enqueue,
   fail,
+  fireWatchers,
   inBase,
   leaveBase,
   other,
@@ -24,7 +25,7 @@ import {
   type Ctx,
 } from './ops.ts';
 import { nextRandom, shuffleInPlace } from './rng.ts';
-import { hasKeyword, keywordValue, powerOf, strikeOf } from './stats.ts';
+import { canPutInBase, costToPlay, hasFlag, hasKeyword, keywordValue, powerOf, strikeOf } from './stats.ts';
 import type {
   Action,
   ApplyResult,
@@ -192,7 +193,7 @@ function dispatch(ctx: Ctx, seat: Seat, action: Action) {
           s.pending = null;
           return damageStep(ctx);
         }
-        if (action.type === 'playCard') return playCard(ctx, seat, action.cardId, true);
+        if (action.type === 'playCard') return playCard(ctx, seat, action.cardId, true, action.x);
         if (action.type === 'activate') return activate(ctx, seat, action, true);
         return fail('Play a Quick card or ability, or pass.');
     }
@@ -204,7 +205,7 @@ function dispatch(ctx: Ctx, seat: Seat, action: Action) {
 
   switch (action.type) {
     case 'playCard':
-      return playCard(ctx, seat, action.cardId, false);
+      return playCard(ctx, seat, action.cardId, false, action.x);
     case 'activate':
       return activate(ctx, seat, action, false);
     case 'soulDraw':
@@ -268,6 +269,13 @@ function startTurn(ctx: Ctx, seat: Seat) {
   s.turn++;
   s.activeSeat = seat;
   s.usedThisTurn = [];
+  s.turnMemory = [];
+  s.assignedThisTurn = [];
+  s.turnFlags = { mustAttack: [], noAssign: [] };
+  for (const p of s.players) {
+    p.cardsPlayed = 0;
+    p.nextGearDiscount = 0;
+  }
   player(ctx, seat).soulDrawUsed = false;
   ctx.events.push({ type: 'turnStarted', seat, turn: s.turn });
   runPhasesFrom(ctx, 'stand');
@@ -290,6 +298,10 @@ function runPhasesFrom(ctx: Ctx, from: 'stand' | 'draw' | 'soul' | 'main') {
         for (const id of p.base) {
           const c = card(s, id);
           c.assignedTo = null;
+          // Frozen cards stay rested while the card that froze them is in a base.
+          const freezer = c.frozenBy ? s.cards[c.frozenBy] : undefined;
+          if (freezer && inBase(s, freezer)) continue;
+          c.frozenBy = null;
           if (c.skipNextStand) c.skipNextStand = false;
           else c.rested = false;
         }
@@ -314,15 +326,31 @@ function runPhasesFrom(ctx: Ctx, from: 'stand' | 'draw' | 'soul' | 'main') {
   }
 }
 
+/** True if the turn player must still attack (e.g. Alarm Bell) and has a Pal able to. */
+export function mustStillAttack(s: GameState): boolean {
+  const seat = s.activeSeat;
+  if (!s.turnFlags?.mustAttack.includes(seat)) return false;
+  return s.players[seat].base.some((id) => canAttack(s, seat, id) && attackTargets(s, seat, id).length > 0);
+}
+
 function endTurn(ctx: Ctx) {
   const { s } = ctx;
+  if (mustStillAttack(s)) fail('Your Pals must attack as much as possible this turn.');
   s.phase = 'end';
   ctx.events.push({ type: 'phase', phase: 'end' });
   // §7.6.1: "at the end of turn" abilities trigger.
-  for (const id of player(ctx, s.activeSeat).base) {
-    const c = card(s, id);
-    if (hasKeyword(s, c, 'vigilance') || getScript(c.cardId).endOfTurn) enqueue(ctx, c, 'endOfTurn');
+  for (const id of player(ctx, s.activeSeat).base) enqueue(ctx, card(s, id), 'endOfTurn');
+  // Delayed abilities set up this turn ("at the end of this turn, ...").
+  for (const d of (s.delayed ?? []).filter((d) => d.atTurn === s.turn)) {
+    s.triggers.push({
+      sourceId: d.sourceId,
+      cardId: d.cardId,
+      controller: d.controller,
+      trigger: 'delayed',
+      key: d.key,
+    });
   }
+  s.delayed = (s.delayed ?? []).filter((d) => d.atTurn > s.turn);
   if (checkTiming(ctx)) return;
   finishEndPhase(ctx);
 }
@@ -335,7 +363,9 @@ function finishEndPhase(ctx: Ctx) {
     for (const id of p.base) {
       const c = card(s, id);
       c.damage = 0;
-      c.modifiers = c.modifiers.filter((m) => m.duration === 'permanent');
+      c.modifiers = c.modifiers.filter(
+        (m) => m.duration === 'permanent' || (m.duration === 'untilTurn' && (m.untilTurn ?? 0) > s.turn),
+      );
     }
   }
   if (s.nightUntilTurn !== null && s.nightUntilTurn <= s.turn) s.nightUntilTurn = null;
@@ -353,19 +383,31 @@ export const isQuickEvent = (cardId: string) => {
   return def.kind === 'Event' && def.text.startsWith('Quick@');
 };
 
-function playCard(ctx: Ctx, seat: Seat, instanceId: string, inQuickStep: boolean) {
+function playCard(ctx: Ctx, seat: Seat, instanceId: string, inQuickStep: boolean, x = 0) {
   const { s } = ctx;
   const p = player(ctx, seat);
   if (!p.hand.includes(instanceId)) fail("That card isn't in your hand.");
   const c = card(s, instanceId);
   const def = defOf(c);
   if (inQuickStep && !isQuickEvent(c.cardId)) fail('Only Quick events can be played now.');
-  const cost = costOf(c);
+  // "You may consume X Material and reduce its cost by X."
+  if (x !== 0) {
+    if (!getScript(c.cardId).materialReducesCost) fail("That card's cost can't be reduced with Material.");
+    if (!Number.isInteger(x) || x < 0 || x > p.material) fail('Not enough Material.');
+  }
+  if (def.kind !== 'Event' && !canPutInBase(s, c)) fail(`You already have ${def.name} in your base (Legendary).`);
+  const cost = costToPlay(s, seat, c, x);
   if (cost > p.soulsStanding) fail(`Not enough souls: ${def.name} costs ${cost}.`);
 
   // Pay the cost by resting souls (§10.4.3).
   p.soulsStanding -= cost;
   p.soulsRested += cost;
+  if (x > 0) {
+    p.material -= x;
+    ctx.events.push({ type: 'resourceSpent', seat, resource: 'material', amount: x });
+  }
+  if (def.kind === 'Gear') p.nextGearDiscount = 0;
+  p.cardsPlayed = (p.cardsPlayed ?? 0) + 1;
   ctx.events.push({ type: 'cardPlayed', seat, cardId: c.cardId, instanceId, cost });
 
   if (def.kind === 'Event') {
@@ -383,7 +425,9 @@ function playCard(ctx: Ctx, seat: Seat, instanceId: string, inQuickStep: boolean
 function activate(ctx: Ctx, seat: Seat, action: ActionOf<'activate'>, inQuickStep: boolean) {
   const { s } = ctx;
   const self = s.cards[action.sourceId] ?? fail('Unknown card.');
-  const ability = getScript(self.cardId).acts?.[action.index] ?? fail('That card has no such ability.');
+  const acts = allActs(self);
+  const picked = acts[action.index] ?? fail('That card has no such ability.');
+  const ability: ActAbility = picked.ability;
   const zone = ability.zone === 'hand' ? player(ctx, seat).hand : player(ctx, seat).base;
   if (!zone.includes(self.id)) fail(`That ability can only be used from your ${ability.zone}.`);
   if (inQuickStep && !ability.quick) fail('Only Quick abilities can be used now.');
@@ -393,12 +437,31 @@ function activate(ctx: Ctx, seat: Seat, action: ActionOf<'activate'>, inQuickSte
   const choice: CostChoice = { option: 0, ...action.cost };
   if (!isValidCostChoice(s, seat, self, ability, choice)) fail("You can't pay that cost.");
 
-  payCost(ctx, seat, self, ability.costs[choice.option ?? 0]!, choice);
+  const consumed = payCost(ctx, seat, self, ability.costs[choice.option ?? 0]!, choice);
   if (ability.oncePerTurn) s.usedThisTurn.push(key);
-  ctx.events.push({ type: 'abilityActivated', seat, instanceId: self.id, cardId: self.cardId, index: action.index });
+  ctx.events.push({
+    type: 'abilityActivated',
+    seat,
+    instanceId: self.id,
+    cardId: self.cardId,
+    index: action.index,
+    label: ability.label,
+  });
+  if (consumed > 0) fireWatchers(ctx, 'actConsumedMaterial', self);
+  if (ability === INTERRUPT) enqueue(ctx, self, 'onInterrupt');
   s.pending = null;
-  const ref = { kind: 'act' as const, index: action.index };
-  if (startResolution(ctx, { sourceId: self.id, cardId: self.cardId, controller: seat, ability: ref })) return;
+  // The index within the script the ability came from (its own, or a granted one).
+  const local = acts.slice(0, action.index).filter((a) => a.grant?.key === picked.grant?.key).length;
+  const ref = { kind: 'act' as const, index: local, ...(picked.grant && { grant: picked.grant }) };
+  const spec = ability.costs[choice.option ?? 0]!;
+  const x =
+    choice.x ??
+    (spec.assign === 'X'
+      ? choice.assignIds?.length
+      : spec.discardFromHand?.count === 'X'
+        ? choice.discardIds?.length
+        : 0);
+  if (startResolution(ctx, { sourceId: self.id, cardId: self.cardId, controller: seat, ability: ref, x })) return;
   resume(ctx);
 }
 
@@ -417,7 +480,7 @@ export function activatableAbilities(s: GameState, seat: Seat, inQuickStep: bool
   const p = s.players[seat];
   for (const id of [...p.base, ...p.hand]) {
     const self = s.cards[id]!;
-    getScript(self.cardId).acts?.forEach((ability, index) => {
+    allActs(self).forEach(({ ability }, index) => {
       const zone = ability.zone === 'hand' ? p.hand : p.base;
       if (!zone.includes(id)) return;
       if (inQuickStep && !ability.quick) return;
@@ -462,6 +525,7 @@ export function attackTargets(s: GameState, seat: Seat, attackerId?: string): At
   const cards = s.players[opp].base
     .map((id) => card(s, id))
     .filter((c) => (isPal(c) && (c.rested || assault)) || (isStructure(c) && c.rested))
+    .filter((c) => !hasFlag(c, 'cannotBeAttacked'))
     .filter((c) => !attacker || (getScript(c.cardId).canBeAttackedBy?.(s, c, attacker) ?? true));
 
   const taunting = cards.filter((c) => hasKeyword(s, c, 'taunt'));
@@ -488,7 +552,13 @@ function declareAttack(ctx: Ctx, seat: Seat, attackerId: string, target: AttackT
     attacker.modifiers.push({ stat: 'power', amount, source: `Brave ${amount}`, duration: 'endOfTurn' });
     ctx.events.push({ type: 'modified', instanceId: attacker.id, stat: 'power', amount, source: `Brave ${amount}` });
   }
-  if (getScript(attacker.cardId).onAttack) enqueue(ctx, attacker, 'onAttack');
+  enqueue(ctx, attacker, 'onAttack', target.kind === 'card' ? { subjectId: target.id } : {});
+  fireWatchers(ctx, 'palAttacks', attacker);
+  if (target.kind === 'card') {
+    const defender = card(s, target.id);
+    enqueue(ctx, defender, 'onAttacked', { subjectId: attacker.id });
+    if (isPal(defender)) fireWatchers(ctx, 'palAttacked', defender);
+  }
   if (checkTiming(ctx)) return;
   toBlockStep(ctx);
 }
@@ -505,7 +575,12 @@ function toBlockStep(ctx: Ctx) {
     ? []
     : s.players[defender].base.filter((id) => {
         const c = card(s, id);
-        return isPal(c) && !c.rested && !(battle.target.kind === 'card' && battle.target.id === id);
+        return (
+          isPal(c) &&
+          !c.rested &&
+          !hasFlag(c, 'cannotBlock') &&
+          !(battle.target.kind === 'card' && battle.target.id === id)
+        );
       });
   if (options.length > 0) {
     s.pending = { kind: 'block', seat: defender, options };
@@ -549,14 +624,16 @@ function damageStep(ctx: Ctx) {
 
   if (inBase(s, attacker)) {
     const t = battle.target;
+    // Rayhound: "deal double the battle damage instead".
+    const multiplier = getScript(attacker.cardId).battleDamageMultiplier ?? 1;
     if (t.kind === 'player') {
-      dealPlayerDamage(ctx, t.seat, strikeOf(s, attacker)); // §9.6.3.3
+      dealPlayerDamage(ctx, t.seat, strikeOf(s, attacker) * multiplier); // §9.6.3.3
     } else {
       const target = s.cards[t.id];
       if (target && inBase(s, target)) {
         // §9.6.3.1: Pals hit each other simultaneously; structures don't hit back (§9.6.3.2).
-        const atk = powerOf(s, attacker);
-        const back = isPal(target) ? powerOf(s, target) : 0;
+        const atk = powerOf(s, attacker) * multiplier;
+        const back = isPal(target) ? powerOf(s, target) * (getScript(target.cardId).battleDamageMultiplier ?? 1) : 0;
         if (atk > 0) {
           target.damage += atk;
           ctx.events.push({ type: 'battleDamage', sourceId: attacker.id, targetId: target.id, amount: atk });
@@ -573,7 +650,11 @@ function damageStep(ctx: Ctx) {
 }
 
 function endBattle(ctx: Ctx) {
-  ctx.s.battle!.step = 'endOfBattle';
+  const battle = ctx.s.battle!;
+  battle.step = 'endOfBattle';
+  // "At the end of the battle this card attacked" (only if it's still in the base).
+  const attacker = ctx.s.cards[battle.attackerId];
+  if (attacker && inBase(ctx.s, attacker)) enqueue(ctx, attacker, 'onBattleEnd');
   if (checkTiming(ctx)) return;
   finishBattle(ctx);
 }
@@ -622,7 +703,8 @@ function checkTiming(ctx: Ctx): boolean {
     if (index < 0) return false;
     const [t] = s.triggers.splice(index, 1);
     ctx.events.push({ type: 'triggered', instanceId: t!.sourceId, cardId: t!.cardId, trigger: t!.trigger });
-    const ability = { kind: 'trigger' as const, trigger: t!.trigger };
+    const { trigger, subjectId, key, grant } = t!;
+    const ability = { kind: 'trigger' as const, trigger, subjectId, key, grant };
     if (startResolution(ctx, { sourceId: t!.sourceId, cardId: t!.cardId, controller: t!.controller, ability }))
       return true;
   }

@@ -1,6 +1,6 @@
 /** Plain-language text for engine events and ability costs. */
 import { getCard } from '@pal/cards';
-import { getScript, type CostChoice, type GameEvent, type GameView, type Seat } from '@pal/engine';
+import { allActs, type CardInstance, type CostChoice, type GameEvent, type GameView, type Seat } from '@pal/engine';
 
 const cardName = (cardId: string) => getCard(cardId)?.name ?? cardId;
 const mainName = (cardId: string) => getCard(cardId)?.mainName ?? cardId;
@@ -34,7 +34,7 @@ export function describeEvent(e: GameEvent, view: GameView): string | null {
     case 'soulDraw':
       return `${who(e.seat)} paid 3 souls to draw a card.`;
     case 'abilityActivated': {
-      const label = getScript(e.cardId).acts?.[e.index]?.label;
+      const label = e.label;
       return `${who(e.seat)} used ${mainName(e.cardId)}${label ? `: ${label}` : ''}.`;
     }
     case 'triggered':
@@ -62,6 +62,8 @@ export function describeEvent(e: GameEvent, view: GameView): string | null {
       return `${who(e.seat)} gets ${e.amount} ${e.resource === 'material' ? 'Material' : 'Ingredient'}.`;
     case 'modified':
       if (e.stat === 'keyword') return `${inst(e.instanceId)} gains ${e.keyword}.`;
+      if (e.stat === 'skill') return `${inst(e.instanceId)} gains a skill from ${e.source}.`;
+      if (e.stat === 'name' || e.stat === 'flag') return `${e.source} affects ${inst(e.instanceId)}.`;
       return `${inst(e.instanceId)} gets ${e.amount > 0 ? '+' : ''}${e.amount} ${e.stat}.`;
     case 'assigned':
       return `${inst(e.palId)} is assigned to ${inst(e.structureId)}.`;
@@ -81,6 +83,20 @@ export function describeEvent(e: GameEvent, view: GameView): string | null {
       return 'It becomes night.';
     case 'turnEnded':
       return null;
+    case 'butchered':
+      return `${mainName(e.cardId)} was butchered.`;
+    case 'soulsStood':
+      return `${who(e.seat)} stood ${e.count} soul${e.count > 1 ? 's' : ''}.`;
+    case 'soulsAdded':
+      return `${who(e.seat)} added ${e.count} soul${e.count > 1 ? 's' : ''} to the soul area.`;
+    case 'resourceLost':
+      return `${who(e.seat)} loses ${e.amount} ${e.resource === 'material' ? 'Material' : 'Ingredient'}.`;
+    case 'shuffled':
+      return `${who(e.seat)} shuffled their deck.`;
+    case 'putUnder':
+      return `${who(e.seat)} put a card under ${inst(e.structureId)}.`;
+    case 'declaredName':
+      return `${who(e.seat)} declared "${e.name}".`;
     case 'gameOver':
       return e.winner === null ? `Draw: ${e.reason}.` : `${who(e.winner)} wins! ${e.reason}.`;
     default:
@@ -89,9 +105,8 @@ export function describeEvent(e: GameEvent, view: GameView): string | null {
 }
 
 /** "Assign Jolthog", "① + discard this card", etc. */
-export function describeCost(cardId: string, index: number, choice: CostChoice, view: GameView): string {
-  const ability = getScript(cardId).acts?.[index];
-  const spec = ability?.costs[choice.option ?? 0];
+export function describeCost(card: CardInstance, index: number, choice: CostChoice, view: GameView): string {
+  const spec = allActs(card)[index]?.ability.costs[choice.option ?? 0];
   if (!spec) return 'Use';
   const parts: string[] = [];
   if (spec.souls) parts.push(`Rest ${spec.souls} soul${spec.souls > 1 ? 's' : ''}`);
@@ -99,7 +114,11 @@ export function describeCost(cardId: string, index: number, choice: CostChoice, 
   if (spec.ingredient) parts.push(`${spec.ingredient} Ingredient`);
   if (spec.restSelf) parts.push('Rest this card');
   if (spec.discardSelf) parts.push('Discard this card');
-  if (choice.assignId) parts.push(`Assign ${mainName(instanceCardId(view, choice.assignId) ?? '')}`);
+  if (choice.x !== undefined) parts.push(`Consume ${choice.x} ${spec.xMaterial ? 'Material' : 'Ingredient'}`);
+  for (const id of choice.assignIds ?? (choice.assignId ? [choice.assignId] : []))
+    parts.push(`Assign ${mainName(instanceCardId(view, id) ?? '')}`);
+  if (choice.butcherId) parts.push(`Butcher ${mainName(instanceCardId(view, choice.butcherId) ?? '')}`);
+  for (const id of choice.exileIds ?? []) parts.push(`Exile ${mainName(instanceCardId(view, id) ?? '')}`);
   for (const id of choice.discardIds ?? []) parts.push(`Discard ${mainName(instanceCardId(view, id) ?? '')}`);
   if (spec.millTop) parts.push(`Mill ${spec.millTop}`);
   return parts.length ? parts.join(' · ') : 'No cost';

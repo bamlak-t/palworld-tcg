@@ -25,8 +25,17 @@ export function validateDeck(cardIds: string[]): string[] {
     if (def.subKind === 'Lucky Pal') lucky++;
   }
   for (const [name, n] of byName) {
-    if (n > MAX_COPIES) problems.push(`At most ${MAX_COPIES} copies of "${name}" (has ${n}).`);
+    const max = copyLimit(cardIds.find((id) => getCard(id)?.name === name)!);
+    if (n > max) problems.push(`At most ${max} copies of "${name}" (has ${n}).`);
   }
   if (lucky > MAX_LUCKY) problems.push(`At most ${MAX_LUCKY} Lucky Pals (has ${lucky}).`);
   return problems;
+}
+
+/** How many copies of a card a deck may hold. Some cards say otherwise (Beegarde, Swee). */
+export function copyLimit(cardId: string): number {
+  const text = getCard(cardId)?.text ?? '';
+  if (/put any number of cards with the same card name as this card into your deck/.test(text)) return Infinity;
+  const m = /put up to (\d+) cards with the same card name as this card into your deck/.exec(text);
+  return m ? Number(m[1]) : MAX_COPIES;
 }

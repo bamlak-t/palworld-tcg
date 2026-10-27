@@ -4,59 +4,9 @@ import { getCard } from '@pal/cards';
 import { apply, createGame, getLegalActions, isImplemented, TRIAL_DECKS, validateDeck, viewFor } from './index.ts';
 import { powerOf, strikeOf } from './stats.ts';
 import type { Action, GameEvent, GameState, Seat } from './types.ts';
-import { actThrough } from './testkit.ts';
+import { act, activate, answer, play, put, raw, rawWithEvents, toMain } from './testkit.ts';
 
 // --- helpers ----------------------------------------------------------------
-
-function toMain(seed = 1): GameState {
-  let s = createGame(seed, [
-    { name: 'Alice', deck: [...TRIAL_DECKS.ETD01.cards] },
-    { name: 'Bob', deck: [...TRIAL_DECKS.ETD02.cards] },
-  ]).state;
-  s = raw(s, s.pending!.seat, { type: 'chooseFirstPlayer', first: 0 });
-  s = raw(s, 0, { type: 'mulligan', redraw: false });
-  s = raw(s, 1, { type: 'mulligan', redraw: false });
-  s.players[0].soulsStanding = 10;
-  s.players[0].soulDeck = 0;
-  return s;
-}
-
-/** apply() that throws on rejection and does not auto-pass quick steps. */
-function raw(s: GameState, seat: Seat, action: Action): GameState {
-  return rawWithEvents(s, seat, action).s;
-}
-function rawWithEvents(s: GameState, seat: Seat, action: Action): { s: GameState; events: GameEvent[] } {
-  const r = apply(s, seat, action);
-  if (!r.ok) throw new Error(`${action.type} rejected: ${r.error}`);
-  return { s: r.state, events: r.events };
-}
-const act = (s: GameState, seat: Seat, action: Action) => actThrough(s, seat, action).s;
-
-let n = 0;
-/** Creates a card straight into a zone (test setup only). */
-function put(
-  s: GameState,
-  seat: Seat,
-  zone: 'base' | 'hand' | 'graveyard' | 'deckTop',
-  cardId: string,
-  rested = false,
-) {
-  if (!getCard(cardId)) throw new Error(`Unknown card ${cardId}`);
-  const id = `t${n++}`;
-  s.cards[id] = { id, cardId, owner: seat, rested, damage: 0, modifiers: [], placedAt: 0, assignedTo: null };
-  if (zone === 'deckTop') s.players[seat].deck.unshift(id);
-  else s.players[seat][zone].push(id);
-  return id;
-}
-
-const play = (s: GameState, seat: Seat, cardId: string) => {
-  const id = put(s, seat, 'hand', cardId);
-  return { id, s: raw(s, seat, { type: 'playCard', cardId: id }) };
-};
-
-const answer = (s: GameState, seat: Seat, choice: string[]) => raw(s, seat, { type: 'answer', choice });
-const activate = (s: GameState, seat: Seat, sourceId: string, index = 0, cost = {}) =>
-  raw(s, seat, { type: 'activate', sourceId, index, cost });
 
 const ALL_TD_IDS = [...new Set([...TRIAL_DECKS.ETD01.cards, ...TRIAL_DECKS.ETD02.cards])];
 

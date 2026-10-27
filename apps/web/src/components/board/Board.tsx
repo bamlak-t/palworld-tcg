@@ -3,7 +3,7 @@ import { AnimatePresence, LayoutGroup } from 'motion/react';
 import { Swords } from 'lucide-react';
 import { getCard } from '@pal/cards';
 import {
-  getScript,
+  allActs,
   type Action,
   type AttackTarget,
   type CardInstance,
@@ -54,7 +54,8 @@ const looseCard = (id: string, cardId: string, owner: Seat): CardInstance => ({
 });
 
 interface LegalIndex {
-  playable: Set<string>;
+  /** Hand card → Material amounts it can be played with (just [0] for most cards). */
+  playable: Map<string, number[]>;
   attacks: Map<string, AttackTarget[]>;
   abilities: Map<string, { index: number; costs: CostChoice[] }[]>;
   canEndTurn: boolean;
@@ -66,7 +67,7 @@ interface LegalIndex {
 
 function indexLegal(legal: Action[]): LegalIndex {
   const idx: LegalIndex = {
-    playable: new Set(),
+    playable: new Map(),
     attacks: new Map(),
     abilities: new Map(),
     canEndTurn: false,
@@ -75,7 +76,7 @@ function indexLegal(legal: Action[]): LegalIndex {
     onlyEndTurn: false,
   };
   for (const a of legal) {
-    if (a.type === 'playCard') idx.playable.add(a.cardId);
+    if (a.type === 'playCard') idx.playable.set(a.cardId, [...(idx.playable.get(a.cardId) ?? []), a.x ?? 0]);
     else if (a.type === 'attack') idx.attacks.set(a.attackerId, [...(idx.attacks.get(a.attackerId) ?? []), a.target]);
     else if (a.type === 'activate') {
       const list = idx.abilities.get(a.sourceId) ?? [];
@@ -213,11 +214,16 @@ export function Board({
     return (
       <div className="flex flex-col">
         <p className="px-2.5 pt-1 pb-1.5 text-xs font-semibold text-muted-foreground">{def.name}</p>
-        {canPlay && (
-          <MenuItem onSelect={() => send({ type: 'playCard', cardId: c.id })} hint={`Rest ${def.cost ?? 0} souls`}>
-            Play
-          </MenuItem>
-        )}
+        {canPlay &&
+          idx.playable.get(c.id)!.map((x) => (
+            <MenuItem
+              key={x}
+              onSelect={() => send(x ? { type: 'playCard', cardId: c.id, x } : { type: 'playCard', cardId: c.id })}
+              hint={`Rest ${Math.max(1, (view.handCosts[c.id] ?? def.cost ?? 0) - x)} souls${x ? `, consume ${x} Material` : ''}`}
+            >
+              Play
+            </MenuItem>
+          ))}
         {canAttack && (
           <MenuItem
             onSelect={() => {
@@ -233,9 +239,9 @@ export function Board({
           <MenuItem
             key={index}
             onSelect={() => useAbility(c, index, costs)}
-            hint={costs.length === 1 ? describeCost(c.cardId, index, costs[0]!, view) : `${costs.length} ways to pay`}
+            hint={costs.length === 1 ? describeCost(c, index, costs[0]!, view) : `${costs.length} ways to pay`}
           >
-            {getScript(c.cardId).acts?.[index]?.label ?? 'Use ability'}
+            {allActs(c)[index]?.ability.label ?? 'Use ability'}
           </MenuItem>
         ))}
         <MenuItem
@@ -448,7 +454,7 @@ export function Board({
                 key={i}
                 onSelect={() => send({ type: 'activate', sourceId: costPick.card.id, index: costPick.index, cost })}
               >
-                {describeCost(costPick.card.cardId, costPick.index, cost, view)}
+                {describeCost(costPick.card, costPick.index, cost, view)}
               </MenuItem>
             ))}
           </div>

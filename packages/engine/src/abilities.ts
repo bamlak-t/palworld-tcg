@@ -14,6 +14,8 @@ export interface EffectApi {
   readonly opp: Seat;
   /** The card a trigger is about (the Pal deployed, attacked, assigned…), if any. */
   readonly subject: CardInstance | undefined;
+  /** The X paid in an activated ability's cost (0 if none). */
+  readonly x: number;
 
   // Queries
   pals(filter?: (c: CardInstance) => boolean): CardInstance[];
@@ -244,7 +246,8 @@ export const grantedScript = (g: SkillGrant): CardScript => getScript(g.fromCard
 /** The card's own script and every script piece granted to it by modifiers. */
 export function scriptSources(c: CardInstance): { script: CardScript; grant?: SkillGrant }[] {
   const out: { script: CardScript; grant?: SkillGrant }[] = [{ script: getScript(c.cardId) }];
-  for (const m of c.modifiers) if (m.stat === 'skill' && m.grant) out.push({ script: grantedScript(m.grant), grant: m.grant });
+  for (const m of c.modifiers)
+    if (m.stat === 'skill' && m.grant) out.push({ script: grantedScript(m.grant), grant: m.grant });
   return out;
 }
 

@@ -1,5 +1,7 @@
-import { costOf } from './cards.ts';
-import { activatableAbilities, attackTargets, canAttack, isQuickEvent } from './engine.ts';
+import { getScript } from './abilities.ts';
+import { defOf } from './cards.ts';
+import { activatableAbilities, attackTargets, canAttack, isQuickEvent, mustStillAttack } from './engine.ts';
+import { canPutInBase, costToPlay } from './stats.ts';
 import type { Action, GameState, Seat } from './types.ts';
 
 /**
@@ -50,10 +52,7 @@ export function getLegalActions(s: GameState, seat: Seat): Action[] {
       }
       case 'quickStep': {
         const actions: Action[] = [{ type: 'passQuick' }];
-        for (const id of p.hand) {
-          if (isQuickEvent(s.cards[id]!.cardId) && costOf(s.cards[id]!) <= p.soulsStanding)
-            actions.push({ type: 'playCard', cardId: id });
-        }
+        for (const id of p.hand) if (isQuickEvent(s.cards[id]!.cardId)) actions.push(...playActions(s, seat, id));
         for (const a of activatableAbilities(s, seat, true)) {
           for (const cost of a.costs) actions.push({ type: 'activate', sourceId: a.sourceId, index: a.index, cost });
         }
@@ -65,9 +64,7 @@ export function getLegalActions(s: GameState, seat: Seat): Action[] {
   if (s.phase !== 'main' || s.activeSeat !== seat || s.battle) return [];
 
   const actions: Action[] = [];
-  for (const id of p.hand) {
-    if (costOf(s.cards[id]!) <= p.soulsStanding) actions.push({ type: 'playCard', cardId: id });
-  }
+  for (const id of p.hand) actions.push(...playActions(s, seat, id));
   for (const a of activatableAbilities(s, seat, false)) {
     for (const cost of a.costs) actions.push({ type: 'activate', sourceId: a.sourceId, index: a.index, cost });
   }
@@ -76,6 +73,17 @@ export function getLegalActions(s: GameState, seat: Seat): Action[] {
     if (!canAttack(s, seat, id)) continue;
     for (const target of attackTargets(s, seat, id)) actions.push({ type: 'attack', attackerId: id, target });
   }
-  actions.push({ type: 'endTurn' });
+  if (!mustStillAttack(s)) actions.push({ type: 'endTurn' });
   return actions;
+}
+
+/** Ways to play a card from hand: normally one, or one per amount of Material it may consume. */
+function playActions(s: GameState, seat: Seat, id: string): Action[] {
+  const c = s.cards[id]!;
+  const p = s.players[seat];
+  if (defOf(c).kind !== 'Event' && !canPutInBase(s, c)) return [];
+  const xs = getScript(c.cardId).materialReducesCost ? Array.from({ length: p.material + 1 }, (_, x) => x) : [0];
+  return xs
+    .filter((x) => costToPlay(s, seat, c, x) <= p.soulsStanding)
+    .map((x): Action => (x === 0 ? { type: 'playCard', cardId: id } : { type: 'playCard', cardId: id, x }));
 }
