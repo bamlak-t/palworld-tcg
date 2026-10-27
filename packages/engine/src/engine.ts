@@ -272,10 +272,7 @@ function startTurn(ctx: Ctx, seat: Seat) {
   s.turnMemory = [];
   s.assignedThisTurn = [];
   s.turnFlags = { mustAttack: [], noAssign: [] };
-  for (const p of s.players) {
-    p.cardsPlayed = 0;
-    p.nextGearDiscount = 0;
-  }
+  for (const p of s.players) p.nextGearDiscount = 0;
   player(ctx, seat).soulDrawUsed = false;
   ctx.events.push({ type: 'turnStarted', seat, turn: s.turn });
   runPhasesFrom(ctx, 'stand');
@@ -461,7 +458,17 @@ function activate(ctx: Ctx, seat: Seat, action: ActionOf<'activate'>, inQuickSte
       : spec.discardFromHand?.count === 'X'
         ? choice.discardIds?.length
         : 0);
-  if (startResolution(ctx, { sourceId: self.id, cardId: self.cardId, controller: seat, ability: ref, x })) return;
+  if (
+    startResolution(ctx, {
+      sourceId: self.id,
+      cardId: self.cardId,
+      controller: seat,
+      ability: ref,
+      x,
+      assignedIds: choice.assignIds ?? (choice.assignId ? [choice.assignId] : []),
+    })
+  )
+    return;
   resume(ctx);
 }
 

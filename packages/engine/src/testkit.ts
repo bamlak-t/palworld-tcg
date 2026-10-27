@@ -1,4 +1,5 @@
 /** Shared test helpers. */
+import './scripts/index.ts';
 import { getCard } from '@pal/cards';
 import { apply, createGame } from './engine.ts';
 import { TRIAL_DECKS } from './decks.ts';

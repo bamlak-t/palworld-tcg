@@ -16,6 +16,8 @@ export interface EffectApi {
   readonly subject: CardInstance | undefined;
   /** The X paid in an activated ability's cost (0 if none). */
   readonly x: number;
+  /** Pals assigned to pay this ability's cost. */
+  readonly assigned: CardInstance[];
 
   // Queries
   pals(filter?: (c: CardInstance) => boolean): CardInstance[];
@@ -87,6 +89,8 @@ export interface EffectApi {
   /** The seat loses up to n Material and/or Ingredient in total; chooser picks the split. */
   loseResources(seat: Seat, upTo: number, chooser?: Seat): void;
   gainLife(n: number, seat?: Seat): void;
+  /** Rests n standing souls if possible (e.g. to play a card from the deck). Returns false if you can't. */
+  paySouls(n: number): boolean;
   standSouls(n: number, seat?: Seat): void;
   /** Moves up to n souls from the soul deck to the soul area. */
   addSouls(n: number, opts?: { rested?: boolean; seat?: Seat }): void;

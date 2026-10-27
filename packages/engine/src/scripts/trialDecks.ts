@@ -3,62 +3,16 @@
  * Cards whose text is only keywords (Assault, Taunt, Stealth, Vigilance, Interrupt) or
  * that have no text need no entry here.
  */
-import type { CardScript, Effect } from '../abilities.ts';
+import type { CardScript } from '../abilities.ts';
 import { costOf, isStructure } from '../cards.ts';
-
-// Shared shapes ------------------------------------------------------------
-
-const getResource =
-  (resource: 'material' | 'ingredient', n: number): Effect =>
-  (e) =>
-    e.gain(resource, n);
-
-const damageUpTo1 =
-  (amount: number): Effect =>
-  (e) => {
-    for (const c of e.chooseUpTo(1, `Choose up to 1 Pal to deal ${amount} damage to.`, e.pals())) e.damage(c, amount);
-  };
-
-/** "[Rest this card] Choose 1 Pal, and it gets Power +N until end of turn." */
-const restForPower = (amount: number): CardScript['acts'] => [
-  {
-    label: `Rest: a Pal gets +${amount} power`,
-    zone: 'base',
-    costs: [{ restSelf: true }],
-    effect: (e) => {
-      const c = e.chooseOne(`Choose 1 Pal to get +${amount} power.`, e.pals());
-      if (c) e.modify(c, 'power', amount);
-    },
-  },
-];
-
-/** "[Assign 1 Pal] Get 3 X, and draw 1 card." */
-const assignForResource = (resource: 'material' | 'ingredient'): CardScript['acts'] => [
-  {
-    label: `Assign: get 3 ${resource === 'material' ? 'Material' : 'Ingredient'}, draw 1`,
-    zone: 'base',
-    oncePerTurn: true,
-    costs: [{ assign: true }],
-    effect: (e) => {
-      e.gain(resource, 3);
-      e.draw(1);
-    },
-  },
-];
-
-const selfPowerFor = (resource: 'material' | 'ingredient'): CardScript['acts'] => [
-  {
-    label: '+500 power until end of turn',
-    zone: 'base',
-    costs: [{ [resource]: 2 }],
-    effect: (e) => e.modify(e.self, 'power', 500),
-  },
-];
-
-const cannotBeAttackedBy =
-  (test: (cost: number) => boolean): CardScript['canBeAttackedBy'] =>
-  (_s, _self, attacker) =>
-    !test(costOf(attacker));
+import {
+  assignForResource,
+  cannotBeAttackedBy,
+  damageUpTo1,
+  getResource,
+  restForPower,
+  selfPowerFor,
+} from './shared.ts';
 
 // ETD01 Red・Blue ----------------------------------------------------------
 

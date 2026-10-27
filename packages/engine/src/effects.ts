@@ -194,6 +194,9 @@ function makeApi(ctx: Ctx, r: Resolution): EffectApi {
     me,
     opp,
     x: r.x ?? 0,
+    get assigned() {
+      return (r.assignedIds ?? []).map((id) => card(ctx.s, id));
+    },
     get subject() {
       return subjectId ? s().cards[subjectId] : undefined;
     },
@@ -316,6 +319,13 @@ function makeApi(ctx: Ctx, r: Resolution): EffectApi {
       }
     },
     gainLife: (n, seat = me) => gainLife(ctx, seat, n),
+    paySouls(n) {
+      const p = player(ctx, me);
+      if (p.soulsStanding < n) return false;
+      p.soulsStanding -= n;
+      p.soulsRested += n;
+      return true;
+    },
     standSouls(n, seat = me) {
       const p = player(ctx, seat);
       const k = Math.min(n, p.soulsRested);

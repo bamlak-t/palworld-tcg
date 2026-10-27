@@ -189,6 +189,8 @@ export interface Resolution {
   answers: string[][];
   /** The X paid in the cost (Material/Ingredient consumed, Pals assigned or cards discarded). */
   x?: number;
+  /** Pals assigned to pay the cost. */
+  assignedIds?: string[];
 }
 
 /** A decision the engine is waiting on. Options are always listed by the engine. */
