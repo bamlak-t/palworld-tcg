@@ -2,11 +2,13 @@ import {
   KEYWORDS,
   type BattleState,
   type CardInstance,
+  type GameRules,
   type GameState,
   type Keyword,
   type PendingChoice,
   type Seat,
 } from './types.ts';
+import { STANDARD_RULES } from './deck.ts';
 import { costToPlay, hasKeyword, isNight, powerOf, strikeOf } from './stats.ts';
 
 export type Viewer = Seat | 'spectator';
@@ -53,6 +55,7 @@ export interface GameView {
   /** Event cards currently resolving (public, §4.11). */
   resolving: CardInstance[];
   result: GameState['result'];
+  rules: GameRules;
   players: [PlayerView, PlayerView];
 }
 
@@ -102,6 +105,7 @@ export function viewFor(s: GameState, viewer: Viewer): GameView {
       }),
     ),
     result: s.result,
+    rules: s.rules ?? STANDARD_RULES,
     players: [playerView(0), playerView(1)],
   };
 }

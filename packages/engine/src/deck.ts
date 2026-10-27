@@ -1,9 +1,25 @@
 import { getCard } from '@pal/cards';
+import type { GameRules } from './types.ts';
 
 export const MAIN_DECK_SIZE = 50;
 export const MAX_COPIES = 4;
 export const MAX_LUCKY = 8;
 export const SOUL_COUNT = 10;
+
+export const STANDARD_RULES: GameRules = { startingLife: 10, souls: SOUL_COUNT };
+export const RULE_LIMITS = { startingLife: { min: 1, max: 20 }, souls: { min: 1, max: 20 } } as const;
+
+/** Standard rules with the given changes. Returns an error message for out-of-range values. */
+export function makeRules(changes: Partial<GameRules> = {}): GameRules | string {
+  const rules = { ...STANDARD_RULES, ...changes };
+  for (const key of ['startingLife', 'souls'] as const) {
+    const v = rules[key];
+    const { min, max } = RULE_LIMITS[key];
+    const label = key === 'souls' ? 'Souls' : 'Starting life';
+    if (!Number.isInteger(v) || v < min || v > max) return `${label} must be a whole number from ${min} to ${max}.`;
+  }
+  return { startingLife: rules.startingLife, souls: rules.souls };
+}
 
 /** §6.1 deck construction. Returns a list of problems; empty means valid. */
 export function validateDeck(cardIds: string[]): string[] {

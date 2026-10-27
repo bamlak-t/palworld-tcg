@@ -211,7 +211,17 @@ export type PendingChoice =
       max: number;
     };
 
+/** House rules chosen when the game is created. */
+export interface GameRules {
+  /** Life each player starts with (standard: 10). */
+  startingLife: number;
+  /** Cards in each soul deck (standard: 10). */
+  souls: number;
+}
+
 export interface GameState {
+  /** Missing in games created before house rules existed: those use the standard rules. */
+  rules?: GameRules;
   /** Bumped on every applied action; used for optimistic locking. */
   version: number;
   rngState: number;

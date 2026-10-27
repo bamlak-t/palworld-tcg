@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router';
-import { Monitor, Users } from 'lucide-react';
+import { Monitor, SlidersHorizontal, Users } from 'lucide-react';
+import { RULE_LIMITS } from '@pal/engine';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -10,6 +11,8 @@ import { expandDeck, useDecks } from '@/lib/decks';
 import { Window } from '@/components/game/Window';
 import { gameApi, onlineConfigured, seats } from '@/game/online';
 import { useSettings } from '@/lib/settings';
+import { useGameRules } from '@/lib/gameRules';
+import { Slider } from '@/components/ui/slider';
 import { cn } from '@/lib/utils';
 
 /** Pick how to play: an online game (create or join by code) or a game on this screen. */
@@ -18,6 +21,7 @@ export function PlayPage() {
   const { settings } = useSettings();
   const [profile, setProfile] = useState({ name: settings.playerName, avatarId: settings.avatarId });
   const decks = useDecks();
+  const gameRules = useGameRules();
   const [deck, setDeck] = useState('trial:ETD01');
   const deckCards = () => expandDeck(decks.all.find((d) => d.id === deck) ?? decks.all[0]!);
   const [code, setCode] = useState('');
@@ -72,7 +76,7 @@ export function PlayPage() {
           size="lg"
           disabled={!ready || !onlineConfigured || busy !== null}
           className="h-10 bg-window-trim text-window-trim-foreground hover:bg-window-trim/85"
-          onClick={() => void run('create', () => gameApi.create({ ...profile, name }, deckCards()))}
+          onClick={() => void run('create', () => gameApi.create({ ...profile, name }, deckCards(), gameRules.rules))}
         >
           {busy === 'create' ? 'Creating…' : 'Create a game'}
         </Button>
@@ -124,6 +128,70 @@ export function PlayPage() {
           <Link to="/play/local">Start a local game</Link>
         </Button>
       </Window>
+
+      <Window
+        className="md:col-span-2"
+        title={
+          <span className="flex items-center gap-2">
+            <SlidersHorizontal className="size-4" /> Game settings
+          </span>
+        }
+        bodyClassName="flex flex-col gap-4"
+      >
+        <p className="text-sm text-window-foreground/80">
+          For games you create or start here. When you join someone else's game, their settings apply.
+        </p>
+        <div className="grid gap-5 sm:grid-cols-2">
+          <RuleSlider
+            label="Starting life"
+            id="rule-life"
+            value={gameRules.rules.startingLife}
+            limits={RULE_LIMITS.startingLife}
+            onChange={(startingLife) => gameRules.set({ ...gameRules.rules, startingLife })}
+          />
+          <RuleSlider
+            label="Souls"
+            id="rule-souls"
+            value={gameRules.rules.souls}
+            limits={RULE_LIMITS.souls}
+            onChange={(souls) => gameRules.set({ ...gameRules.rules, souls })}
+          />
+        </div>
+        <div className="flex items-center gap-2 text-xs text-window-foreground/70">
+          {gameRules.standard ? 'Standard rules: 10 life and 10 souls.' : 'House rules in use.'}
+          {!gameRules.standard && (
+            <Button size="sm" variant="ghost" className="ml-auto h-7" onClick={gameRules.reset}>
+              Reset to standard
+            </Button>
+          )}
+        </div>
+      </Window>
+    </div>
+  );
+}
+
+function RuleSlider(props: {
+  label: string;
+  id: string;
+  value: number;
+  limits: { min: number; max: number };
+  onChange: (v: number) => void;
+}) {
+  return (
+    <div className="flex flex-col gap-2">
+      <div className="flex items-baseline justify-between">
+        <Label htmlFor={props.id}>{props.label}</Label>
+        <span className="font-display text-lg font-bold tabular-nums">{props.value}</span>
+      </div>
+      <Slider
+        id={props.id}
+        min={props.limits.min}
+        max={props.limits.max}
+        step={1}
+        value={[props.value]}
+        onValueChange={([v]) => v !== undefined && props.onChange(v)}
+        aria-label={props.label}
+      />
     </div>
   );
 }

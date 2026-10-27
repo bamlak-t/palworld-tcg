@@ -4,7 +4,7 @@
  */
 import { defOf, isPal, isStructure } from './cards.ts';
 import { allActs, getScript, INTERRUPT, type ActAbility } from './abilities.ts';
-import { SOUL_COUNT } from './deck.ts';
+import { makeRules } from './deck.ts';
 import { costChoices, isValidCostChoice, payCost, runResolution, startResolution } from './effects.ts';
 import {
   card,
@@ -33,13 +33,13 @@ import type {
   CardInstance,
   CostChoice,
   GameEvent,
+  GameRules,
   GameState,
   PendingChoice,
   PlayerState,
   Seat,
 } from './types.ts';
 
-const STARTING_LIFE = 10;
 const OPENING_HAND = 5;
 const SOULS_PER_TURN = 2;
 const SOUL_DRAW_COST = 3;
@@ -58,11 +58,15 @@ export interface PlayerSetup {
 export function createGame(
   seed: number,
   setups: [PlayerSetup, PlayerSetup],
+  houseRules: Partial<GameRules> = {},
 ): { state: GameState; events: GameEvent[] } {
+  const rules = makeRules(houseRules);
+  if (typeof rules === 'string') throw new Error(rules);
   const s: GameState = {
+    rules,
     version: 0,
     rngState: seed | 0,
-    players: [emptyPlayer(setups[0].name), emptyPlayer(setups[1].name)],
+    players: [emptyPlayer(setups[0].name, rules), emptyPlayer(setups[1].name, rules)],
     cards: {},
     turn: 0,
     activeSeat: 0,
@@ -97,10 +101,10 @@ export function createGame(
   return { state: s, events: ctx.events };
 }
 
-function emptyPlayer(name: string): PlayerState {
+function emptyPlayer(name: string, rules: GameRules): PlayerState {
   return {
     name,
-    life: STARTING_LIFE,
+    life: rules.startingLife,
     damageTaken: 0,
     material: 0,
     ingredient: 0,
@@ -109,7 +113,7 @@ function emptyPlayer(name: string): PlayerState {
     base: [],
     graveyard: [],
     exile: [],
-    soulDeck: SOUL_COUNT,
+    soulDeck: rules.souls,
     soulsStanding: 0,
     soulsRested: 0,
     soulDrawUsed: false,

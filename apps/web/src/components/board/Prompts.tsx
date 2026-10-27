@@ -46,28 +46,12 @@ export function PendingDialog({
           </div>
         </Modal>
       );
-    case 'mulligan':
-      return (
-        <Modal title="Your opening hand" description="You may shuffle it back and draw 5 new cards, once.">
-          <p className="text-center text-xs text-muted-foreground">Click a card to read it.</p>
-          <CardRow
-            ids={(view.players[seat].hand ?? []).map((c) => ({ id: c.id, cardId: c.cardId }))}
-            onInspect={onInspect}
-          />
-          <div className="flex justify-center gap-2">
-            <Button onClick={() => dispatch({ type: 'mulligan', redraw: false })}>Keep</Button>
-            <Button variant="outline" onClick={() => dispatch({ type: 'mulligan', redraw: true })}>
-              Redraw
-            </Button>
-          </div>
-        </Modal>
-      );
     case 'effectChoice':
       return <EffectChoice key={`${p.prompt}-${view.version}`} pending={p} dispatch={dispatch} onInspect={onInspect} />;
     case 'overload':
       return <OverloadChoice key={view.version} pending={p} view={view} dispatch={dispatch} onInspect={onInspect} />;
     default:
-      return null; // block and quick step are handled on the board itself
+      return null; // mulligan, block and the quick step are handled on the board itself
   }
 }
 

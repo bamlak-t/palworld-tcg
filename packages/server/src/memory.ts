@@ -17,13 +17,28 @@ export function memoryStore(
     async sessionByCode(code) {
       const s = [...sessions.values()].find((x) => x.code === code);
       return s
-        ? structuredClone({ id: s.id, code: s.code, status: s.status, state: s.state, version: s.version })
+        ? structuredClone({
+            id: s.id,
+            code: s.code,
+            status: s.status,
+            state: s.state,
+            version: s.version,
+            rules: s.rules,
+          })
         : null;
     },
-    async insertSession(code) {
-      const row = { id: uuid(), code, status: 'waiting' as const, state: null, version: 0, updatedAt: Date.now() };
+    async insertSession(code, rules) {
+      const row = {
+        id: uuid(),
+        code,
+        status: 'waiting' as const,
+        state: null,
+        version: 0,
+        rules,
+        updatedAt: Date.now(),
+      };
       sessions.set(row.id, row);
-      return { id: row.id, code, status: row.status, state: null, version: 0 };
+      return { id: row.id, code, status: row.status, state: null, version: 0, rules };
     },
     async updateSession(id, patch) {
       const s = sessions.get(id)!;

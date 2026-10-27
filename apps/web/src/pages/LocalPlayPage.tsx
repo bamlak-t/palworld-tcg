@@ -9,6 +9,7 @@ import { expandDeck, useDecks } from '@/lib/decks';
 import { Window } from '@/components/game/Window';
 import { useLocalGame, type DeckChoice } from '@/game/useLocalGame';
 import { useSettings } from '@/lib/settings';
+import { useGameRules } from '@/lib/gameRules';
 import { cn } from '@/lib/utils';
 
 type Pair<T> = [T, T];
@@ -104,7 +105,10 @@ function LocalGame({ setup, onQuit }: { setup: Setup; onQuit: () => void }) {
         { name: setup.names[1], deck: deckChoice(setup.decks[1]) },
       ] as Pair<{ name: string; deck: DeckChoice }>,
   );
-  const game = useLocalGame(players);
+  // House rules are fixed when the game starts (New game uses them too).
+  const { rules } = useGameRules();
+  const [startRules] = useState(rules);
+  const game = useLocalGame(players, startRules);
   const { skin } = useSettings();
   const result = game.view.result;
 

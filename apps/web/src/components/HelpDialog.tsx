@@ -216,10 +216,11 @@ export function HelpDialog() {
           <CircleHelp />
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-h-[calc(100dvh-1.5rem)] max-w-[calc(100vw-1rem)] overflow-x-hidden overflow-y-auto p-4 sm:max-w-3xl sm:p-6">
+      {/* A fixed height, so switching sections doesn't resize the dialog; the section scrolls. */}
+      <DialogContent className="flex h-[min(46rem,calc(100dvh-1.5rem))] max-w-[calc(100vw-1rem)] flex-col overflow-hidden p-4 sm:max-w-3xl sm:p-6">
         <DialogTitle className="font-display text-xl">How to play</DialogTitle>
         <DialogDescription className="sr-only">A short guide to the Palworld card game.</DialogDescription>
-        <div className="flex min-w-0 flex-col gap-4 sm:flex-row">
+        <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-4 sm:flex-row">
           <nav
             className="flex w-full min-w-0 gap-1 overflow-x-auto pb-1 sm:w-44 sm:shrink-0 sm:flex-col sm:pb-0"
             aria-label="Sections"
@@ -238,7 +239,10 @@ export function HelpDialog() {
               </button>
             ))}
           </nav>
-          <article className="prose-sm min-w-0 flex-1 space-y-2 text-sm leading-relaxed [&_li]:ml-5 [&_ol]:list-decimal [&_ol]:space-y-1 [&_ul]:list-disc [&_ul]:space-y-1">
+          <article
+            key={section.id}
+            className="prose-sm min-h-0 min-w-0 flex-1 space-y-2 overflow-x-hidden overflow-y-auto pr-1 text-sm leading-relaxed [&_li]:ml-5 [&_ol]:list-decimal [&_ol]:space-y-1 [&_ul]:list-disc [&_ul]:space-y-1"
+          >
             <h3 className="font-display text-lg font-bold">{section.title}</h3>
             {section.figure}
             {section.body}

@@ -10,6 +10,7 @@ const session = (r: Record<string, unknown>): SessionRow => ({
   status: r.status as SessionRow['status'],
   state: r.state as SessionRow['state'],
   version: r.version as number,
+  rules: (r.rules as SessionRow['rules']) ?? null,
 });
 
 const member = (r: Record<string, unknown>): MemberRow => ({
@@ -29,8 +30,9 @@ function tx(sql: TxSql): Tx {
       const [r] = await sql`select * from palworld.sessions where code = ${code} for update`;
       return r ? session(r) : null;
     },
-    async insertSession(code) {
-      const [r] = await sql`insert into palworld.sessions (code) values (${code}) returning *`;
+    async insertSession(code, rules) {
+      const [r] =
+        await sql`insert into palworld.sessions (code, rules) values (${code}, ${rules ? sql.json(rules) : null}) returning *`;
       return session(r!);
     },
     async updateSession(id, patch) {

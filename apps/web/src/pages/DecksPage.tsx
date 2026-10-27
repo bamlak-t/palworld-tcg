@@ -1,14 +1,29 @@
-import { useMemo, useState } from 'react';
-import { Copy, Download, Maximize2, Minus, Plus, Search, Trash2, Upload } from 'lucide-react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import {
+  ChevronLeft,
+  ChevronRight,
+  Copy,
+  Download,
+  Layers,
+  Maximize2,
+  Minus,
+  Plus,
+  Save,
+  Search,
+  Trash2,
+  Upload,
+} from 'lucide-react';
 import { getCard, type CardDef } from '@pal/cards';
 import { copyLimit } from '@pal/engine';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
+import { Sheet, SheetContent, SheetDescription, SheetTitle } from '@/components/ui/sheet';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { CardInspector } from '@/components/CardInspector';
 import { CardFace } from '@/components/game/CardFace';
+import { useMediaQuery } from '@/hooks/useIsMobile';
 import { applyFilters, DEFAULT_FILTERS, FILTER_OPTIONS } from '@/lib/cardFilters';
 import {
   checkDeck,
@@ -25,25 +40,61 @@ import { cn } from '@/lib/utils';
 
 const KIND_ORDER = ['Pal', 'Structure', 'Gear', 'Event'] as const;
 
-/** Build and manage decks. Saved in this browser; usable in local and online games. */
+const sameDeck = (a: DeckList, b: DeckList) => {
+  if (a.name !== b.name) return false;
+  const ids = new Set([...Object.keys(a.cards), ...Object.keys(b.cards)]);
+  return [...ids].every((id) => (a.cards[id] ?? 0) === (b.cards[id] ?? 0));
+};
+
+/**
+ * Build and manage decks, saved in this browser. Edits are a draft until you press Save;
+ * leaving a deck with unsaved changes asks first.
+ */
 export function DecksPage() {
   const decks = useDecks();
   const [selectedId, setSelectedId] = useState<string | null>(() => decks.saved[0]?.id ?? decks.all[0]!.id);
-  const selected = decks.all.find((d) => d.id === selectedId) ?? null;
+  /** A new deck that hasn't been saved yet. */
+  const [fresh, setFresh] = useState<DeckList | null>(null);
+  const [dirty, setDirty] = useState(false);
+  /** The deck being edited, as it currently stands (shown in the list). */
+  const [live, setLive] = useState<DeckList | null>(null);
+  const shown = (list: DeckList[]) => list.map((d) => (live && d.id === live.id ? live : d));
+  /** What to do once the user agrees to throw away unsaved changes. */
+  const [pending, setPending] = useState<(() => void) | null>(null);
+  const selected = fresh && fresh.id === selectedId ? fresh : (decks.all.find((d) => d.id === selectedId) ?? null);
 
-  const create = () => {
-    const deck = decks.save({ id: newDeckId(), name: 'New deck', cards: {}, updatedAt: Date.now() });
-    setSelectedId(deck.id);
-  };
-  const copy = (d: DeckList) => {
-    const deck = decks.save({
-      ...d,
-      id: newDeckId(),
-      name: `${d.name.replace(/ \(approximate\)$/, '')} (copy)`,
-      builtIn: undefined,
+  // The browser asks before closing or reloading the tab with unsaved changes.
+  useEffect(() => {
+    if (!dirty) return;
+    const warn = (e: BeforeUnloadEvent) => e.preventDefault();
+    window.addEventListener('beforeunload', warn);
+    return () => window.removeEventListener('beforeunload', warn);
+  }, [dirty]);
+
+  const guard = (fn: () => void) => (dirty ? setPending(() => fn) : fn());
+  const select = (id: string) =>
+    guard(() => {
+      setFresh(null);
+      setSelectedId(id);
     });
-    setSelectedId(deck.id);
-  };
+  const create = () =>
+    guard(() => {
+      const deck: DeckList = { id: newDeckId(), name: 'New deck', cards: {}, updatedAt: Date.now() };
+      setFresh(deck);
+      setSelectedId(deck.id);
+    });
+  const copy = (d: DeckList) =>
+    guard(() => {
+      const deck = decks.save({
+        ...d,
+        id: newDeckId(),
+        name: `${d.name.replace(/ \(approximate\)$/, '')} (copy)`,
+        builtIn: undefined,
+      });
+      setFresh(null);
+      setSelectedId(deck.id);
+    });
+  const firstOther = (id: string) => decks.all.find((d) => d.id !== id)?.id ?? null;
 
   return (
     <div className="flex flex-col gap-4 lg:flex-row">
@@ -56,16 +107,17 @@ export function DecksPage() {
         </div>
         <DeckGroup
           title="Your decks"
-          decks={decks.saved}
+          decks={shown(fresh ? [fresh, ...decks.saved] : decks.saved)}
+          unsavedId={fresh?.id ?? (dirty ? selectedId : null)}
           selectedId={selectedId}
-          onSelect={setSelectedId}
+          onSelect={select}
           empty="No decks yet."
         />
         <DeckGroup
           title="Starter decks"
           decks={decks.all.filter((d) => d.builtIn)}
           selectedId={selectedId}
-          onSelect={setSelectedId}
+          onSelect={select}
         />
       </aside>
 
@@ -73,16 +125,51 @@ export function DecksPage() {
         <DeckEditor
           key={selected.id}
           deck={selected}
-          onSave={(d) => decks.save(d)}
-          onCopy={() => copy(selected)}
+          isNew={selected === fresh}
+          onDirtyChange={setDirty}
+          onDraftChange={setLive}
+          onSave={(d) => {
+            decks.save(d);
+            setFresh(null);
+          }}
+          onCopy={copy}
+          onDiscardNew={() => {
+            setFresh(null);
+            setDirty(false);
+            setSelectedId(decks.saved[0]?.id ?? decks.all[0]!.id);
+          }}
           onDelete={() => {
             decks.remove(selected.id);
-            setSelectedId(decks.all.find((d) => d.id !== selected.id)?.id ?? null);
+            setDirty(false);
+            setSelectedId(firstOther(selected.id));
           }}
         />
       ) : (
         <p className="py-10 text-center text-muted-foreground">Pick a deck or make a new one.</p>
       )}
+
+      <Dialog open={!!pending} onOpenChange={(o) => !o && setPending(null)}>
+        <DialogContent className="sm:max-w-sm">
+          <DialogTitle>Discard unsaved changes?</DialogTitle>
+          <DialogDescription>Your changes to this deck haven't been saved.</DialogDescription>
+          <div className="flex justify-end gap-2">
+            <DialogClose asChild>
+              <Button variant="outline">Keep editing</Button>
+            </DialogClose>
+            <Button
+              variant="destructive"
+              onClick={() => {
+                const next = pending;
+                setPending(null);
+                setDirty(false);
+                next?.();
+              }}
+            >
+              Discard
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
@@ -92,6 +179,7 @@ function DeckGroup(props: {
   decks: DeckList[];
   selectedId: string | null;
   onSelect: (id: string) => void;
+  unsavedId?: string | null;
   empty?: string;
 }) {
   return (
@@ -110,7 +198,10 @@ function DeckGroup(props: {
               d.id === props.selectedId ? 'bg-primary text-primary-foreground' : 'hover:bg-muted',
             )}
           >
-            <span className="truncate font-medium">{d.name}</span>
+            <span className="truncate font-medium">
+              {d.name}
+              {d.id === props.unsavedId && <span className="font-normal opacity-80"> · unsaved</span>}
+            </span>
             <span
               className={cn(
                 'shrink-0 text-xs tabular-nums',
@@ -128,67 +219,110 @@ function DeckGroup(props: {
 
 function DeckEditor({
   deck,
+  isNew,
+  onDirtyChange,
+  onDraftChange,
   onSave,
   onCopy,
+  onDiscardNew,
   onDelete,
 }: {
   deck: DeckList;
+  isNew: boolean;
+  onDirtyChange: (dirty: boolean) => void;
+  onDraftChange: (draft: DeckList | null) => void;
   onSave: (d: DeckList) => void;
-  onCopy: () => void;
+  onCopy: (d: DeckList) => void;
+  onDiscardNew: () => void;
   onDelete: () => void;
 }) {
-  // Edits apply straight away for your decks (saved as you go); starter decks are read-only.
+  // Starter decks are read-only (copy them to edit).
   const readOnly = !!deck.builtIn;
-  const update = (cards: Record<string, number>) => !readOnly && onSave({ ...deck, cards });
-  const [tab, setTab] = useState<'cards' | 'deck'>('cards');
+  const [draft, setDraft] = useState(deck);
+  const dirty = isNew || !sameDeck(draft, deck);
+  const wide = useMediaQuery('(min-width: 1024px)');
+  const [sheetOpen, setSheetOpen] = useState(false);
   const [inspect, setInspect] = useState<CardDef | null>(null);
 
+  useEffect(() => onDirtyChange(dirty && !readOnly), [dirty, readOnly, onDirtyChange]);
+  // Leaving the editor (another deck, another page) clears the flag.
+  useEffect(() => () => onDirtyChange(false), [onDirtyChange]);
+  useEffect(() => onDraftChange(draft), [draft, onDraftChange]);
+  useEffect(() => () => onDraftChange(null), [onDraftChange]);
+
+  const size = deckSize(draft);
+  const full = size >= DECK_RULES.size;
+  const update = (cards: Record<string, number>) => !readOnly && setDraft((d) => ({ ...d, cards }));
   const add = (id: string) => {
-    const n = deck.cards[id] ?? 0;
-    if (n >= copyLimit(id)) return;
-    update({ ...deck.cards, [id]: n + 1 });
+    const n = draft.cards[id] ?? 0;
+    if (full || n >= copyLimit(id)) return;
+    update({ ...draft.cards, [id]: n + 1 });
   };
   const removeOne = (id: string) => {
-    const next = { ...deck.cards };
+    const next = { ...draft.cards };
     if ((next[id] ?? 0) <= 1) delete next[id];
     else next[id]! -= 1;
     update(next);
   };
 
+  const panel = (
+    <DeckPanel
+      deck={draft}
+      readOnly={readOnly}
+      dirty={dirty}
+      isNew={isNew}
+      onRename={(name) => !readOnly && setDraft((d) => ({ ...d, name }))}
+      onSave={() => {
+        const saved = { ...draft, name: draft.name.trim() || 'Untitled deck' };
+        setDraft(saved);
+        onSave(saved);
+      }}
+      onDiscard={() => (isNew ? onDiscardNew() : setDraft(deck))}
+      onAdd={add}
+      onRemove={removeOne}
+      onReplace={(cards) => update(capTo(cards, DECK_RULES.size))}
+      onCopy={() => onCopy(draft)}
+      onDelete={onDelete}
+      onInspect={setInspect}
+    />
+  );
+
   return (
-    <div className="flex min-w-0 flex-1 flex-col gap-3">
-      <div className="flex flex-wrap items-center gap-2 lg:hidden">
-        <ToggleGroup
-          type="single"
-          variant="outline"
-          spacing={0}
-          value={tab}
-          onValueChange={(v) => v && setTab(v as typeof tab)}
-        >
-          <ToggleGroupItem value="cards">Cards</ToggleGroupItem>
-          <ToggleGroupItem value="deck">
-            Deck · {deckSize(deck)}/{DECK_RULES.size}
-          </ToggleGroupItem>
-        </ToggleGroup>
+    <div className="flex min-w-0 flex-1 flex-col gap-4 lg:flex-row">
+      <div className="min-w-0 flex-1">
+        <CardPool
+          deck={draft}
+          readOnly={readOnly}
+          full={full}
+          onAdd={add}
+          onRemove={removeOne}
+          onInspect={setInspect}
+        />
       </div>
-      <div className="flex min-w-0 flex-col gap-4 lg:flex-row">
-        <div className={cn('min-w-0 flex-1', tab !== 'cards' && 'hidden lg:block')}>
-          <CardPool deck={deck} readOnly={readOnly} onAdd={add} onRemove={removeOne} onInspect={setInspect} />
-        </div>
-        <div className={cn('lg:w-80 lg:shrink-0', tab !== 'deck' && 'hidden lg:block')}>
-          <DeckPanel
-            deck={deck}
-            readOnly={readOnly}
-            onRename={(name) => !readOnly && onSave({ ...deck, name })}
-            onAdd={add}
-            onRemove={removeOne}
-            onReplace={update}
-            onCopy={onCopy}
-            onDelete={onDelete}
-            onInspect={setInspect}
-          />
-        </div>
-      </div>
+      {wide ? (
+        <div className="lg:w-80 lg:shrink-0">{panel}</div>
+      ) : (
+        <>
+          {/* Phones and tablets: the deck lives in a sheet, opened from a button that stays put. */}
+          <Button
+            size="lg"
+            onClick={() => setSheetOpen(true)}
+            className="fixed right-4 bottom-4 z-40 h-12 rounded-full px-5 shadow-lg"
+            aria-label={`Open deck (${size} of ${DECK_RULES.size} cards)`}
+          >
+            <Layers data-icon="inline-start" />
+            Deck {size}/{DECK_RULES.size}
+            {dirty && !readOnly && <span className="ml-1 size-2 rounded-full bg-amber-400" aria-label="unsaved" />}
+          </Button>
+          <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
+            <SheetContent side="bottom" className="max-h-[88dvh] overflow-y-auto rounded-t-xl p-3 pt-10">
+              <SheetTitle className="sr-only">{draft.name}</SheetTitle>
+              <SheetDescription className="sr-only">The cards in this deck.</SheetDescription>
+              {panel}
+            </SheetContent>
+          </Sheet>
+        </>
+      )}
       <CardInspector
         instance={
           inspect
@@ -210,9 +344,23 @@ function DeckEditor({
   );
 }
 
+/** Keeps an imported list within the deck size (drops cards from the end). */
+function capTo(cards: Record<string, number>, max: number) {
+  const out: Record<string, number> = {};
+  let total = 0;
+  for (const [id, n] of Object.entries(cards)) {
+    const take = Math.min(n, max - total);
+    if (take <= 0) break;
+    out[id] = take;
+    total += take;
+  }
+  return out;
+}
+
 function CardPool(props: {
   deck: DeckList;
   readOnly: boolean;
+  full: boolean;
   onAdd: (id: string) => void;
   onRemove: (id: string) => void;
   onInspect: (c: CardDef) => void;
@@ -221,6 +369,10 @@ function CardPool(props: {
   const [kinds, setKinds] = useState<string[]>([]);
   const [colors, setColors] = useState<string[]>([]);
   const [lucky, setLucky] = useState(false);
+  const [page, setPage] = useState(0);
+  const top = useRef<HTMLDivElement>(null);
+  // Whole rows per page: 3 × 6 on phones, 4 × 5 or 5 × 4 from the sm breakpoint.
+  const pageSize = useMediaQuery('(min-width: 640px)') ? 20 : 18;
 
   const cards = useMemo(
     () =>
@@ -234,9 +386,18 @@ function CardPool(props: {
       }),
     [query, kinds, colors, lucky],
   );
+  const pages = Math.max(1, Math.ceil(cards.length / pageSize));
+  // New filters start from the first page.
+  useEffect(() => setPage(0), [query, kinds, colors, lucky]);
+  const current = Math.min(page, pages - 1);
+  const shown = cards.slice(current * pageSize, (current + 1) * pageSize);
+  const goTo = (p: number) => {
+    setPage(p);
+    if (top.current && top.current.getBoundingClientRect().top < 0) top.current.scrollIntoView({ block: 'start' });
+  };
 
   return (
-    <div className="flex flex-col gap-3">
+    <div ref={top} className="flex scroll-mt-20 flex-col gap-3 pb-20 lg:pb-0">
       <div className="relative">
         <Search className="pointer-events-none absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-muted-foreground" />
         <Input
@@ -287,16 +448,20 @@ function CardPool(props: {
       </div>
       <p className="text-xs text-muted-foreground">
         {cards.length} cards
-        {props.readOnly ? ' · starter decks are read-only: make a copy to edit' : ' · click a card to add it'}
+        {props.readOnly
+          ? ' · starter decks are read-only: make a copy to edit'
+          : props.full
+            ? ` · the deck is full (${DECK_RULES.size} cards)`
+            : ' · click a card to add it'}
       </p>
       <ul className="grid grid-cols-3 gap-2 sm:grid-cols-4 xl:grid-cols-5">
-        {cards.map((c) => {
+        {shown.map((c) => {
           const n = props.deck.cards[c.id] ?? 0;
           return (
             <li key={c.id} className="group relative">
               <button
                 type="button"
-                disabled={props.readOnly || n >= copyLimit(c.id)}
+                disabled={props.readOnly || props.full || n >= copyLimit(c.id)}
                 onClick={() => props.onAdd(c.id)}
                 title={props.readOnly ? c.name : `Add ${c.name}`}
                 className={cn(
@@ -312,7 +477,8 @@ function CardPool(props: {
                 </span>
               )}
 
-              <div className="absolute right-1 bottom-1 flex gap-1 opacity-0 transition group-hover:opacity-100 focus-within:opacity-100">
+              {/* Always shown on touch screens; on hover where there's a mouse. */}
+              <div className="absolute right-1 bottom-1 flex gap-1 transition [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:group-hover:opacity-100 [@media(hover:hover)]:focus-within:opacity-100">
                 <IconButton label={`Read ${c.name}`} onClick={() => props.onInspect(c)}>
                   <Maximize2 />
                 </IconButton>
@@ -326,6 +492,19 @@ function CardPool(props: {
           );
         })}
       </ul>
+      {pages > 1 && (
+        <nav className="flex items-center justify-center gap-3" aria-label="Pages">
+          <Button size="sm" variant="outline" disabled={current === 0} onClick={() => goTo(current - 1)}>
+            <ChevronLeft data-icon="inline-start" /> Prev
+          </Button>
+          <span className="text-sm text-muted-foreground tabular-nums">
+            Page {current + 1} of {pages}
+          </span>
+          <Button size="sm" variant="outline" disabled={current === pages - 1} onClick={() => goTo(current + 1)}>
+            Next <ChevronRight data-icon="inline-end" />
+          </Button>
+        </nav>
+      )}
     </div>
   );
 }
@@ -347,7 +526,11 @@ function IconButton({ label, onClick, children }: { label: string; onClick: () =
 function DeckPanel(props: {
   deck: DeckList;
   readOnly: boolean;
+  dirty: boolean;
+  isNew: boolean;
   onRename: (name: string) => void;
+  onSave: () => void;
+  onDiscard: () => void;
   onAdd: (id: string) => void;
   onRemove: (id: string) => void;
   onReplace: (cards: Record<string, number>) => void;
@@ -383,6 +566,19 @@ function DeckPanel(props: {
 
   return (
     <div className="flex flex-col gap-3 rounded-xl border bg-card/60 p-3 lg:sticky lg:top-20">
+      {!props.readOnly && (
+        <div className="flex items-center gap-2">
+          <Button size="sm" disabled={!props.dirty} onClick={props.onSave}>
+            <Save data-icon="inline-start" /> Save
+          </Button>
+          <Button size="sm" variant="outline" disabled={!props.dirty} onClick={props.onDiscard}>
+            Discard
+          </Button>
+          <span className="ml-auto text-xs text-muted-foreground">
+            {props.isNew ? 'New, not saved yet' : props.dirty ? 'Unsaved changes' : 'Saved'}
+          </span>
+        </div>
+      )}
       <Input
         value={deck.name}
         readOnly={props.readOnly}
@@ -441,7 +637,7 @@ function DeckPanel(props: {
                     <button
                       type="button"
                       aria-label={`Add one ${def.name}`}
-                      disabled={n >= copyLimit(def.id)}
+                      disabled={n >= copyLimit(def.id) || size >= DECK_RULES.size}
                       onClick={() => props.onAdd(def.id)}
                       className="rounded p-0.5 hover:bg-muted disabled:opacity-30"
                     >
@@ -467,7 +663,7 @@ function DeckPanel(props: {
         <Button size="sm" variant="outline" onClick={props.onCopy}>
           <Copy data-icon="inline-start" /> {props.readOnly ? 'Make a copy' : 'Copy'}
         </Button>
-        {!props.readOnly && (
+        {!props.readOnly && !props.isNew && (
           <Button size="sm" variant="ghost" className="ml-auto text-destructive" onClick={() => setConfirmDelete(true)}>
             <Trash2 data-icon="inline-start" /> Delete
           </Button>
@@ -507,7 +703,7 @@ function ImportDialog(props: {
         <DialogTitle>Import a deck list</DialogTitle>
         <DialogDescription>
           One card per line, e.g. <code>4 ETD01-002</code> or <code>4 Jolthog – Shocking Yet Innocent</code>. This
-          replaces the deck's cards.
+          replaces the deck's cards (up to 50).
         </DialogDescription>
         <textarea
           value={text}

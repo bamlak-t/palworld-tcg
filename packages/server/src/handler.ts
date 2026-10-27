@@ -7,10 +7,12 @@ import {
   apply,
   createGame,
   forfeit,
+  makeRules,
   getLegalActions,
   validateDeck,
   viewFor,
   type Action,
+  type GameRules,
   type GameView,
   type Seat,
 } from '@pal/engine';
@@ -28,7 +30,8 @@ const CODE_ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // no 0/O or 1/I
 const CODE_LENGTH = 6;
 
 export type Request =
-  | { op: 'create'; name: string; avatarId: string; deck: string[] }
+  /** rules: house rules for this game (missing: standard). */
+  | { op: 'create'; name: string; avatarId: string; deck: string[]; rules?: Partial<GameRules> }
   /** deck is only needed (and checked) if you get a player seat. */
   | { op: 'join'; code: string; name: string; avatarId: string; deck?: string[] }
   | { op: 'view'; code: string; seatToken: string; sinceVersion?: number }
@@ -53,6 +56,8 @@ export interface SessionInfo {
   /** Your seat in the engine (p1 = 0, p2 = 1), or null when spectating. */
   seat: Seat | null;
   members: MemberInfo[];
+  /** The game's house rules (standard when none were chosen). */
+  rules: GameRules;
   version: number;
   view: GameView | null;
   legal: Action[];
@@ -144,12 +149,14 @@ const normaliseCode = (code: unknown) => {
 async function create(req: Extract<Request, { op: 'create' }>, deps: Deps): Promise<SessionInfo> {
   checkProfile(req.name, req.avatarId);
   checkDeck(req.deck);
+  const rules = req.rules === undefined ? null : makeRules(req.rules);
+  if (typeof rules === 'string') bad(rules);
   return deps.store.transaction(async (tx) => {
     await tx.deleteStaleSessions(STALE_HOURS);
     let session: SessionRow | null = null;
     for (let attempt = 0; attempt < 5 && !session; attempt++) {
       const code = newCode(deps.random);
-      if (!(await tx.sessionByCode(code))) session = await tx.insertSession(code);
+      if (!(await tx.sessionByCode(code))) session = await tx.insertSession(code, rules as GameRules | null);
     }
     if (!session) bad('Could not create a game, try again.', 503);
     const member = await tx.insertMember({
@@ -193,10 +200,14 @@ async function join(req: Extract<Request, { op: 'join' }>, deps: Deps): Promise<
     if (role === 'p2' && p1) {
       // Both seats filled: deal the game.
       const seed = Math.floor(deps.random() * 2 ** 31);
-      const { state } = createGame(seed, [
-        { name: p1.displayName, deck: p1.deck! },
-        { name: member.displayName, deck: member.deck! },
-      ]);
+      const { state } = createGame(
+        seed,
+        [
+          { name: p1.displayName, deck: p1.deck! },
+          { name: member.displayName, deck: member.deck! },
+        ],
+        session.rules ?? {},
+      );
       await tx.updateSession(session.id, { status: 'playing', state, version: state.version });
       Object.assign(session, { status: 'playing', state, version: state.version });
     }
@@ -306,6 +317,7 @@ async function info(tx: Tx, session: SessionRow, member: MemberRow, sinceVersion
       // You're talking to the server right now.
       secondsAway: m.id === member.id ? 0 : Math.floor(m.secondsAway),
     })),
+    rules: session.rules ?? (makeRules() as GameRules),
     version: session.version,
     view: state ? viewFor(state, seat ?? 'spectator') : null,
     legal: state && seat !== null ? getLegalActions(state, seat) : [],

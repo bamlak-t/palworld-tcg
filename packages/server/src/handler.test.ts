@@ -288,3 +288,29 @@ describe('disconnects', () => {
     expect((await call({ op: 'claimWin', code: host.code, seatToken: spectator.seatToken! })).status).toBe(403);
   });
 });
+
+describe('house rules', () => {
+  it("the host's starting life and soul count apply to the game", async () => {
+    const { ok } = setup();
+    const host = await ok({
+      op: 'create',
+      name: 'Alice',
+      avatarId: 'woolly',
+      deck: ETD01,
+      rules: { startingLife: 15, souls: 12 },
+    });
+    expect(host.rules).toEqual({ startingLife: 15, souls: 12 });
+    const guest = await ok({ op: 'join', code: host.code, name: 'Bob', avatarId: 'ember', deck: ETD02 });
+    expect(guest.view!.players.map((p) => p.life)).toEqual([15, 15]);
+    expect(guest.view!.players.map((p) => p.soulDeck)).toEqual([12, 12]);
+    expect(guest.view!.rules).toEqual({ startingLife: 15, souls: 12 });
+  });
+
+  it('rejects out-of-range rules and defaults to the standard ones', async () => {
+    const { call, ok } = setup();
+    const r = await call({ op: 'create', name: 'A', avatarId: 'woolly', deck: ETD01, rules: { startingLife: 0 } });
+    expect(r.status).toBe(400);
+    const host = await ok({ op: 'create', name: 'A', avatarId: 'woolly', deck: ETD01 });
+    expect(host.rules).toEqual({ startingLife: 10, souls: 10 });
+  });
+});

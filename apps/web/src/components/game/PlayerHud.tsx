@@ -21,7 +21,13 @@ export function LifeGauge({
           key={i}
           className={cn(
             'h-4 -skew-x-12 rounded-[2px]',
-            stacked ? 'flex-1' : compactOnMobile ? 'w-1.5 md:w-2.5' : 'w-2.5',
+            stacked
+              ? 'flex-1'
+              : max > 10 // more life than standard: thinner segments, same overall width
+                ? 'w-1 md:w-[5px]'
+                : compactOnMobile
+                  ? 'w-1.5 md:w-2.5'
+                  : 'w-2.5',
             i < life
               ? 'bg-gradient-to-b from-emerald-300 to-emerald-600 shadow-[0_0_6px] shadow-emerald-400/60'
               : 'bg-white/15',

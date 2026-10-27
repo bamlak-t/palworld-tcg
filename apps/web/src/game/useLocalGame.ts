@@ -6,6 +6,7 @@ import {
   viewFor,
   type Action,
   type GameEvent,
+  type GameRules,
   type GameState,
   type GameView,
   type Seat,
@@ -28,8 +29,11 @@ export interface EventBatch {
  * Hot-seat game: both players share this browser. The board shows whichever seat must
  * act next, so each player only sees their own hand when it's their move.
  */
-export function useLocalGame(players: [{ name: string; deck: DeckChoice }, { name: string; deck: DeckChoice }]) {
-  const [state, setState] = useState<GameState>(() => newGame(players));
+export function useLocalGame(
+  players: [{ name: string; deck: DeckChoice }, { name: string; deck: DeckChoice }],
+  rules?: GameRules,
+) {
+  const [state, setState] = useState<GameState>(() => newGame(players, rules));
   const [batches, setBatches] = useState<EventBatch[]>([]);
   const [error, setError] = useState<string | null>(null);
 
@@ -56,18 +60,22 @@ export function useLocalGame(players: [{ name: string; deck: DeckChoice }, { nam
   );
 
   const restart = useCallback(() => {
-    setState(newGame(players));
+    setState(newGame(players, rules));
     setBatches([]);
     setError(null);
-  }, [players]);
+  }, [players, rules]);
 
   return { view, seat, legal, dispatch, batches, error, clearError: () => setError(null), restart };
 }
 
-function newGame(players: [{ name: string; deck: DeckChoice }, { name: string; deck: DeckChoice }]) {
+function newGame(players: [{ name: string; deck: DeckChoice }, { name: string; deck: DeckChoice }], rules?: GameRules) {
   const seed = Math.floor(Math.random() * 2 ** 31);
-  return createGame(seed, [
-    { name: players[0].name, deck: [...players[0].deck.cards] },
-    { name: players[1].name, deck: [...players[1].deck.cards] },
-  ]).state;
+  return createGame(
+    seed,
+    [
+      { name: players[0].name, deck: [...players[0].deck.cards] },
+      { name: players[1].name, deck: [...players[1].deck.cards] },
+    ],
+    rules,
+  ).state;
 }

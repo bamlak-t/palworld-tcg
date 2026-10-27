@@ -298,6 +298,9 @@ function Lobby({ info }: { info: SessionInfo }) {
         <div className="text-center">
           <p className="text-xs text-window-foreground/70">Share this code</p>
           <p className="font-display text-4xl font-bold tracking-[0.3em] text-window-trim">{info.code}</p>
+          <p className="mt-1 text-xs text-window-foreground/70">
+            {info.rules.startingLife} life · {info.rules.souls} souls
+          </p>
         </div>
         <ul className="flex flex-col gap-2">
           {info.members.map((m) => (

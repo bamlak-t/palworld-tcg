@@ -1,6 +1,6 @@
 /** Client for the palworld-game Edge Function and its Realtime pings. */
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
-import type { Action } from '@pal/engine';
+import type { Action, GameRules } from '@pal/engine';
 import type { SessionInfo } from '@pal/server';
 
 const URL = import.meta.env.SUPABASE_PROJECT_URL;
@@ -40,7 +40,7 @@ export interface Profile {
 
 export const gameApi = {
   /** deck: the 50 card ids. The server checks the deck rules. */
-  create: (p: Profile, deck: string[]) => call<SessionInfo>({ op: 'create', ...p, deck }),
+  create: (p: Profile, deck: string[], rules?: GameRules) => call<SessionInfo>({ op: 'create', ...p, deck, rules }),
   join: (code: string, p: Profile, deck: string[]) => call<SessionInfo>({ op: 'join', code, ...p, deck }),
   view: (code: string, seatToken: string, sinceVersion?: number) =>
     call<SessionInfo>({ op: 'view', code, seatToken, sinceVersion }),

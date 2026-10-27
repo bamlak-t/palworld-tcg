@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, LayoutGroup } from 'motion/react';
 import { Swords } from 'lucide-react';
 import { getCard } from '@pal/cards';
@@ -28,6 +28,7 @@ import { cn } from '@/lib/utils';
 import { BoardCard, MenuItem, type CardMotion } from './BoardCard';
 import { PlayerArea } from './PlayerArea';
 import { DamageReveal, PendingDialog } from './Prompts';
+import { OpeningHand } from './OpeningHand';
 
 type Dispatch = (a: Action) => void;
 
@@ -191,6 +192,30 @@ export function Board({
   };
 
   const pending = !readOnly && view.pending?.seat === seat ? view.pending : null;
+
+  // Opening hand: shown big while you decide; after a redraw, the new hand is shown for a
+  // moment. When the overlay closes, the cards fly into the hand.
+  const choosingHand = pending?.kind === 'mulligan';
+  const redrawFor = useRef<Seat | null>(null);
+  const [newHand, setNewHand] = useState<CardInstance[] | null>(null);
+  useEffect(() => {
+    if (redrawFor.current === null) return;
+    // Local games hand the screen to the other player straight after a mulligan: then
+    // there's no one to show the new hand to.
+    if (redrawFor.current !== seat) {
+      redrawFor.current = null;
+      return;
+    }
+    if (choosingHand) return;
+    setNewHand(me.hand ?? []);
+    redrawFor.current = null;
+  }, [choosingHand, seat, me.hand]);
+  useEffect(() => {
+    if (!newHand) return;
+    const t = setTimeout(() => setNewHand(null), 1800);
+    return () => clearTimeout(t);
+  }, [newHand]);
+  const openingHand = choosingHand ? (me.hand ?? []) : newHand;
   const blockOptions = pending?.kind === 'block' ? pending.options : [];
   const targetIds = new Set(
     targeting ? (idx.attacks.get(targeting) ?? []).flatMap((t) => (t.kind === 'card' ? [t.id] : [])) : [],
@@ -313,7 +338,14 @@ export function Board({
               className="-mx-2 shrink-0 transition-transform duration-200 hover:z-10 hover:-translate-y-4"
               style={{ rotate: `${offset * 3}deg`, translate: `0 ${Math.abs(offset) * 4}px` }}
             >
-              {renderCard(c, seat, { inHand: true, size: handSize })}
+              {openingHand ? (
+                // Held in the opening-hand overlay for now: keep the space, not the card.
+                <div className="invisible">
+                  <GameCard faceDown size={handSize} />
+                </div>
+              ) : (
+                renderCard(c, seat, { inHand: true, size: handSize })
+              )}
             </div>
           );
         })}
@@ -361,7 +393,7 @@ export function Board({
       <div className="flex flex-col gap-4 xl:flex-row">
         <div className="relative min-w-0 flex-1 overflow-hidden rounded-xl shadow-xl">
           <div className="relative flex flex-col gap-2 p-2 md:gap-3 md:p-3" style={skinStyle(skin)}>
-            <HudBar player={them} />
+            <HudBar player={them} maxLife={view.rules.startingLife} />
 
             <PlayerArea
               player={them}
@@ -424,7 +456,7 @@ export function Board({
               onInspect={setInspect}
             />
 
-            <HudBar player={me} />
+            <HudBar player={me} maxLife={view.rules.startingLife} />
 
             <AnimatePresence>
               {reveal && <DamageReveal key={reveal.id} {...reveal} onDone={() => setReveal(null)} />}
@@ -441,6 +473,18 @@ export function Board({
           seat={seat}
           dispatch={send}
           onInspect={({ id, cardId }) => setInspect(findInstance(view, id) ?? looseCard(id, cardId, seat))}
+        />
+      )}
+      {!readOnly && openingHand && (
+        <OpeningHand
+          cards={openingHand}
+          stage={choosingHand ? 'choose' : 'redrawn'}
+          onKeep={() => send({ type: 'mulligan', redraw: false })}
+          onRedraw={() => {
+            redrawFor.current = seat;
+            send({ type: 'mulligan', redraw: true });
+          }}
+          onInspect={setInspect}
         />
       )}
       <CardInspector instance={inspect} onClose={() => setInspect(null)} />
@@ -509,7 +553,7 @@ function BoardPrompt({
   if (pending === 'block') {
     return (
       <>
-        <span className={text}>You're being attacked: click a glowing Pal to block</span>
+        <span className={text}>Block with a glowing Pal?</span>
         <Button size="sm" variant="secondary" onClick={() => send({ type: 'block', blockerId: null })}>
           Don't block
         </Button>
@@ -519,7 +563,7 @@ function BoardPrompt({
   if (pending === 'quickStep') {
     return (
       <>
-        <span className={text}>Respond with a Quick card or Interrupt, or pass to take the hit</span>
+        <span className={text}>Any Quick response?</span>
         <Button
           size="sm"
           className="bg-hud-border text-hud hover:bg-hud-border/85"

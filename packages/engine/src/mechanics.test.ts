@@ -226,3 +226,32 @@ describe('modes', () => {
     registerScripts({ [NOX]: {} });
   });
 });
+
+describe('house rules', () => {
+  it('starting life and soul count come from the rules', async () => {
+    const { createGame } = await import('./engine.ts');
+    const { TRIAL_DECKS } = await import('./decks.ts');
+    const { state } = createGame(
+      1,
+      [
+        { name: 'A', deck: [...TRIAL_DECKS.ETD01.cards] },
+        { name: 'B', deck: [...TRIAL_DECKS.ETD02.cards] },
+      ],
+      { startingLife: 7, souls: 14 },
+    );
+    expect(state.players.map((p) => [p.life, p.soulDeck])).toEqual([
+      [7, 14],
+      [7, 14],
+    ]);
+    expect(() =>
+      createGame(
+        1,
+        [
+          { name: 'A', deck: [] },
+          { name: 'B', deck: [] },
+        ],
+        { souls: 50 },
+      ),
+    ).toThrow();
+  });
+});
