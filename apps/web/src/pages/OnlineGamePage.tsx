@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router';
-import { Check, Copy, Eye, Users } from 'lucide-react';
-import type { SessionInfo } from '@pal/server';
+import { Check, Copy, Eye, Users, WifiOff } from 'lucide-react';
+import { AWAY_AFTER_SECONDS, CLAIM_WIN_AFTER_SECONDS, type SessionInfo } from '@pal/server';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
@@ -130,6 +130,13 @@ function OnlineGame({ code, token }: { code: string; token: string }) {
         </div>
       </div>
 
+      <ConnectionBanner
+        info={info}
+        receivedAt={game.receivedAt}
+        reconnecting={game.reconnecting}
+        onClaimWin={() => void game.claimWin()}
+      />
+
       {game.error && (
         <button
           onClick={game.clearError}
@@ -184,6 +191,103 @@ function OnlineGame({ code, token }: { code: string; token: string }) {
         </DialogContent>
       </Dialog>
     </div>
+  );
+}
+
+/** Re-renders every second while `active`, for live timers. */
+function useNow(active: boolean) {
+  const [now, setNow] = useState(() => Date.now());
+  useEffect(() => {
+    if (!active) return;
+    const t = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(t);
+  }, [active]);
+  return now;
+}
+
+const mmss = (seconds: number) => `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`;
+
+/**
+ * Your own connection dropping ("Reconnecting…"), or a player who has stopped checking in.
+ * After CLAIM_WIN_AFTER_SECONDS a player can claim the win; the server checks the time too.
+ */
+function ConnectionBanner({
+  info,
+  receivedAt,
+  reconnecting,
+  onClaimWin,
+}: {
+  info: SessionInfo;
+  receivedAt: number;
+  reconnecting: boolean;
+  onClaimWin: () => void;
+}) {
+  const [confirm, setConfirm] = useState(false);
+  const playing = info.status === 'playing';
+  const players = info.members.filter((m) => m.role !== 'spectator' && m.role !== info.role);
+  const now = useNow(playing && players.length > 0);
+  const elapsed = Math.max(0, Math.floor((now - receivedAt) / 1000));
+  // While you're offline yourself, you can't tell whether the others are still there.
+  const away = reconnecting || !playing ? [] : players.filter((m) => m.secondsAway + elapsed >= AWAY_AFTER_SECONDS);
+
+  if (reconnecting) {
+    return (
+      <p className="flex items-center gap-2 rounded-md bg-amber-500/15 px-3 py-2 text-sm text-amber-800 dark:text-amber-300">
+        <WifiOff className="size-4 shrink-0" /> Connection lost. Reconnecting…
+      </p>
+    );
+  }
+  if (away.length === 0) return null;
+
+  return (
+    <>
+      {away.map((m) => {
+        const seconds = m.secondsAway + elapsed;
+        const canClaim = info.role !== 'spectator' && seconds >= CLAIM_WIN_AFTER_SECONDS;
+        return (
+          <div
+            key={m.role}
+            className="flex flex-wrap items-center gap-x-3 gap-y-2 rounded-md bg-amber-500/15 px-3 py-2 text-sm text-amber-800 dark:text-amber-300"
+          >
+            <WifiOff className="size-4 shrink-0" />
+            <span className="min-w-0 flex-1">
+              <b>{m.name}</b> seems to have disconnected ({mmss(seconds)}).{' '}
+              {info.role === 'spectator'
+                ? 'Waiting for them to come back.'
+                : canClaim
+                  ? 'You can wait, or claim the win.'
+                  : `If they're not back within ${mmss(CLAIM_WIN_AFTER_SECONDS)}, you can claim the win.`}
+            </span>
+            {canClaim && (
+              <Button size="sm" onClick={() => setConfirm(true)}>
+                Claim win
+              </Button>
+            )}
+          </div>
+        );
+      })}
+      <Dialog open={confirm} onOpenChange={setConfirm}>
+        <DialogContent className="sm:max-w-sm">
+          <DialogTitle>Claim the win?</DialogTitle>
+          <DialogDescription>
+            Your opponent has been disconnected for a while. This ends the game in your favour.
+          </DialogDescription>
+          <div className="flex justify-end gap-2">
+            <DialogClose asChild>
+              <Button variant="outline">Keep waiting</Button>
+            </DialogClose>
+            <Button
+              onClick={() => {
+                setConfirm(false);
+                onClaimWin();
+              }}
+            >
+              Claim win
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }
 

@@ -4,6 +4,7 @@ export * from './types.ts';
 export {
   createGame,
   apply,
+  forfeit,
   canAttack,
   attackTargets,
   activatableAbilities,

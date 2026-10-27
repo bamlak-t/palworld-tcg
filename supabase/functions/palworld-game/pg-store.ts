@@ -20,6 +20,7 @@ const member = (r: Record<string, unknown>): MemberRow => ({
   displayName: r.display_name as string,
   avatarId: r.avatar_id as string,
   deck: (r.deck as string[] | null) ?? null,
+  secondsAway: Number(r.seconds_away ?? 0),
 });
 
 function tx(sql: TxSql): Tx {
@@ -46,12 +47,13 @@ function tx(sql: TxSql): Tx {
       await sql`delete from palworld.sessions where updated_at < now() - make_interval(hours => ${hours})`;
     },
     async members(sessionId) {
-      const rows = await sql`select * from palworld.members where session_id = ${sessionId} order by joined_at`;
+      const rows =
+        await sql`select *, extract(epoch from now() - last_seen) as seconds_away from palworld.members where session_id = ${sessionId} order by joined_at`;
       return rows.map(member);
     },
     async memberByToken(sessionId, seatToken) {
       const [r] =
-        await sql`select * from palworld.members where session_id = ${sessionId} and seat_token = ${seatToken}`;
+        await sql`select *, extract(epoch from now() - last_seen) as seconds_away from palworld.members where session_id = ${sessionId} and seat_token = ${seatToken}`;
       return r ? member(r) : null;
     },
     async insertMember(m) {

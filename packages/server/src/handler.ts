@@ -6,6 +6,7 @@
 import {
   apply,
   createGame,
+  forfeit,
   getLegalActions,
   validateDeck,
   viewFor,
@@ -16,6 +17,12 @@ import {
 import type { MemberRow, Role, SessionRow, SessionStatus, Store, Tx } from './store.ts';
 
 export const MAX_SPECTATORS = 3;
+/** Clients check in at least this often while a game is open (see useOnlineGame). */
+export const HEARTBEAT_SECONDS = 15;
+/** A player not heard from for this long is shown as disconnected. */
+export const AWAY_AFTER_SECONDS = 45;
+/** After this long without hearing from your opponent, you can claim the win. */
+export const CLAIM_WIN_AFTER_SECONDS = 180;
 const STALE_HOURS = 24;
 const CODE_ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // no 0/O or 1/I
 const CODE_LENGTH = 6;
@@ -26,12 +33,16 @@ export type Request =
   | { op: 'join'; code: string; name: string; avatarId: string; deck?: string[] }
   | { op: 'view'; code: string; seatToken: string; sinceVersion?: number }
   | { op: 'action'; code: string; seatToken: string; action: Action; expectedVersion: number }
-  | { op: 'leave'; code: string; seatToken: string };
+  | { op: 'leave'; code: string; seatToken: string }
+  /** Win because the opponent has been disconnected for CLAIM_WIN_AFTER_SECONDS. */
+  | { op: 'claimWin'; code: string; seatToken: string };
 
 export interface MemberInfo {
   role: Role;
   name: string;
   avatarId: string;
+  /** Whole seconds since this member last checked in. */
+  secondsAway: number;
 }
 
 /** What a client sees. Only its own hand; the opponent's hand and both decks are counts. */
@@ -99,6 +110,8 @@ async function route(req: Request, deps: Deps): Promise<SessionInfo | { ok: true
       return act(req, deps);
     case 'leave':
       return leave(req, deps);
+    case 'claimWin':
+      return claimWin(req, deps);
     default:
       return bad('Unknown operation.');
   }
@@ -246,6 +259,29 @@ async function leave(req: Extract<Request, { op: 'leave' }>, deps: Deps): Promis
   return { ok: true };
 }
 
+async function claimWin(req: Extract<Request, { op: 'claimWin' }>, deps: Deps): Promise<SessionInfo> {
+  const result = await deps.store.transaction(async (tx) => {
+    const { session, member } = await seated(tx, req.code, req.seatToken);
+    if (member.role === 'spectator') bad('Spectators can only watch.', 403);
+    if (session.status !== 'playing' || !session.state) bad('There is no game in progress.', 409);
+    const opponent = (await tx.members(session.id)).find((m) => m.role === (member.role === 'p1' ? 'p2' : 'p1'));
+    if (opponent && opponent.secondsAway < CLAIM_WIN_AFTER_SECONDS) bad('Your opponent is still connected.', 409);
+
+    const loser: Seat = member.role === 'p1' ? 1 : 0;
+    const r = forfeit(session.state!, loser, `${opponent?.displayName ?? 'The opponent'} disconnected`);
+    if (!r.ok) bad(r.error, 409);
+    const ok = r as Extract<typeof r, { ok: true }>;
+    const before = session.version;
+    await tx.updateSession(session.id, { state: ok.state, version: ok.state.version, status: 'finished' });
+    await tx.insertEvents(session.id, ok.state.version, ok.events);
+    await tx.touchMember(member.id);
+    Object.assign(session, { state: ok.state, version: ok.state.version, status: 'finished' });
+    return info(tx, session, member, before);
+  });
+  await deps.broadcast(result.code, result.version);
+  return result;
+}
+
 async function seated(tx: Tx, rawCode: string, seatToken: unknown) {
   const code = normaliseCode(rawCode);
   if (typeof seatToken !== 'string' || !/^[0-9a-f-]{36}$/i.test(seatToken)) bad('Invalid seat.', 401);
@@ -263,7 +299,13 @@ async function info(tx: Tx, session: SessionRow, member: MemberRow, sinceVersion
     status: session.status,
     role: member.role,
     seat,
-    members: members.map((m) => ({ role: m.role, name: m.displayName, avatarId: m.avatarId })),
+    members: members.map((m) => ({
+      role: m.role,
+      name: m.displayName,
+      avatarId: m.avatarId,
+      // You're talking to the server right now.
+      secondsAway: m.id === member.id ? 0 : Math.floor(m.secondsAway),
+    })),
     version: session.version,
     view: state ? viewFor(state, seat ?? 'spectator') : null,
     legal: state && seat !== null ? getLegalActions(state, seat) : [],

@@ -8,6 +8,8 @@ const KEY = import.meta.env.SUPABASE_PUBLISHABLE_KEY;
 
 export const onlineConfigured = Boolean(URL && KEY);
 
+const REQUEST_TIMEOUT_MS = 10_000;
+
 export class GameApiError extends Error {
   constructor(
     readonly status: number,
@@ -23,6 +25,8 @@ async function call<T>(body: object): Promise<T> {
     method: 'POST',
     headers: { apikey: KEY, 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
+    // A request stuck on a dead connection would block the retries behind it.
+    signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
   });
   const data = (await res.json().catch(() => ({}))) as T & { error?: string };
   if (!res.ok) throw new GameApiError(res.status, data.error ?? `Request failed (${res.status}).`);
@@ -43,6 +47,7 @@ export const gameApi = {
   action: (code: string, seatToken: string, action: Action, expectedVersion: number) =>
     call<SessionInfo>({ op: 'action', code, seatToken, action, expectedVersion }),
   leave: (code: string, seatToken: string) => call<{ ok: true }>({ op: 'leave', code, seatToken }),
+  claimWin: (code: string, seatToken: string) => call<SessionInfo>({ op: 'claimWin', code, seatToken }),
 };
 
 // Seat tokens, per game code, so a refresh puts you back in your seat.
@@ -79,13 +84,19 @@ export const seats = {
 let client: SupabaseClient | null = null;
 
 /**
- * Calls onPing whenever the game changes. The ping carries only a version number; the
- * page then fetches its own view, so a forged ping can't show anyone a fake state.
+ * Calls onPing whenever the game changes, and whenever the channel (re)connects so the
+ * page can catch up on pings it missed. The ping carries only a version number; the page
+ * then fetches its own view, so a forged ping can't show anyone a fake state.
  */
 export function subscribeToGame(code: string, onPing: () => void): () => void {
   if (!onlineConfigured) return () => {};
   client ??= createClient(URL, KEY, { auth: { persistSession: false } });
-  const channel = client.channel(`palworld:${code}`).on('broadcast', { event: 'version' }, onPing).subscribe();
+  const channel = client
+    .channel(`palworld:${code}`)
+    .on('broadcast', { event: 'version' }, onPing)
+    .subscribe((status) => {
+      if (status === 'SUBSCRIBED') onPing();
+    });
   return () => {
     void client!.removeChannel(channel);
   };

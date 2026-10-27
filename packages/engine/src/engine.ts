@@ -154,6 +154,15 @@ export function apply(state: GameState, seat: Seat, action: Action): ApplyResult
   return { ok: true, state: ctx.s, events: ctx.events };
 }
 
+/** Ends the game with the seat losing for a reason outside play (e.g. it disconnected). */
+export function forfeit(state: GameState, loser: Seat, reason: string): ApplyResult {
+  if (state.result) return { ok: false, error: 'The game is over.' };
+  const ctx: Ctx = { s: structuredClone(state), events: [] };
+  endGame(ctx, other(loser), reason);
+  ctx.s.version++;
+  return { ok: true, state: ctx.s, events: ctx.events };
+}
+
 type ActionOf<T extends Action['type']> = Extract<Action, { type: T }>;
 
 function dispatch(ctx: Ctx, seat: Seat, action: Action) {

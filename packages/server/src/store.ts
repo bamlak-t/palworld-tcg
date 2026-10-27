@@ -20,6 +20,8 @@ export interface MemberRow {
   avatarId: string;
   /** The player's 50 card ids; null for spectators. */
   deck: string[] | null;
+  /** Seconds since this member last talked to the server (by the database clock). */
+  secondsAway: number;
 }
 
 export interface EventBatchRow {
@@ -39,7 +41,7 @@ export interface Tx {
 
   members(sessionId: string): Promise<MemberRow[]>;
   memberByToken(sessionId: string, seatToken: string): Promise<MemberRow | null>;
-  insertMember(m: Omit<MemberRow, 'id' | 'seatToken'>): Promise<MemberRow>;
+  insertMember(m: Omit<MemberRow, 'id' | 'seatToken' | 'secondsAway'>): Promise<MemberRow>;
   deleteMember(id: string): Promise<void>;
   touchMember(id: string): Promise<void>;
 

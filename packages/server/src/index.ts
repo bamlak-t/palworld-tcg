@@ -1,5 +1,8 @@
 export {
   handle,
+  AWAY_AFTER_SECONDS,
+  CLAIM_WIN_AFTER_SECONDS,
+  HEARTBEAT_SECONDS,
   MAX_SPECTATORS,
   type Deps,
   type MemberInfo,

@@ -1,12 +1,21 @@
 import { describe, expect, it } from 'vitest';
 import { TRIAL_DECKS } from '@pal/engine';
-import { handle, MAX_SPECTATORS, memoryStore, type Request, type SessionInfo } from './index.ts';
+import {
+  CLAIM_WIN_AFTER_SECONDS,
+  handle,
+  MAX_SPECTATORS,
+  memoryStore,
+  type Request,
+  type SessionInfo,
+} from './index.ts';
 
 const ETD01 = [...TRIAL_DECKS.ETD01.cards];
 const ETD02 = [...TRIAL_DECKS.ETD02.cards];
 
+/** clock: a fake time in ms that tests move forward. */
 function setup() {
-  const store = memoryStore();
+  const clock = { now: 1_000_000 };
+  const store = memoryStore(() => clock.now);
   const pings: [string, number][] = [];
   let seed = 1;
   const deps = {
@@ -25,7 +34,7 @@ function setup() {
     if (r.status !== 200) throw new Error(`${req.op} failed: ${JSON.stringify(r.body)}`);
     return r.body as SessionInfo;
   };
-  return { call, ok, pings, store };
+  return { call, ok, pings, store, clock };
 }
 
 async function startedGame() {
@@ -241,5 +250,41 @@ describe('leaving', () => {
     await ok({ op: 'leave', code: host.code, seatToken: s.seatToken! } as Request);
     const v = await ok({ op: 'view', code: host.code, seatToken: host.seatToken! });
     expect(v.members.map((m) => m.role)).toEqual(['p1', 'p2']);
+  });
+});
+
+describe('disconnects', () => {
+  it('reports how long each member has been away', async () => {
+    const { host, guest, ok, clock } = await startedGame();
+    clock.now += 50_000;
+    const v = await ok({ op: 'view', code: host.code, seatToken: host.seatToken! });
+    expect(v.members.find((m) => m.role === 'p1')!.secondsAway).toBe(0);
+    expect(v.members.find((m) => m.role === 'p2')!.secondsAway).toBe(50);
+    await ok({ op: 'view', code: host.code, seatToken: guest.seatToken! });
+    const again = await ok({ op: 'view', code: host.code, seatToken: host.seatToken! });
+    expect(again.members.find((m) => m.role === 'p2')!.secondsAway).toBe(0);
+  });
+
+  it('you can claim the win once the opponent has been away long enough', async () => {
+    const { host, guest, call, ok, clock, pings } = await startedGame();
+    clock.now += (CLAIM_WIN_AFTER_SECONDS - 10) * 1000;
+    expect((await call({ op: 'claimWin', code: host.code, seatToken: host.seatToken! })).status).toBe(409);
+    clock.now += 20_000;
+    const v = await ok({ op: 'claimWin', code: host.code, seatToken: host.seatToken! });
+    expect(v.status).toBe('finished');
+    expect(v.view!.result).toEqual({ winner: 0, reason: 'Bob disconnected' });
+    expect(v.events.at(-1)?.events).toContainEqual(expect.objectContaining({ type: 'gameOver' }));
+    expect(pings.at(-1)).toEqual([host.code, v.version]);
+    // The game is over: claiming again fails.
+    expect((await call({ op: 'claimWin', code: host.code, seatToken: guest.seatToken! })).status).toBe(409);
+  });
+
+  it('checking in (or moving) resets the clock, and spectators cannot claim', async () => {
+    const { host, guest, call, ok, clock } = await startedGame();
+    const spectator = await ok({ op: 'join', code: host.code, name: 'Eve', avatarId: 'frost' });
+    clock.now += CLAIM_WIN_AFTER_SECONDS * 1000;
+    await ok({ op: 'view', code: host.code, seatToken: guest.seatToken! });
+    expect((await call({ op: 'claimWin', code: host.code, seatToken: host.seatToken! })).status).toBe(409);
+    expect((await call({ op: 'claimWin', code: host.code, seatToken: spectator.seatToken! })).status).toBe(403);
   });
 });

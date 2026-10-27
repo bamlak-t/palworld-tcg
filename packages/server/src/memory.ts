@@ -1,7 +1,11 @@
 import type { EventBatchRow, MemberRow, SessionRow, Store, Tx } from './store.ts';
 
 /** In-memory store for tests. Transactions run one at a time. */
-export function memoryStore(): Store & { dump(): { sessions: SessionRow[]; members: MemberRow[] } } {
+export function memoryStore(
+  now: () => number = Date.now,
+): Store & { dump(): { sessions: SessionRow[]; members: MemberRow[] } } {
+  const lastSeen = new Map<string, number>();
+  const away = (m: MemberRow): MemberRow => ({ ...m, secondsAway: (now() - (lastSeen.get(m.id) ?? now())) / 1000 });
   const sessions = new Map<string, SessionRow & { updatedAt: number }>();
   const members = new Map<string, MemberRow>();
   const events: (EventBatchRow & { sessionId: string })[] = [];
@@ -34,21 +38,24 @@ export function memoryStore(): Store & { dump(): { sessions: SessionRow[]; membe
       for (const s of [...sessions.values()]) if (s.updatedAt < cutoff) await tx.deleteSession(s.id);
     },
     async members(sessionId) {
-      return [...members.values()].filter((m) => m.sessionId === sessionId).map((m) => ({ ...m }));
+      return [...members.values()].filter((m) => m.sessionId === sessionId).map(away);
     },
     async memberByToken(sessionId, seatToken) {
       const m = [...members.values()].find((x) => x.sessionId === sessionId && x.seatToken === seatToken);
-      return m ? { ...m } : null;
+      return m ? away(m) : null;
     },
     async insertMember(m) {
-      const row: MemberRow = { ...m, id: uuid(), seatToken: uuid() };
+      const row: MemberRow = { ...m, id: uuid(), seatToken: uuid(), secondsAway: 0 };
       members.set(row.id, row);
+      lastSeen.set(row.id, now());
       return { ...row };
     },
     async deleteMember(id) {
       members.delete(id);
     },
-    async touchMember() {},
+    async touchMember(id) {
+      lastSeen.set(id, now());
+    },
     async insertEvents(sessionId, version, evs) {
       events.push({ sessionId, version, events: structuredClone(evs) });
     },
