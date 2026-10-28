@@ -19,6 +19,7 @@ vi.mock('@/game/online', async (importOriginal) => {
 
 const { signIn, signOut, signUp } = await import('./account');
 const { syncDecks, useDecks, useDeckSync } = await import('./decks');
+const { PREFS_APPLIED, prefsChanged, syncPrefs } = await import('./prefs');
 
 const deck = (id: string, name = id) => ({ id, name, cards: { 'ETD01-002': 4 }, updatedAt: 0 });
 
@@ -102,5 +103,38 @@ describe('deck sync', () => {
     await act(() => syncDecks());
     expect(h.result.current.sync).toEqual({ state: 'local' });
     expect(names(h)).toEqual(['Fire']);
+  });
+});
+
+describe('preference sync', () => {
+  const settingsOf = () => JSON.parse(localStorage.getItem('pal-settings') ?? '{}') as { skinId?: string };
+
+  it('uploads this device’s preferences on sign-up and brings them to another device', async () => {
+    localStorage.setItem('pal-settings', JSON.stringify({ skinId: 'desert' }));
+    localStorage.setItem('pal-theme', 'dark');
+    await signUp('alice', 'secret1');
+    act(() => signOut());
+
+    // Another device with its own preferences: signing in takes the account's.
+    localStorage.clear();
+    localStorage.setItem('pal-settings', JSON.stringify({ skinId: 'night' }));
+    const applied = vi.fn();
+    window.addEventListener(PREFS_APPLIED, applied);
+    await signIn('alice', 'secret1');
+    window.removeEventListener(PREFS_APPLIED, applied);
+    expect(settingsOf().skinId).toBe('desert');
+    expect(localStorage.getItem('pal-theme')).toBe('dark');
+    expect(applied).toHaveBeenCalled();
+  });
+
+  it('uploads changes made while signed in', async () => {
+    await signUp('alice', 'secret1');
+    localStorage.setItem('pal-settings', JSON.stringify({ skinId: 'forest' }));
+    prefsChanged();
+    await syncPrefs();
+    act(() => signOut());
+    localStorage.clear();
+    await signIn('alice', 'secret1');
+    expect(settingsOf().skinId).toBe('forest');
   });
 });

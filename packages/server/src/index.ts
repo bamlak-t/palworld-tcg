@@ -28,5 +28,6 @@ export {
   type AccountRequest,
   type AccountResponse,
   type DeckInput,
+  type Prefs,
 } from './accounts.ts';
 export { memoryStore } from './memory.ts';

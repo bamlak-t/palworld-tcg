@@ -1,6 +1,7 @@
 /** House rules for games you create or start here, remembered in this browser. */
 import { useSyncExternalStore } from 'react';
 import { makeRules, STANDARD_RULES, type GameRules } from '@pal/engine';
+import { PREFS_APPLIED, prefsChanged } from '@/lib/prefs';
 
 const STORAGE_KEY = 'pal-game-rules';
 
@@ -31,7 +32,11 @@ function read(): GameRules {
 
 const subscribe = (onChange: () => void) => {
   window.addEventListener(CHANGE_EVENT, onChange);
-  return () => window.removeEventListener(CHANGE_EVENT, onChange);
+  window.addEventListener(PREFS_APPLIED, onChange);
+  return () => {
+    window.removeEventListener(CHANGE_EVENT, onChange);
+    window.removeEventListener(PREFS_APPLIED, onChange);
+  };
 };
 
 export function useGameRules() {
@@ -43,6 +48,7 @@ export function useGameRules() {
       // Non-fatal: the rules just won't be remembered.
     }
     window.dispatchEvent(new Event(CHANGE_EVENT));
+    prefsChanged();
   };
   const standard = (Object.keys(DEFAULT_RULES) as (keyof GameRules)[]).every((k) => rules[k] === DEFAULT_RULES[k]);
   return { rules, set, standard, reset: () => set(DEFAULT_RULES) };

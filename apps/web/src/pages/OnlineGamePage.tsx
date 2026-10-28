@@ -12,6 +12,7 @@ import { Window } from '@/components/game/Window';
 import { gameApi, gameLink, seats } from '@/game/online';
 import { useOnlineGame } from '@/game/useOnlineGame';
 import { useSettings } from '@/lib/settings';
+import { usePlayerName } from '@/lib/account';
 import { ProfilePicker } from './PlayPage';
 import { DeckSelect } from '@/components/DeckSelect';
 import { expandDeck, useDecks } from '@/lib/decks';
@@ -26,7 +27,9 @@ export function OnlineGamePage() {
 
 function JoinForm({ code, onJoined }: { code: string; onJoined: (token: string) => void }) {
   const { settings } = useSettings();
-  const [profile, setProfile] = useState({ name: settings.playerName, avatarId: settings.avatarId });
+  const playerName = usePlayerName();
+  const [profile, setProfile] = useState({ name: playerName.custom, avatarId: settings.avatarId });
+  const name = profile.name.trim() || playerName.fallback;
   const decks = useDecks();
   const [deck, setDeck] = useState('trial:ETD02');
   const [busy, setBusy] = useState(false);
@@ -38,7 +41,7 @@ function JoinForm({ code, onJoined }: { code: string; onJoined: (token: string) 
     try {
       const info = await gameApi.join(
         code,
-        { ...profile, name: profile.name.trim() },
+        { ...profile, name },
         expandDeck(decks.all.find((d) => d.id === deck) ?? decks.all[0]!),
       );
       seats.set(code, info.seatToken!);
@@ -53,7 +56,7 @@ function JoinForm({ code, onJoined }: { code: string; onJoined: (token: string) 
   return (
     <div className="mx-auto max-w-lg py-6">
       <Window title={`Join game ${code}`} bodyClassName="flex flex-col gap-5">
-        <ProfilePicker profile={profile} onChange={setProfile} />
+        <ProfilePicker profile={profile} onChange={setProfile} placeholder={playerName.fallback} />
         <div className="flex flex-col gap-1.5">
           <Label htmlFor="join-deck">Your deck (if you get a player seat)</Label>
           <DeckSelect value={deck} onChange={setDeck} id="join-deck" />
@@ -61,7 +64,7 @@ function JoinForm({ code, onJoined }: { code: string; onJoined: (token: string) 
         <Button
           size="lg"
           className="h-10 bg-window-trim text-window-trim-foreground hover:bg-window-trim/85"
-          disabled={busy || !profile.name.trim()}
+          disabled={busy}
           onClick={() => void join()}
         >
           {busy ? 'Joining…' : 'Join game'}

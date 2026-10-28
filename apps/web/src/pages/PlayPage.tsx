@@ -12,6 +12,7 @@ import { expandDeck, useDecks } from '@/lib/decks';
 import { Window } from '@/components/game/Window';
 import { gameApi, onlineConfigured, seats } from '@/game/online';
 import { useSettings } from '@/lib/settings';
+import { usePlayerName } from '@/lib/account';
 import { useGameRules } from '@/lib/gameRules';
 import { Slider } from '@/components/ui/slider';
 import { cn } from '@/lib/utils';
@@ -20,7 +21,8 @@ import { cn } from '@/lib/utils';
 export function PlayPage() {
   const navigate = useNavigate();
   const { settings } = useSettings();
-  const [profile, setProfile] = useState({ name: settings.playerName, avatarId: settings.avatarId });
+  const playerName = usePlayerName();
+  const [profile, setProfile] = useState({ name: playerName.custom, avatarId: settings.avatarId });
   const decks = useDecks();
   const gameRules = useGameRules();
   const rules = gameRules.rules;
@@ -31,7 +33,7 @@ export function PlayPage() {
   const [busy, setBusy] = useState<'create' | 'join' | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const name = profile.name.trim();
+  const name = profile.name.trim() || playerName.fallback;
   const ready = name.length > 0;
 
   const run = async (kind: 'create' | 'join', fn: () => Promise<{ code: string; seatToken?: string }>) => {
@@ -70,7 +72,7 @@ export function PlayPage() {
             Online play isn't configured for this build.
           </p>
         )}
-        <ProfilePicker profile={profile} onChange={setProfile} />
+        <ProfilePicker profile={profile} onChange={setProfile} placeholder={playerName.fallback} />
         <div className="flex flex-col gap-1.5">
           <Label htmlFor="play-deck">Your deck</Label>
           <DeckSelect value={deck} onChange={setDeck} id="play-deck" />
@@ -274,13 +276,16 @@ function RuleSlider(props: {
   );
 }
 
-/** Name and avatar, pre-filled from Settings. */
+/** Name and avatar, pre-filled from Settings (a blank name uses the placeholder). */
 export function ProfilePicker({
   profile,
   onChange,
+  placeholder,
 }: {
   profile: { name: string; avatarId: string };
   onChange: (p: { name: string; avatarId: string }) => void;
+  /** Shown, and used, when the name is left blank. */
+  placeholder: string;
 }) {
   return (
     <div className="flex flex-col gap-3">
@@ -307,6 +312,7 @@ export function ProfilePicker({
         <Input
           id="profile-name"
           value={profile.name}
+          placeholder={placeholder}
           maxLength={24}
           onChange={(e) => onChange({ ...profile, name: e.target.value })}
           className="bg-background/70"

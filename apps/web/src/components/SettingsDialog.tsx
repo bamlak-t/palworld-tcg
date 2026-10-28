@@ -9,8 +9,9 @@ import { BOARD_SKINS, skinStyle, type BoardSkin } from '@/lib/skins';
 import { CUSTOM_SKIN_ID, customSkin, useSettings, type CustomSkinColors } from '@/lib/settings';
 import { useTheme, type Theme } from '@/lib/theme';
 import { cn } from '@/lib/utils';
+import { useAccount } from '@/lib/account';
 
-/** Settings in a dialog, opened from the gear in the header. Saved per browser. */
+/** Settings in a dialog, opened from the gear in the header. Saved per browser, and to your account when signed in. */
 export function SettingsDialog() {
   return (
     <Dialog>
@@ -20,11 +21,24 @@ export function SettingsDialog() {
         </Button>
       </DialogTrigger>
       <DialogContent className="max-h-[calc(100dvh-2rem)] overflow-y-auto sm:max-w-3xl">
-        <DialogTitle className="font-display text-xl">Settings</DialogTitle>
-        <DialogDescription className="sr-only">Board skin, appearance and your player.</DialogDescription>
+        <div>
+          <DialogTitle className="font-display text-xl">Settings</DialogTitle>
+          <SavedWhere />
+        </div>
         <SettingsPanel />
       </DialogContent>
     </Dialog>
+  );
+}
+
+function SavedWhere() {
+  const account = useAccount();
+  return (
+    <DialogDescription className="mt-1 text-xs">
+      {account
+        ? `Saved to your account (${account.username}), so they follow you to other devices.`
+        : 'Saved on this device. Sign in to keep them in an account.'}
+    </DialogDescription>
   );
 }
 
@@ -35,10 +49,7 @@ function SettingsPanel() {
 
   return (
     <div className="flex flex-col gap-8">
-      <Section
-        title="Board skin"
-        description="The play area's background, player bars and board text. Saved in this browser."
-      >
+      <Section title="Board skin" description="The play area's background, player bars and board text.">
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {[...BOARD_SKINS, custom].map((skin) => (
             <SkinPreview

@@ -18,9 +18,26 @@ export type AccountRequest =
   | { op: 'decks'; token: string }
   /** Creates or replaces the deck with this id. */
   | { op: 'saveDeck'; token: string; deck: DeckInput }
-  | { op: 'deleteDeck'; token: string; id: string };
+  | { op: 'deleteDeck'; token: string; id: string }
+  /** The account's UI preferences (null if never saved). */
+  | { op: 'prefs'; token: string }
+  | { op: 'savePrefs'; token: string; prefs: Prefs };
 
-export const ACCOUNT_OPS = new Set<string>(['signUp', 'signIn', 'signOut', 'decks', 'saveDeck', 'deleteDeck']);
+/** UI preferences as the web app stores them (skin, theme, name, house rules…); opaque here. */
+export type Prefs = Record<string, unknown>;
+/** Size limit for stored preferences, as JSON. */
+export const MAX_PREFS_BYTES = 8_000;
+
+export const ACCOUNT_OPS = new Set<string>([
+  'signUp',
+  'signIn',
+  'signOut',
+  'decks',
+  'saveDeck',
+  'deleteDeck',
+  'prefs',
+  'savePrefs',
+]);
 
 export interface DeckInput {
   id: string;
@@ -30,7 +47,11 @@ export interface DeckInput {
 }
 
 export type AccountResponse =
-  { username: string; token: string } | { decks: DeckRow[] } | { deck: DeckRow } | { ok: true };
+  | { username: string; token: string }
+  | { decks: DeckRow[] }
+  | { deck: DeckRow }
+  | { prefs: Prefs | null }
+  | { ok: true };
 
 export class AccountError extends Error {
   constructor(
@@ -81,6 +102,18 @@ export async function handleAccount(req: AccountRequest, tx: Tx): Promise<Accoun
       const account = await signedIn(tx, req.token);
       if (typeof req.id !== 'string') bad('Invalid deck.');
       await tx.deleteDeck(account.id, req.id);
+      return { ok: true };
+    }
+    case 'prefs': {
+      const account = await signedIn(tx, req.token);
+      return { prefs: await tx.prefs(account.id) };
+    }
+    case 'savePrefs': {
+      const account = await signedIn(tx, req.token);
+      const prefs = req.prefs;
+      if (!prefs || typeof prefs !== 'object' || Array.isArray(prefs)) bad('Invalid preferences.');
+      if (JSON.stringify(prefs).length > MAX_PREFS_BYTES) bad('Preferences are too large.');
+      await tx.savePrefs(account.id, prefs);
       return { ok: true };
     }
     default:

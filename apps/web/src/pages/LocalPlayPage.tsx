@@ -9,6 +9,7 @@ import { expandDeck, useDecks } from '@/lib/decks';
 import { Window } from '@/components/game/Window';
 import { useLocalGame, type DeckChoice } from '@/game/useLocalGame';
 import { useSettings } from '@/lib/settings';
+import { usePlayerName } from '@/lib/account';
 import { useGameRules } from '@/lib/gameRules';
 import { cn } from '@/lib/utils';
 
@@ -31,9 +32,11 @@ export function LocalPlayPage() {
 
 function SetupForm({ onStart }: { onStart: (s: Setup) => void }) {
   const { settings } = useSettings();
-  // Start empty (blank names fall back to "Player 1/2"), unless you've set a name in Settings.
-  const savedName = settings.playerName.trim() === 'Player 1' ? '' : settings.playerName.trim();
-  const [names, setNames] = useState<Pair<string>>([savedName, '']);
+  // Start empty unless you've set a name in Settings. Blank names fall back to the
+  // placeholders: your username (or "Player 1") and "Player 2".
+  const playerName = usePlayerName();
+  const placeholders: Pair<string> = [playerName.fallback, 'Player 2'];
+  const [names, setNames] = useState<Pair<string>>([playerName.custom, '']);
   const [decks, setDecks] = useState<Pair<string>>(['trial:ETD01', 'trial:ETD02']);
   const [avatars, setAvatars] = useState<Pair<string>>([
     settings.avatarId,
@@ -69,6 +72,7 @@ function SetupForm({ onStart }: { onStart: (s: Setup) => void }) {
                 <Input
                   id={`player-${i}`}
                   value={names[i]}
+                  placeholder={placeholders[i]}
                   onChange={(e) => setNames((n) => setAt(n, i, e.target.value))}
                   className="bg-background/70"
                 />
@@ -83,7 +87,9 @@ function SetupForm({ onStart }: { onStart: (s: Setup) => void }) {
         <Button
           size="lg"
           className="bg-window-trim text-window-trim-foreground hover:bg-window-trim/85"
-          onClick={() => onStart({ names: [names[0] || 'Player 1', names[1] || 'Player 2'], decks, avatars })}
+          onClick={() =>
+            onStart({ names: [names[0].trim() || placeholders[0], names[1].trim() || placeholders[1]], decks, avatars })
+          }
         >
           Start game
         </Button>

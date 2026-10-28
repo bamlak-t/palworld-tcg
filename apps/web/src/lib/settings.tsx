@@ -1,6 +1,7 @@
-import { createContext, useContext, useState, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 import { MotionConfig } from 'motion/react';
 import { DEFAULT_SKIN_ID, getSkin, type BoardSkin } from '@/lib/skins';
+import { PREFS_APPLIED, prefsChanged } from '@/lib/prefs';
 
 /** Colours for the "Custom" board skin, as hex so they work with colour pickers. */
 export interface CustomSkinColors {
@@ -64,7 +65,14 @@ const SettingsContext = createContext<{
 
 export function SettingsProvider({ children }: { children: ReactNode }) {
   const [settings, setSettings] = useState<Settings>(load);
-  const update = (patch: Partial<Settings>) =>
+  // Preferences synced from your account.
+  useEffect(() => {
+    const reload = () => setSettings(load());
+    window.addEventListener(PREFS_APPLIED, reload);
+    return () => window.removeEventListener(PREFS_APPLIED, reload);
+  }, []);
+  const update = (patch: Partial<Settings>) => {
+    prefsChanged();
     setSettings((s) => {
       const next = { ...s, ...patch };
       try {
@@ -74,6 +82,7 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
       }
       return next;
     });
+  };
   const skin = settings.skinId === CUSTOM_SKIN_ID ? customSkin(settings.custom) : getSkin(settings.skinId);
   return <SettingsContext.Provider value={{ settings, update, skin }}>{children}</SettingsContext.Provider>;
 }

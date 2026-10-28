@@ -11,7 +11,8 @@ export function memoryStore(
   const events: (EventBatchRow & { sessionId: string })[] = [];
   const accounts = new Map<string, AccountRow>();
   const tokens = new Map<string, string>(); // token hash → account id
-  const decks = new Map<string, DeckRow & { accountId: string }>(); // keyed by account id + deck id
+  const decks = new Map<string, DeckRow & { accountId: string }>();
+  const prefs = new Map<string, Record<string, unknown>>(); // account id → preferences // keyed by account id + deck id
   let ids = 0;
   let queue = Promise.resolve();
   const uuid = () => `00000000-0000-4000-8000-${String(++ids).padStart(12, '0')}`;
@@ -118,6 +119,13 @@ export function memoryStore(
     },
     async deleteDeck(accountId, id) {
       decks.delete(`${accountId}/${id}`);
+    },
+    async prefs(accountId) {
+      const p = prefs.get(accountId);
+      return p ? structuredClone(p) : null;
+    },
+    async savePrefs(accountId, p) {
+      prefs.set(accountId, structuredClone(p));
     },
   };
 

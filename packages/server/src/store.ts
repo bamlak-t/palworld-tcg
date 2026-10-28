@@ -78,6 +78,8 @@ export interface Tx {
   decks(accountId: string): Promise<DeckRow[]>;
   upsertDeck(accountId: string, deck: Omit<DeckRow, 'updatedAt'>): Promise<DeckRow>;
   deleteDeck(accountId: string, id: string): Promise<void>;
+  prefs(accountId: string): Promise<Record<string, unknown> | null>;
+  savePrefs(accountId: string, prefs: Record<string, unknown>): Promise<void>;
 }
 
 export interface Store {

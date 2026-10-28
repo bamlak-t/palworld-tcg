@@ -1,5 +1,7 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 
+import { PREFS_APPLIED, prefsChanged } from '@/lib/prefs';
+
 export type Theme = 'light' | 'dark' | 'system';
 
 const STORAGE_KEY = 'pal-theme';
@@ -18,6 +20,12 @@ function readStoredTheme(): Theme {
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setThemeState] = useState<Theme>(readStoredTheme);
+  // Preferences synced from your account.
+  useEffect(() => {
+    const reload = () => setThemeState(readStoredTheme());
+    window.addEventListener(PREFS_APPLIED, reload);
+    return () => window.removeEventListener(PREFS_APPLIED, reload);
+  }, []);
 
   useEffect(() => {
     const media = window.matchMedia('(prefers-color-scheme: dark)');
@@ -37,6 +45,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     } catch {
       // Non-fatal: the choice just won't persist.
     }
+    prefsChanged();
   };
 
   return <ThemeContext.Provider value={{ theme, setTheme }}>{children}</ThemeContext.Provider>;

@@ -1,6 +1,7 @@
 import { NavLink, Outlet, useLocation } from 'react-router';
 import { SettingsDialog } from '@/components/SettingsDialog';
 import { AccountDialog } from '@/components/AccountDialog';
+import { usePrefsSync } from '@/lib/prefs';
 import { cn } from '@/lib/utils';
 import { HelpDialog } from '@/components/HelpDialog';
 import { ThemeToggle } from '@/components/ThemeToggle';
@@ -13,6 +14,7 @@ const navClass = ({ isActive }: { isActive: boolean }) =>
 
 export function Layout() {
   const { pathname } = useLocation();
+  usePrefsSync();
   return (
     <div className="min-h-dvh">
       <header className="sticky top-0 z-20 border-b bg-background/85 backdrop-blur">

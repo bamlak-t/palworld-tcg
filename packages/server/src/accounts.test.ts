@@ -70,6 +70,19 @@ describe('accounts', () => {
     expect((await save({ 'ETD01-002': 30, 'ETD01-006': 20 })).status).toBe(200); // incomplete or illegal decks are fine to keep
   });
 
+  it('stores UI preferences per account', async () => {
+    const t = setup();
+    const { token } = await t.signUp();
+    const other = await t.signUp('bob');
+    expect(await t.ok({ op: 'prefs', token })).toEqual({ prefs: null });
+    const prefs = { theme: 'dark', settings: { skinId: 'desert' } };
+    await t.ok({ op: 'savePrefs', token, prefs });
+    expect(await t.ok({ op: 'prefs', token })).toEqual({ prefs });
+    expect(await t.ok({ op: 'prefs', token: other.token })).toEqual({ prefs: null });
+    expect((await t.call({ op: 'savePrefs', token, prefs: [] as never })).status).toBe(400);
+    expect((await t.call({ op: 'savePrefs', token, prefs: { big: 'x'.repeat(9000) } })).status).toBe(400);
+  });
+
   it('needs a valid token, and signing out ends it', async () => {
     const t = setup();
     const { token } = await t.signUp();

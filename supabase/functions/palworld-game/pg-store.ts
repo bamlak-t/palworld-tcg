@@ -138,6 +138,15 @@ function tx(sql: TxSql): Tx {
     async deleteDeck(accountId, id) {
       await sql`delete from palworld.decks where account_id = ${accountId} and id = ${id}`;
     },
+    async prefs(accountId) {
+      const [r] = await sql`select prefs from palworld.account_prefs where account_id = ${accountId}`;
+      return (r?.prefs as Record<string, unknown> | undefined) ?? null;
+    },
+    async savePrefs(accountId, prefs) {
+      await sql`
+        insert into palworld.account_prefs (account_id, prefs) values (${accountId}, ${sql.json(prefs as never)})
+        on conflict (account_id) do update set prefs = excluded.prefs, updated_at = now()`;
+    },
   };
 }
 
