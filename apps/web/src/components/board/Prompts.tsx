@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import { GameCard } from '@/components/game/GameCard';
 import { cn } from '@/lib/utils';
+import { LuckyFlash } from './fx/particles';
 
 type Dispatch = (a: Action) => void;
 
@@ -277,7 +278,10 @@ export function DamageReveal({
             animate={{ rotateY: 0, y: 0, opacity: 1 }}
             transition={{ delay: 0.25 + i * 0.45, duration: 0.5 }}
           >
-            <GameCard card={getCard(m.cardId)} size="md" state={m.lucky ? 'lucky' : undefined} />
+            <div className="relative">
+              {m.lucky && <LuckyFlash delay={0.25 + i * 0.45 + 0.35} />}
+              <GameCard card={getCard(m.cardId)} size="md" state={m.lucky ? 'lucky' : undefined} />
+            </div>
           </motion.div>
         ))}
       </div>

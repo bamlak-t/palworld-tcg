@@ -80,6 +80,21 @@ function SettingsPanel() {
         </div>
       </Section>
 
+      <Section
+        title="Motion"
+        description="Board effects: attack lunges, hit bursts, cards burning away, night falling."
+      >
+        <label className="flex items-center gap-3 text-sm">
+          <input
+            type="checkbox"
+            className="size-4 accent-primary"
+            checked={settings.reduceMotion}
+            onChange={(e) => update({ reduceMotion: e.target.checked })}
+          />
+          Reduce motion (turn the effects off and keep animations short)
+        </label>
+      </Section>
+
       <Section title="Your player" description="Used when you start a game.">
         <div className="flex max-w-sm flex-col gap-1.5">
           <Label htmlFor="player-name">Name</Label>

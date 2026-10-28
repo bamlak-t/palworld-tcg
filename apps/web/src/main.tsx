@@ -10,7 +10,7 @@ import { DecksPage } from './pages/DecksPage.tsx';
 import { LocalPlayPage } from './pages/LocalPlayPage.tsx';
 import { OnlineGamePage } from './pages/OnlineGamePage.tsx';
 import { PlayPage } from './pages/PlayPage.tsx';
-import { SettingsProvider } from './lib/settings.tsx';
+import { MotionPrefs, SettingsProvider } from './lib/settings.tsx';
 
 const router = createHashRouter([
   {
@@ -31,7 +31,9 @@ createRoot(document.getElementById('root')!).render(
     <ThemeProvider>
       <TooltipProvider>
         <SettingsProvider>
-          <RouterProvider router={router} />
+          <MotionPrefs>
+            <RouterProvider router={router} />
+          </MotionPrefs>
         </SettingsProvider>
       </TooltipProvider>
     </ThemeProvider>

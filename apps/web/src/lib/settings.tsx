@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, type ReactNode } from 'react';
+import { MotionConfig } from 'motion/react';
 import { DEFAULT_SKIN_ID, getSkin, type BoardSkin } from '@/lib/skins';
 
 /** Colours for the "Custom" board skin, as hex so they work with colour pickers. */
@@ -15,6 +16,8 @@ export interface Settings {
   custom: CustomSkinColors;
   playerName: string;
   avatarId: string;
+  /** Skip board effects (lunges, bursts, sweeps) and shorten animations. */
+  reduceMotion: boolean;
 }
 
 export const CUSTOM_SKIN_ID = 'custom';
@@ -24,6 +27,9 @@ const DEFAULTS: Settings = {
   custom: { top: '#2b3a6b', bottom: '#11162b', bar: '#1b2347', barBorder: '#e8c46a', ink: '#f5f7ff' },
   playerName: 'Player 1',
   avatarId: 'woolly',
+  // Follow the system setting until the player chooses.
+  reduceMotion:
+    typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches === true,
 };
 
 const STORAGE_KEY = 'pal-settings';
@@ -76,4 +82,10 @@ export function useSettings() {
   const ctx = useContext(SettingsContext);
   if (!ctx) throw new Error('useSettings must be used inside SettingsProvider');
   return ctx;
+}
+
+/** Applies the Reduce motion setting to every Motion animation in the app. */
+export function MotionPrefs({ children }: { children: ReactNode }) {
+  const { settings } = useSettings();
+  return <MotionConfig reducedMotion={settings.reduceMotion ? 'always' : 'never'}>{children}</MotionConfig>;
 }

@@ -30,6 +30,8 @@ import { PlayerArea } from './PlayerArea';
 import { DamageReveal, PendingDialog } from './Prompts';
 import { OpeningHand } from './OpeningHand';
 import { MoveTimer, type MoveClock } from './MoveTimer';
+import { FxLayer } from './fx/FxLayer';
+import { useSettings } from '@/lib/settings';
 
 type Dispatch = (a: Action) => void;
 
@@ -99,10 +101,6 @@ function cuesFrom(batch: EventBatch | undefined, seat: Seat): Map<string, CardMo
   const cues = new Map<string, CardMotion>();
   for (const e of batch?.events ?? []) {
     if (e.type === 'battleDamage' || e.type === 'damageDealt') cues.set(e.targetId, { kind: 'shake' });
-    if (e.type === 'attackDeclared') {
-      const mine = batch!.view.players[seat].base.some((c) => c.id === e.attackerId);
-      cues.set(e.attackerId, { kind: 'lunge', direction: mine ? 'up' : 'down' });
-    }
   }
   return cues;
 }
@@ -160,6 +158,7 @@ export function Board({
   clock?: MoveClock | null;
 }) {
   const mobile = useIsMobile();
+  const { settings } = useSettings();
   const opp: Seat = seat === 0 ? 1 : 0;
   const me = view.players[seat];
   const them = view.players[opp];
@@ -180,8 +179,11 @@ export function Board({
     setTargeting(null);
     setCostPick(null);
     const r = revealFrom(last);
-    if (r) setReveal(r);
-  }, [last]);
+    if (!r) return;
+    // Let the hit land on the avatar before the damage reveal covers the board.
+    const t = setTimeout(() => setReveal(r), settings.reduceMotion ? 0 : 650);
+    return () => clearTimeout(t);
+  }, [last, settings.reduceMotion]);
   useEffect(() => {
     if (!reveal) return;
     const t = setTimeout(() => setReveal(null), 1400 + reveal.milled.length * 450);
@@ -377,7 +379,7 @@ export function Board({
   );
 
   // The opponent's avatar is the target for attacking the player.
-  const theirAvatar = canTargetPlayer ? (
+  const theirAvatarBody = canTargetPlayer ? (
     <button
       type="button"
       aria-label={`Attack ${them.name}`}
@@ -391,19 +393,25 @@ export function Board({
   ) : (
     <Avatar avatarId={avatars[opp]} size={mobile ? 44 : 64} />
   );
+  // data-avatar-seat: where attacks on a player land (see FxLayer).
+  const theirAvatar = <span data-avatar-seat={opp}>{theirAvatarBody}</span>;
 
   return (
     <LayoutGroup>
       <div className="flex flex-col gap-4 xl:flex-row">
         <div className="relative min-w-0 flex-1 overflow-hidden rounded-xl shadow-xl">
-          <div className="relative flex flex-col gap-2 p-2 md:gap-3 md:p-3" style={skinStyle(skin)}>
-            <HudBar player={them} maxLife={view.rules.startingLife} />
+          <div data-board className="relative flex flex-col gap-2 p-2 md:gap-3 md:p-3" style={skinStyle(skin)}>
+            <div data-hud-seat={opp}>
+              <HudBar player={them} maxLife={view.rules.startingLife} />
+            </div>
 
             <PlayerArea
               player={them}
               flipped
               baseCards={them.base.map((c) => (
-                <div key={c.id}>{renderCard(c, opp)}</div>
+                <div key={c.id} data-fx-card={c.id} className="relative">
+                  {renderCard(c, opp)}
+                </div>
               ))}
               hand={theirHand}
               avatar={theirAvatar}
@@ -451,7 +459,9 @@ export function Board({
               phase={phaseShown}
               battleStep={battle?.step}
               baseCards={me.base.map((c) => (
-                <div key={c.id}>{renderCard(c, seat)}</div>
+                <div key={c.id} data-fx-card={c.id} className="relative">
+                  {renderCard(c, seat)}
+                </div>
               ))}
               hand={myHand}
               soulAction={
@@ -465,11 +475,17 @@ export function Board({
                   Draw · 3 souls
                 </Button>
               }
-              avatar={<Avatar avatarId={avatars[seat]} size={mobile ? 44 : 64} />}
+              avatar={
+                <span data-avatar-seat={seat}>
+                  <Avatar avatarId={avatars[seat]} size={mobile ? 44 : 64} />
+                </span>
+              }
               onInspect={setInspect}
             />
 
-            <HudBar player={me} maxLife={view.rules.startingLife} />
+            <div data-hud-seat={seat}>
+              <HudBar player={me} maxLife={view.rules.startingLife} />
+            </div>
 
             <AnimatePresence>
               {reveal && <DamageReveal key={reveal.id} {...reveal} onDone={() => setReveal(null)} />}
@@ -500,6 +516,7 @@ export function Board({
           onInspect={setInspect}
         />
       )}
+      <FxLayer batch={last} view={view} enabled={!settings.reduceMotion} />
       <CardInspector instance={inspect} onClose={() => setInspect(null)} />
 
       <Dialog open={!!costPick} onOpenChange={(o) => !o && setCostPick(null)}>
