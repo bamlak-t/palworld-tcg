@@ -27,7 +27,18 @@ const Dots = () => <span aria-hidden className="h-0 min-w-3 flex-1 border-t-2 bo
  * outer columns share the leftover width equally, so the stage stays centred whatever is
  * either side. Prompts take the centre on wide screens and a row of their own on phones.
  */
-export function StatusBar({ view, prompt, action }: { view: GameView; prompt?: ReactNode; action?: ReactNode }) {
+export function StatusBar({
+  view,
+  prompt,
+  action,
+  timer,
+}: {
+  view: GameView;
+  prompt?: ReactNode;
+  action?: ReactNode;
+  /** The move timer, in timed games. */
+  timer?: ReactNode;
+}) {
   const stage = view.battle ? `Battle · ${STEP_NAME[view.battle.step]}` : PHASE_NAME[view.phase];
   const stageText = (
     <span className="font-display text-sm font-bold tracking-wide whitespace-nowrap md:text-lg">{stage}</span>
@@ -70,7 +81,10 @@ export function StatusBar({ view, prompt, action }: { view: GameView; prompt?: R
 
         <div className="flex min-w-0 items-center gap-2">
           <Dots />
-          <div className="flex shrink-0 items-center gap-2">{action}</div>
+          <div className="flex shrink-0 items-center gap-2">
+            {timer}
+            {action}
+          </div>
         </div>
       </div>
 

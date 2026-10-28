@@ -24,6 +24,7 @@ export function memoryStore(
             state: s.state,
             version: s.version,
             rules: s.rules,
+            clock: s.clock,
           })
         : null;
     },
@@ -35,10 +36,11 @@ export function memoryStore(
         state: null,
         version: 0,
         rules,
+        clock: null,
         updatedAt: Date.now(),
       };
       sessions.set(row.id, row);
-      return { id: row.id, code, status: row.status, state: null, version: 0, rules };
+      return { id: row.id, code, status: row.status, state: null, version: 0, rules, clock: null };
     },
     async updateSession(id, patch) {
       const s = sessions.get(id)!;

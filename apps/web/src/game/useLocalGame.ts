@@ -1,10 +1,15 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
+  advanceClock,
   apply,
   createGame,
+  deadline,
+  expire,
   getLegalActions,
   viewFor,
   type Action,
+  type ApplyResult,
+  type Clock,
   type GameEvent,
   type GameRules,
   type GameState,
@@ -34,6 +39,8 @@ export function useLocalGame(
   rules?: GameRules,
 ) {
   const [state, setState] = useState<GameState>(() => newGame(players, rules));
+  const timed = rules?.turnSeconds ?? null;
+  const [clock, setClock] = useState<Clock | null>(() => (timed ? advanceClock(null, state, Date.now()) : null));
   const [batches, setBatches] = useState<EventBatch[]>([]);
   const [error, setError] = useState<string | null>(null);
 
@@ -41,31 +48,53 @@ export function useLocalGame(
   const view = useMemo(() => viewFor(state, seat), [state, seat]);
   const legal = useMemo(() => getLegalActions(state, seat), [state, seat]);
 
-  const dispatch = useCallback(
-    (action: Action) => {
-      const r = apply(state, seat, action);
-      if (!r.ok) {
-        setError(r.error);
-        return;
-      }
+  const accept = useCallback(
+    (r: Extract<ApplyResult, { ok: true }>) => {
       setError(null);
       setState(r.state);
+      if (timed) setClock((c) => advanceClock(c, r.state, Date.now()));
       const nextSeat: Seat = r.state.pending ? r.state.pending.seat : r.state.activeSeat;
       setBatches((b) => [
         ...b.slice(-200),
         { id: (b.at(-1)?.id ?? 0) + 1, events: r.events, view: viewFor(r.state, nextSeat) },
       ]);
     },
-    [state, seat],
+    [timed],
   );
 
+  const dispatch = useCallback(
+    (action: Action) => {
+      const r = apply(state, seat, action);
+      if (!r.ok) setError(r.error);
+      else accept(r);
+    },
+    [state, seat, accept],
+  );
+
+  // Out of time: the game makes the default move for whoever is up.
+  const due = timed && clock ? deadline(clock, state, timed) : null;
+  useEffect(() => {
+    if (due === null) return;
+    const t = setTimeout(
+      () => {
+        const r = expire(state);
+        if (r.ok) accept(r);
+      },
+      Math.max(0, due - Date.now()),
+    );
+    return () => clearTimeout(t);
+  }, [due, state, accept]);
+
   const restart = useCallback(() => {
-    setState(newGame(players, rules));
+    const fresh = newGame(players, rules);
+    setState(fresh);
+    setClock(timed ? advanceClock(null, fresh, Date.now()) : null);
     setBatches([]);
     setError(null);
-  }, [players, rules]);
+  }, [players, rules, timed]);
 
-  return { view, seat, legal, dispatch, batches, error, clearError: () => setError(null), restart };
+  const moveClock = due !== null && clock && !state.result ? { seat: clock.seat, deadline: due } : null;
+  return { view, seat, legal, dispatch, batches, error, clearError: () => setError(null), restart, clock: moveClock };
 }
 
 function newGame(players: [{ name: string; deck: DeckChoice }, { name: string; deck: DeckChoice }], rules?: GameRules) {

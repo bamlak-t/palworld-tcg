@@ -1,4 +1,4 @@
-import type { GameRules, GameState } from '@pal/engine';
+import type { Clock, GameRules, GameState } from '@pal/engine';
 
 export type Role = 'p1' | 'p2' | 'spectator';
 export type SessionStatus = 'waiting' | 'playing' | 'finished';
@@ -11,6 +11,8 @@ export interface SessionRow {
   version: number;
   /** House rules chosen by the host; null means standard. */
   rules: GameRules | null;
+  /** The move clock, in games with a turn timer. */
+  clock: Clock | null;
 }
 
 export interface MemberRow {
@@ -36,7 +38,7 @@ export interface Tx {
   /** Locks the row for the rest of the transaction. */
   sessionByCode(code: string): Promise<SessionRow | null>;
   insertSession(code: string, rules: GameRules | null): Promise<SessionRow>;
-  updateSession(id: string, patch: Partial<Pick<SessionRow, 'status' | 'state' | 'version'>>): Promise<void>;
+  updateSession(id: string, patch: Partial<Pick<SessionRow, 'status' | 'state' | 'version' | 'clock'>>): Promise<void>;
   deleteSession(id: string): Promise<void>;
   /** Deletes sessions not updated for this many hours. */
   deleteStaleSessions(hours: number): Promise<void>;

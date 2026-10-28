@@ -3,9 +3,12 @@ import { useSyncExternalStore } from 'react';
 import { makeRules, STANDARD_RULES, type GameRules } from '@pal/engine';
 
 const STORAGE_KEY = 'pal-game-rules';
+
+/** What games made here use until changed: the standard rules, but a coin toss decides who goes first. */
+export const DEFAULT_RULES: GameRules = { ...STANDARD_RULES, firstPlayer: 'random' };
 const CHANGE_EVENT = 'pal-game-rules-changed';
 
-let cache: { raw: string | null; rules: GameRules } = { raw: null, rules: STANDARD_RULES };
+let cache: { raw: string | null; rules: GameRules } = { raw: null, rules: DEFAULT_RULES };
 
 function read(): GameRules {
   let raw: string | null = null;
@@ -15,9 +18,9 @@ function read(): GameRules {
     // Storage unavailable: standard rules.
   }
   if (raw === cache.raw) return cache.rules;
-  let rules = STANDARD_RULES;
+  let rules = DEFAULT_RULES;
   try {
-    const parsed = makeRules(raw ? (JSON.parse(raw) as Partial<GameRules>) : {});
+    const parsed = makeRules({ ...DEFAULT_RULES, ...(raw ? (JSON.parse(raw) as Partial<GameRules>) : {}) });
     if (typeof parsed !== 'string') rules = parsed;
   } catch {
     // Unreadable: standard rules.
@@ -32,7 +35,7 @@ const subscribe = (onChange: () => void) => {
 };
 
 export function useGameRules() {
-  const rules = useSyncExternalStore(subscribe, read, () => STANDARD_RULES);
+  const rules = useSyncExternalStore(subscribe, read, () => DEFAULT_RULES);
   const set = (next: GameRules) => {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
@@ -41,6 +44,6 @@ export function useGameRules() {
     }
     window.dispatchEvent(new Event(CHANGE_EVENT));
   };
-  const standard = rules.startingLife === STANDARD_RULES.startingLife && rules.souls === STANDARD_RULES.souls;
-  return { rules, set, standard, reset: () => set(STANDARD_RULES) };
+  const standard = (Object.keys(DEFAULT_RULES) as (keyof GameRules)[]).every((k) => rules[k] === DEFAULT_RULES[k]);
+  return { rules, set, standard, reset: () => set(DEFAULT_RULES) };
 }

@@ -4,7 +4,11 @@
  * Runs inside the palworld-game Edge Function; storage and broadcast are injected.
  */
 import {
+  advanceClock,
   apply,
+  deadline,
+  expire,
+  rulesOf,
   createGame,
   forfeit,
   makeRules,
@@ -12,6 +16,7 @@ import {
   validateDeck,
   viewFor,
   type Action,
+  type GameState,
   type GameRules,
   type GameView,
   type Seat,
@@ -23,8 +28,6 @@ export const MAX_SPECTATORS = 3;
 export const HEARTBEAT_SECONDS = 15;
 /** A player not heard from for this long is shown as disconnected. */
 export const AWAY_AFTER_SECONDS = 45;
-/** After this long without hearing from your opponent, you can claim the win. */
-export const CLAIM_WIN_AFTER_SECONDS = 180;
 const STALE_HOURS = 24;
 const CODE_ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // no 0/O or 1/I
 const CODE_LENGTH = 6;
@@ -37,8 +40,10 @@ export type Request =
   | { op: 'view'; code: string; seatToken: string; sinceVersion?: number }
   | { op: 'action'; code: string; seatToken: string; action: Action; expectedVersion: number }
   | { op: 'leave'; code: string; seatToken: string }
-  /** Win because the opponent has been disconnected for CLAIM_WIN_AFTER_SECONDS. */
-  | { op: 'claimWin'; code: string; seatToken: string };
+  /** Win because the opponent has been disconnected for the game's claim-win wait. */
+  | { op: 'claimWin'; code: string; seatToken: string }
+  /** The acting player's clock ran out: anyone in the game may ask the server to move for them. */
+  | { op: 'timeout'; code: string; seatToken: string };
 
 export interface MemberInfo {
   role: Role;
@@ -58,6 +63,8 @@ export interface SessionInfo {
   members: MemberInfo[];
   /** The game's house rules (standard when none were chosen). */
   rules: GameRules;
+  /** In timed games: whose move it is and how long they have left. */
+  clock: { seat: Seat; msLeft: number } | null;
   version: number;
   view: GameView | null;
   legal: Action[];
@@ -74,6 +81,8 @@ export interface Deps {
   /** Called after a commit that changed the session, so clients refetch. */
   broadcast: (code: string, version: number) => Promise<void>;
   random: () => number;
+  /** Current time (ms); tests use a fake clock. Defaults to Date.now. */
+  now?: () => number;
 }
 
 class HttpError extends Error {
@@ -109,7 +118,7 @@ async function route(req: Request, deps: Deps): Promise<SessionInfo | { ok: true
       return deps.store.transaction(async (tx) => {
         const { session, member } = await seated(tx, req.code, req.seatToken);
         await tx.touchMember(member.id);
-        return info(tx, session, member, req.sinceVersion);
+        return info(tx, session, member, nowOf(deps), req.sinceVersion);
       });
     case 'action':
       return act(req, deps);
@@ -117,6 +126,8 @@ async function route(req: Request, deps: Deps): Promise<SessionInfo | { ok: true
       return leave(req, deps);
     case 'claimWin':
       return claimWin(req, deps);
+    case 'timeout':
+      return timeout(req, deps);
     default:
       return bad('Unknown operation.');
   }
@@ -166,7 +177,7 @@ async function create(req: Extract<Request, { op: 'create' }>, deps: Deps): Prom
       avatarId: req.avatarId,
       deck: req.deck,
     });
-    return { ...(await info(tx, session!, member)), seatToken: member.seatToken };
+    return { ...(await info(tx, session!, member, nowOf(deps))), seatToken: member.seatToken };
   });
 }
 
@@ -183,6 +194,8 @@ async function join(req: Extract<Request, { op: 'join' }>, deps: Deps): Promise<
     if (!hasP2 && session.status === 'waiting') {
       checkDeck(req.deck);
       role = 'p2';
+    } else if (!gameRules(session).spectators) {
+      return bad("This game doesn't allow spectators.", 409);
     } else if (members.filter((m) => m.role === 'spectator').length < MAX_SPECTATORS) {
       role = 'spectator';
     } else {
@@ -208,10 +221,9 @@ async function join(req: Extract<Request, { op: 'join' }>, deps: Deps): Promise<
         ],
         session.rules ?? {},
       );
-      await tx.updateSession(session.id, { status: 'playing', state, version: state.version });
-      Object.assign(session, { status: 'playing', state, version: state.version });
+      await saveGame(tx, session, state, null, deps);
     }
-    return { ...(await info(tx, session, member)), seatToken: member.seatToken };
+    return { ...(await info(tx, session, member, nowOf(deps))), seatToken: member.seatToken };
   });
   // Everyone refetches so the lobby shows the newcomer (and the dealt game).
   await deps.broadcast(code, result.version);
@@ -229,12 +241,9 @@ async function act(req: Extract<Request, { op: 'action' }>, deps: Deps): Promise
     const r = apply(session.state!, seat, req.action);
     if (!r.ok) bad(r.error, 422);
     const ok = r as Extract<typeof r, { ok: true }>;
-    const status: SessionStatus = ok.state.result ? 'finished' : 'playing';
-    await tx.updateSession(session.id, { state: ok.state, version: ok.state.version, status });
-    await tx.insertEvents(session.id, ok.state.version, ok.events);
+    await saveGame(tx, session, ok.state, ok.events, deps);
     await tx.touchMember(member.id);
-    Object.assign(session, { state: ok.state, version: ok.state.version, status });
-    return info(tx, session, member, req.expectedVersion);
+    return info(tx, session, member, nowOf(deps), req.expectedVersion);
   });
   await deps.broadcast(result.code, result.version);
   return result;
@@ -260,8 +269,7 @@ async function leave(req: Extract<Request, { op: 'leave' }>, deps: Deps): Promis
       // Leaving a game in progress concedes it.
       const r = apply(session.state, member.role === 'p1' ? 0 : 1, { type: 'concede' });
       if (r.ok) {
-        await tx.updateSession(session.id, { state: r.state, version: r.state.version, status: 'finished' });
-        await tx.insertEvents(session.id, r.state.version, r.events);
+        await saveGame(tx, session, r.state, r.events, deps);
         version = r.state.version;
       }
     }
@@ -276,21 +284,52 @@ async function claimWin(req: Extract<Request, { op: 'claimWin' }>, deps: Deps): 
     if (member.role === 'spectator') bad('Spectators can only watch.', 403);
     if (session.status !== 'playing' || !session.state) bad('There is no game in progress.', 409);
     const opponent = (await tx.members(session.id)).find((m) => m.role === (member.role === 'p1' ? 'p2' : 'p1'));
-    if (opponent && opponent.secondsAway < CLAIM_WIN_AFTER_SECONDS) bad('Your opponent is still connected.', 409);
+    if (opponent && opponent.secondsAway < gameRules(session).claimWinSeconds)
+      bad('Your opponent is still connected.', 409);
 
     const loser: Seat = member.role === 'p1' ? 1 : 0;
     const r = forfeit(session.state!, loser, `${opponent?.displayName ?? 'The opponent'} disconnected`);
     if (!r.ok) bad(r.error, 409);
     const ok = r as Extract<typeof r, { ok: true }>;
     const before = session.version;
-    await tx.updateSession(session.id, { state: ok.state, version: ok.state.version, status: 'finished' });
-    await tx.insertEvents(session.id, ok.state.version, ok.events);
+    await saveGame(tx, session, ok.state, ok.events, deps);
     await tx.touchMember(member.id);
-    Object.assign(session, { state: ok.state, version: ok.state.version, status: 'finished' });
-    return info(tx, session, member, before);
+    return info(tx, session, member, nowOf(deps), before);
   });
   await deps.broadcast(result.code, result.version);
   return result;
+}
+
+async function timeout(req: Extract<Request, { op: 'timeout' }>, deps: Deps): Promise<SessionInfo> {
+  const result = await deps.store.transaction(async (tx) => {
+    const { session, member } = await seated(tx, req.code, req.seatToken);
+    if (session.status !== 'playing' || !session.state) bad('There is no game in progress.', 409);
+    const { turnSeconds } = gameRules(session);
+    if (!turnSeconds || !session.clock) bad('This game has no turn timer.', 409);
+    if (nowOf(deps) < deadline(session.clock!, session.state!, turnSeconds!)) bad('There is still time left.', 409);
+
+    const r = expire(session.state!);
+    if (!r.ok) bad(r.error, 409);
+    const ok = r as Extract<typeof r, { ok: true }>;
+    const before = session.version;
+    await saveGame(tx, session, ok.state, ok.events, deps);
+    await tx.touchMember(member.id);
+    return info(tx, session, member, nowOf(deps), before);
+  });
+  await deps.broadcast(result.code, result.version);
+  return result;
+}
+
+const nowOf = (deps: Deps) => (deps.now ?? Date.now)();
+const gameRules = (session: SessionRow) => rulesOf({ rules: session.rules ?? undefined });
+
+/** Stores a new game state (and its events), moving the turn clock along with it. */
+async function saveGame(tx: Tx, session: SessionRow, state: GameState, events: unknown[] | null, deps: Deps) {
+  const status: SessionStatus = state.result ? 'finished' : 'playing';
+  const clock = gameRules(session).turnSeconds ? advanceClock(session.clock, state, nowOf(deps)) : null;
+  await tx.updateSession(session.id, { state, version: state.version, status, clock });
+  if (events) await tx.insertEvents(session.id, state.version, events);
+  Object.assign(session, { state, version: state.version, status, clock });
 }
 
 async function seated(tx: Tx, rawCode: string, seatToken: unknown) {
@@ -301,7 +340,13 @@ async function seated(tx: Tx, rawCode: string, seatToken: unknown) {
   return { session, member };
 }
 
-async function info(tx: Tx, session: SessionRow, member: MemberRow, sinceVersion?: number): Promise<SessionInfo> {
+async function info(
+  tx: Tx,
+  session: SessionRow,
+  member: MemberRow,
+  now: number,
+  sinceVersion?: number,
+): Promise<SessionInfo> {
   const members = await tx.members(session.id);
   const seat: Seat | null = member.role === 'p1' ? 0 : member.role === 'p2' ? 1 : null;
   const state = session.state;
@@ -317,7 +362,14 @@ async function info(tx: Tx, session: SessionRow, member: MemberRow, sinceVersion
       // You're talking to the server right now.
       secondsAway: m.id === member.id ? 0 : Math.floor(m.secondsAway),
     })),
-    rules: session.rules ?? (makeRules() as GameRules),
+    rules: gameRules(session),
+    clock:
+      state && session.clock && gameRules(session).turnSeconds
+        ? {
+            seat: session.clock.seat,
+            msLeft: deadline(session.clock, state, gameRules(session).turnSeconds!) - now,
+          }
+        : null,
     version: session.version,
     view: state ? viewFor(state, seat ?? 'spectator') : null,
     legal: state && seat !== null ? getLegalActions(state, seat) : [],

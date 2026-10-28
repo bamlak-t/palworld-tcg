@@ -4,12 +4,13 @@ import type { CardDef, Printing } from './types.ts';
  * Where each card template prints its rules text, as % of the image. Only standard-frame
  * printings use these; full-art printings put the text over the artwork instead.
  */
-export const TEXT_BOX: Partial<Record<CardDef['kind'], { left: number; top: number; width: number; height: number }>> = {
-  Pal: { left: 4.5, top: 68.5, width: 91, height: 19 },
-  Gear: { left: 4.5, top: 68.5, width: 91, height: 16 },
-  Event: { left: 4.5, top: 68.5, width: 91, height: 16 },
-  Structure: { left: 51, top: 3.5, width: 46, height: 72 },
-};
+export const TEXT_BOX: Partial<Record<CardDef['kind'], { left: number; top: number; width: number; height: number }>> =
+  {
+    Pal: { left: 4.5, top: 68.5, width: 91, height: 19 },
+    Gear: { left: 4.5, top: 68.5, width: 91, height: 16 },
+    Event: { left: 4.5, top: 68.5, width: 91, height: 16 },
+    Structure: { left: 51, top: 3.5, width: 46, height: 72 },
+  };
 
 /** True if the printing uses the standard frame, so its text box is at TEXT_BOX. */
 export const hasStandardFrame = (p: Printing) => p.frame !== 'fullArt';

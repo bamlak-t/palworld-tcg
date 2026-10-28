@@ -6,20 +6,47 @@ export const MAX_COPIES = 4;
 export const MAX_LUCKY = 8;
 export const SOUL_COUNT = 10;
 
-export const STANDARD_RULES: GameRules = { startingLife: 10, souls: SOUL_COUNT };
+export const STANDARD_RULES: GameRules = {
+  startingLife: 10,
+  souls: SOUL_COUNT,
+  firstPlayer: 'choose',
+  turnSeconds: null,
+  spectators: true,
+  claimWinSeconds: 180,
+};
 export const RULE_LIMITS = { startingLife: { min: 1, max: 20 }, souls: { min: 1, max: 20 } } as const;
+export const RULE_OPTIONS = {
+  firstPlayer: ['choose', 'random', 'host', 'guest'],
+  turnSeconds: [60, 120, 300, null],
+  claimWinSeconds: [60, 180, 300],
+} as const;
 
-/** Standard rules with the given changes. Returns an error message for out-of-range values. */
+/** Standard rules with the given changes. Returns an error message for invalid values. */
 export function makeRules(changes: Partial<GameRules> = {}): GameRules | string {
-  const rules = { ...STANDARD_RULES, ...changes };
+  const r = { ...STANDARD_RULES, ...changes };
   for (const key of ['startingLife', 'souls'] as const) {
-    const v = rules[key];
+    const v = r[key];
     const { min, max } = RULE_LIMITS[key];
     const label = key === 'souls' ? 'Souls' : 'Starting life';
     if (!Number.isInteger(v) || v < min || v > max) return `${label} must be a whole number from ${min} to ${max}.`;
   }
-  return { startingLife: rules.startingLife, souls: rules.souls };
+  if (!(RULE_OPTIONS.firstPlayer as readonly unknown[]).includes(r.firstPlayer)) return 'Invalid first player.';
+  if (!(RULE_OPTIONS.turnSeconds as readonly unknown[]).includes(r.turnSeconds)) return 'Invalid turn timer.';
+  if (!(RULE_OPTIONS.claimWinSeconds as readonly unknown[]).includes(r.claimWinSeconds))
+    return 'Invalid claim-win wait.';
+  if (typeof r.spectators !== 'boolean') return 'Invalid spectators setting.';
+  return {
+    startingLife: r.startingLife,
+    souls: r.souls,
+    firstPlayer: r.firstPlayer,
+    turnSeconds: r.turnSeconds,
+    spectators: r.spectators,
+    claimWinSeconds: r.claimWinSeconds,
+  };
 }
+
+/** A game's rules, filling in settings added after it was created. */
+export const rulesOf = (s: { rules?: Partial<GameRules> }): GameRules => ({ ...STANDARD_RULES, ...s.rules });
 
 /** §6.1 deck construction. Returns a list of problems; empty means valid. */
 export function validateDeck(cardIds: string[]): string[] {

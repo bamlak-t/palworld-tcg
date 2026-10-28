@@ -160,6 +160,7 @@ function LocalGame({ setup, onQuit }: { setup: Setup; onQuit: () => void }) {
         batches={game.batches}
         skin={skin}
         avatars={setup.avatars}
+        clock={game.clock}
       />
     </div>
   );

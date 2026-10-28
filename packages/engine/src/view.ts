@@ -8,7 +8,7 @@ import {
   type PendingChoice,
   type Seat,
 } from './types.ts';
-import { STANDARD_RULES } from './deck.ts';
+import { rulesOf } from './deck.ts';
 import { costToPlay, hasKeyword, isNight, powerOf, strikeOf } from './stats.ts';
 
 export type Viewer = Seat | 'spectator';
@@ -105,7 +105,7 @@ export function viewFor(s: GameState, viewer: Viewer): GameView {
       }),
     ),
     result: s.result,
-    rules: s.rules ?? STANDARD_RULES,
+    rules: rulesOf(s),
     players: [playerView(0), playerView(1)],
   };
 }

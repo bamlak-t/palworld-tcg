@@ -17,8 +17,16 @@ const hasKeyword = (keyword: string) => {
 };
 
 export const KEYWORDS = [
-  'Brave', 'Serious', 'Interrupt', 'Vigilance', 'Taunt',
-  'Stealth', 'Retaliate', 'Nocturnal', 'Breakthrough', 'Assault',
+  'Brave',
+  'Serious',
+  'Interrupt',
+  'Vigilance',
+  'Taunt',
+  'Stealth',
+  'Retaliate',
+  'Nocturnal',
+  'Breakthrough',
+  'Assault',
 ] as const;
 
 export const CARD_FEATURES: CardFeature[] = [

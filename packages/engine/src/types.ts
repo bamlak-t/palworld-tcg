@@ -211,12 +211,25 @@ export type PendingChoice =
       max: number;
     };
 
+/**
+ * Who goes first. 'choose': a random player picks (§6.2.1.3, the official rule);
+ * 'random': a coin toss with no prompt; 'host' / 'guest': seat 0 / seat 1 goes first.
+ */
+export type FirstPlayer = 'choose' | 'random' | 'host' | 'guest';
+
 /** House rules chosen when the game is created. */
 export interface GameRules {
   /** Life each player starts with (standard: 10). */
   startingLife: number;
   /** Cards in each soul deck (standard: 10). */
   souls: number;
+  firstPlayer: FirstPlayer;
+  /** Seconds per turn (and per response) before the game moves for you; null: no timer. */
+  turnSeconds: number | null;
+  /** Online: whether others may join to watch. */
+  spectators: boolean;
+  /** Online: how long an opponent must be gone before you can claim the win. */
+  claimWinSeconds: number;
 }
 
 export interface GameState {
@@ -333,6 +346,8 @@ export type GameEvent =
   | { type: 'putUnder'; seat: Seat; structureId: string }
   | { type: 'declaredName'; seat: Seat; name: string }
   | { type: 'turnEnded'; seat: Seat }
-  | { type: 'gameOver'; winner: Seat | null; reason: string };
+  | { type: 'gameOver'; winner: Seat | null; reason: string }
+  /** The seat ran out of time and the game moved for it. */
+  | { type: 'timedOut'; seat: Seat };
 
 export type ApplyResult = { ok: true; state: GameState; events: GameEvent[] } | { ok: false; error: string };

@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { TRIAL_DECKS } from '@pal/engine';
 import {
-  CLAIM_WIN_AFTER_SECONDS,
   handle,
   MAX_SPECTATORS,
   memoryStore,
@@ -11,6 +10,8 @@ import {
 
 const ETD01 = [...TRIAL_DECKS.ETD01.cards];
 const ETD02 = [...TRIAL_DECKS.ETD02.cards];
+/** The standard claim-win wait. */
+const CLAIM_WIN_AFTER_SECONDS = 180;
 
 /** clock: a fake time in ms that tests move forward. */
 function setup() {
@@ -23,6 +24,7 @@ function setup() {
     broadcast: async (code: string, version: number) => {
       pings.push([code, version]);
     },
+    now: () => clock.now,
     random: () => {
       seed = (seed * 16807) % 2147483647;
       return seed / 2147483647;
@@ -299,11 +301,11 @@ describe('house rules', () => {
       deck: ETD01,
       rules: { startingLife: 15, souls: 12 },
     });
-    expect(host.rules).toEqual({ startingLife: 15, souls: 12 });
+    expect(host.rules).toMatchObject({ startingLife: 15, souls: 12 });
     const guest = await ok({ op: 'join', code: host.code, name: 'Bob', avatarId: 'ember', deck: ETD02 });
     expect(guest.view!.players.map((p) => p.life)).toEqual([15, 15]);
     expect(guest.view!.players.map((p) => p.soulDeck)).toEqual([12, 12]);
-    expect(guest.view!.rules).toEqual({ startingLife: 15, souls: 12 });
+    expect(guest.view!.rules).toMatchObject({ startingLife: 15, souls: 12 });
   });
 
   it('rejects out-of-range rules and defaults to the standard ones', async () => {
@@ -311,6 +313,60 @@ describe('house rules', () => {
     const r = await call({ op: 'create', name: 'A', avatarId: 'woolly', deck: ETD01, rules: { startingLife: 0 } });
     expect(r.status).toBe(400);
     const host = await ok({ op: 'create', name: 'A', avatarId: 'woolly', deck: ETD01 });
-    expect(host.rules).toEqual({ startingLife: 10, souls: 10 });
+    expect(host.rules).toMatchObject({ startingLife: 10, souls: 10, firstPlayer: 'choose', turnSeconds: null });
+  });
+});
+
+describe('game settings', () => {
+  const create = { op: 'create', name: 'Alice', avatarId: 'woolly', deck: ETD01 } as const;
+  const join = (code: string) => ({ op: 'join', code, name: 'Bob', avatarId: 'ember', deck: ETD02 }) as const;
+
+  it("'host' goes first without asking anyone", async () => {
+    const { ok } = setup();
+    const host = await ok({ ...create, rules: { firstPlayer: 'host' } });
+    const guest = await ok(join(host.code));
+    expect(guest.view!.firstSeat).toBe(0);
+    expect(guest.view!.pending?.kind).toBe('mulligan');
+  });
+
+  it('no spectators when the host turned them off', async () => {
+    const { ok, call } = setup();
+    const host = await ok({ ...create, rules: { spectators: false } });
+    await ok(join(host.code));
+    const r = await call({ op: 'join', code: host.code, name: 'Eve', avatarId: 'frost' });
+    expect(r.status).toBe(409);
+  });
+
+  it('the claim-win wait comes from the settings', async () => {
+    const { ok, call, clock } = setup();
+    const host = await ok({ ...create, rules: { claimWinSeconds: 60 } });
+    await ok(join(host.code));
+    clock.now += 61_000;
+    expect((await call({ op: 'claimWin', code: host.code, seatToken: host.seatToken! })).status).toBe(200);
+  });
+
+  it('turn timer: shows time left, and moves for a player who runs out', async () => {
+    const { ok, call, clock } = setup();
+    const host = await ok({ ...create, rules: { firstPlayer: 'host', turnSeconds: 60 } });
+    const guest = await ok(join(host.code));
+    // Setup: the host is deciding on their opening hand.
+    expect(guest.clock).toEqual({ seat: 0, msLeft: 60_000 });
+
+    clock.now += 30_000;
+    expect((await call({ op: 'timeout', code: host.code, seatToken: guest.seatToken! })).status).toBe(409);
+    clock.now += 31_000;
+    const after = await ok({ op: 'timeout', code: host.code, seatToken: guest.seatToken! });
+    // The host kept their hand; now it's Bob's mulligan, with a fresh minute.
+    expect(after.view!.pending).toMatchObject({ kind: 'mulligan', seat: 1 });
+    expect(after.events.at(-1)!.events[0]).toEqual({ type: 'timedOut', seat: 0 });
+    expect(after.clock).toEqual({ seat: 1, msLeft: 60_000 });
+  });
+
+  it('untimed games have no clock and refuse timeouts', async () => {
+    const { ok, call } = setup();
+    const host = await ok(create);
+    const guest = await ok(join(host.code));
+    expect(guest.clock).toBeNull();
+    expect((await call({ op: 'timeout', code: host.code, seatToken: guest.seatToken! })).status).toBe(409);
   });
 });

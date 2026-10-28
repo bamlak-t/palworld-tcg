@@ -29,6 +29,7 @@ import { BoardCard, MenuItem, type CardMotion } from './BoardCard';
 import { PlayerArea } from './PlayerArea';
 import { DamageReveal, PendingDialog } from './Prompts';
 import { OpeningHand } from './OpeningHand';
+import { MoveTimer, type MoveClock } from './MoveTimer';
 
 type Dispatch = (a: Action) => void;
 
@@ -143,6 +144,7 @@ export function Board({
   skin,
   avatars,
   readOnly,
+  clock,
 }: {
   view: GameView;
   seat: Seat;
@@ -154,6 +156,8 @@ export function Board({
   avatars: [string, string];
   /** Spectating: no prompts or actions, but cards can still be inspected. */
   readOnly?: boolean;
+  /** Whose move it is and when they run out, in timed games. */
+  clock?: MoveClock | null;
 }) {
   const mobile = useIsMobile();
   const opp: Seat = seat === 0 ? 1 : 0;
@@ -408,6 +412,15 @@ export function Board({
 
             <StatusBar
               view={view}
+              timer={
+                clock && !view.result ? (
+                  <MoveTimer
+                    clock={clock}
+                    names={[view.players[0].name, view.players[1].name]}
+                    you={readOnly ? null : seat}
+                  />
+                ) : undefined
+              }
               action={
                 <Button
                   size="sm"

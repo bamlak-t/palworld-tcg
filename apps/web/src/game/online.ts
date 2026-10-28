@@ -48,6 +48,7 @@ export const gameApi = {
     call<SessionInfo>({ op: 'action', code, seatToken, action, expectedVersion }),
   leave: (code: string, seatToken: string) => call<{ ok: true }>({ op: 'leave', code, seatToken }),
   claimWin: (code: string, seatToken: string) => call<SessionInfo>({ op: 'claimWin', code, seatToken }),
+  timeout: (code: string, seatToken: string) => call<SessionInfo>({ op: 'timeout', code, seatToken }),
 };
 
 // Seat tokens, per game code, so a refresh puts you back in your seat.

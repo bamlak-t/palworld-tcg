@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router';
 import { Check, Copy, Eye, Users, WifiOff } from 'lucide-react';
-import { AWAY_AFTER_SECONDS, CLAIM_WIN_AFTER_SECONDS, type SessionInfo } from '@pal/server';
+import { AWAY_AFTER_SECONDS, type SessionInfo } from '@pal/server';
+import { useNow } from '@/hooks/useNow';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
@@ -172,6 +173,7 @@ function OnlineGame({ code, token }: { code: string; token: string }) {
             skin={skin}
             avatars={[avatarOf('p1'), avatarOf('p2')]}
             readOnly={spectator}
+            clock={game.clock}
           />
         </>
       )}
@@ -194,22 +196,11 @@ function OnlineGame({ code, token }: { code: string; token: string }) {
   );
 }
 
-/** Re-renders every second while `active`, for live timers. */
-function useNow(active: boolean) {
-  const [now, setNow] = useState(() => Date.now());
-  useEffect(() => {
-    if (!active) return;
-    const t = setInterval(() => setNow(Date.now()), 1000);
-    return () => clearInterval(t);
-  }, [active]);
-  return now;
-}
-
 const mmss = (seconds: number) => `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`;
 
 /**
  * Your own connection dropping ("Reconnecting…"), or a player who has stopped checking in.
- * After CLAIM_WIN_AFTER_SECONDS a player can claim the win; the server checks the time too.
+ * After info.rules.claimWinSeconds a player can claim the win; the server checks the time too.
  */
 function ConnectionBanner({
   info,
@@ -243,7 +234,7 @@ function ConnectionBanner({
     <>
       {away.map((m) => {
         const seconds = m.secondsAway + elapsed;
-        const canClaim = info.role !== 'spectator' && seconds >= CLAIM_WIN_AFTER_SECONDS;
+        const canClaim = info.role !== 'spectator' && seconds >= info.rules.claimWinSeconds;
         return (
           <div
             key={m.role}
@@ -256,7 +247,7 @@ function ConnectionBanner({
                 ? 'Waiting for them to come back.'
                 : canClaim
                   ? 'You can wait, or claim the win.'
-                  : `If they're not back within ${mmss(CLAIM_WIN_AFTER_SECONDS)}, you can claim the win.`}
+                  : `If they're not back within ${mmss(info.rules.claimWinSeconds)}, you can claim the win.`}
             </span>
             {canClaim && (
               <Button size="sm" onClick={() => setConfirm(true)}>
@@ -291,6 +282,32 @@ function ConnectionBanner({
   );
 }
 
+const FIRST = {
+  choose: 'random player chooses who goes first',
+  random: 'coin toss for first',
+  host: 'host goes first',
+  guest: 'host goes second',
+} as const;
+
+/** "15 life · 10 souls · host goes first · 2 min turns" */
+function describeRules(r: SessionInfo['rules']) {
+  const timer =
+    r.turnSeconds === null
+      ? 'no turn timer'
+      : r.turnSeconds < 120
+        ? `${r.turnSeconds}s turns`
+        : `${r.turnSeconds / 60} min turns`;
+  return [
+    `${r.startingLife} life`,
+    `${r.souls} souls`,
+    FIRST[r.firstPlayer],
+    timer,
+    r.spectators ? null : 'no spectators',
+  ]
+    .filter(Boolean)
+    .join(' · ');
+}
+
 function Lobby({ info }: { info: SessionInfo }) {
   return (
     <div className="mx-auto w-full max-w-lg py-4">
@@ -298,9 +315,7 @@ function Lobby({ info }: { info: SessionInfo }) {
         <div className="text-center">
           <p className="text-xs text-window-foreground/70">Share this code</p>
           <p className="font-display text-4xl font-bold tracking-[0.3em] text-window-trim">{info.code}</p>
-          <p className="mt-1 text-xs text-window-foreground/70">
-            {info.rules.startingLife} life · {info.rules.souls} souls
-          </p>
+          <p className="mt-1 text-xs text-window-foreground/70">{describeRules(info.rules)}</p>
         </div>
         <ul className="flex flex-col gap-2">
           {info.members.map((m) => (

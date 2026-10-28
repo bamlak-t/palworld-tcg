@@ -5,6 +5,7 @@ export {
   createGame,
   apply,
   forfeit,
+  expire,
   canAttack,
   attackTargets,
   activatableAbilities,
@@ -18,13 +19,16 @@ export {
   validateDeck,
   copyLimit,
   makeRules,
+  rulesOf,
   STANDARD_RULES,
   RULE_LIMITS,
+  RULE_OPTIONS,
   MAIN_DECK_SIZE,
   MAX_COPIES,
   MAX_LUCKY,
   SOUL_COUNT,
 } from './deck.ts';
+export { advanceClock, deadline, actingSeat, type Clock } from './clock.ts';
 export { TRIAL_DECKS } from './decks.ts';
 export { defOf, costOf, isLucky } from './cards.ts';
 export { powerOf, strikeOf, hasKeyword, isNight, costToPlay } from './stats.ts';

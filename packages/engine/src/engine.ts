@@ -94,10 +94,24 @@ export function createGame(
     shuffle(ctx, s.players[seat].deck); // §6.2.1.2
   });
 
-  // §6.2.1.3: a random player chooses who goes first.
+  // §6.2.1.3: a random player chooses who goes first, unless the house rules decide.
   const [r, next] = nextRandom(s.rngState);
   s.rngState = next;
-  s.pending = { kind: 'chooseFirstPlayer', seat: r < 0.5 ? 0 : 1 };
+  const coin: Seat = r < 0.5 ? 0 : 1;
+  switch (rules.firstPlayer) {
+    case 'choose':
+      s.pending = { kind: 'chooseFirstPlayer', seat: coin };
+      break;
+    case 'random':
+      chooseFirstPlayer(ctx, coin);
+      break;
+    case 'host':
+      chooseFirstPlayer(ctx, 0);
+      break;
+    case 'guest':
+      chooseFirstPlayer(ctx, 1);
+      break;
+  }
   return { state: s, events: ctx.events };
 }
 
@@ -156,6 +170,52 @@ export function apply(state: GameState, seat: Seat, action: Action): ApplyResult
   }
   ctx.s.version++;
   return { ok: true, state: ctx.s, events: ctx.events };
+}
+
+/**
+ * The acting player ran out of time: make the safe default move for them (end the turn,
+ * don't block, pass, keep the hand, or the fewest picks a choice allows).
+ */
+export function expire(state: GameState): ApplyResult {
+  if (state.result) return { ok: false, error: 'The game is over.' };
+  const seat = state.pending?.seat ?? state.activeSeat;
+  let s = state;
+  let action: Action;
+  const p = state.pending;
+  if (p) {
+    switch (p.kind) {
+      case 'chooseFirstPlayer':
+        action = { type: 'chooseFirstPlayer', first: seat };
+        break;
+      case 'mulligan':
+        action = { type: 'mulligan', redraw: false };
+        break;
+      case 'block':
+        action = { type: 'block', blockerId: null };
+        break;
+      case 'quickStep':
+        action = { type: 'passQuick' };
+        break;
+      case 'overload': {
+        const rest = p.candidates.filter((id) => !p.mustKeep.includes(id));
+        action = { type: 'chooseOverload', keep: [...p.mustKeep, ...rest].slice(0, p.keepCount) };
+        break;
+      }
+      case 'effectChoice':
+        action = { type: 'answer', choice: p.options.slice(0, p.min).map((o) => o.id) };
+        break;
+    }
+  } else {
+    action = { type: 'endTurn' };
+    if (mustStillAttack(state)) {
+      // Out of time: the "must attack" requirement no longer holds the turn open.
+      s = structuredClone(state);
+      s.turnFlags!.mustAttack = [];
+    }
+  }
+  const r = apply(s, seat, action);
+  if (r.ok) r.events.unshift({ type: 'timedOut', seat });
+  return r;
 }
 
 /** Ends the game with the seat losing for a reason outside play (e.g. it disconnected). */

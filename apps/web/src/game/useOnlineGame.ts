@@ -117,11 +117,33 @@ export function useOnlineGame(code: string, seatToken: string) {
     }
   }, [absorb, code, refresh, seatToken]);
 
+  // Timed games: when the clock runs out, ask the server to move for whoever is up. It
+  // checks the time itself; if we're early (clocks differ) it says so and we refetch.
+  const clock =
+    info?.clock && info.status === 'playing'
+      ? { seat: info.clock.seat, deadline: receivedAt + info.clock.msLeft }
+      : null;
+  const due = clock?.deadline ?? null;
+  useEffect(() => {
+    if (due === null) return;
+    const t = setTimeout(
+      () => {
+        gameApi
+          .timeout(code, seatToken)
+          .then(absorb)
+          .catch(() => void refresh());
+      },
+      Math.max(0, due - Date.now()) + 500,
+    );
+    return () => clearTimeout(t);
+  }, [due, code, seatToken, absorb, refresh]);
+
   const leave = useCallback(() => gameApi.leave(code, seatToken), [code, seatToken]);
 
   return {
     info,
     receivedAt,
+    clock,
     batches,
     error,
     reconnecting,

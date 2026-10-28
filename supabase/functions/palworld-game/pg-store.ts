@@ -11,6 +11,7 @@ const session = (r: Record<string, unknown>): SessionRow => ({
   state: r.state as SessionRow['state'],
   version: r.version as number,
   rules: (r.rules as SessionRow['rules']) ?? null,
+  clock: (r.clock as SessionRow['clock']) ?? null,
 });
 
 const member = (r: Record<string, unknown>): MemberRow => ({
@@ -40,6 +41,7 @@ function tx(sql: TxSql): Tx {
       if (patch.status !== undefined) row.status = patch.status;
       if (patch.version !== undefined) row.version = patch.version;
       if (patch.state !== undefined) row.state = sql.json(patch.state as never);
+      if (patch.clock !== undefined) row.clock = patch.clock ? sql.json(patch.clock as never) : null;
       await sql`update palworld.sessions set ${sql(row)} where id = ${id}`;
     },
     async deleteSession(id) {

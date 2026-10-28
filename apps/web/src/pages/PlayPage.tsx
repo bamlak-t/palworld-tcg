@@ -1,7 +1,8 @@
 import { useState, type FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router';
 import { Monitor, SlidersHorizontal, Users } from 'lucide-react';
-import { RULE_LIMITS } from '@pal/engine';
+import { RULE_LIMITS, type GameRules } from '@pal/engine';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -22,6 +23,8 @@ export function PlayPage() {
   const [profile, setProfile] = useState({ name: settings.playerName, avatarId: settings.avatarId });
   const decks = useDecks();
   const gameRules = useGameRules();
+  const rules = gameRules.rules;
+  const setRule = (change: Partial<GameRules>) => gameRules.set({ ...rules, ...change });
   const [deck, setDeck] = useState('trial:ETD01');
   const deckCards = () => expandDeck(decks.all.find((d) => d.id === deck) ?? decks.all[0]!);
   const [code, setCode] = useState('');
@@ -145,20 +148,64 @@ export function PlayPage() {
           <RuleSlider
             label="Starting life"
             id="rule-life"
-            value={gameRules.rules.startingLife}
+            value={rules.startingLife}
             limits={RULE_LIMITS.startingLife}
-            onChange={(startingLife) => gameRules.set({ ...gameRules.rules, startingLife })}
+            onChange={(startingLife) => setRule({ startingLife })}
           />
           <RuleSlider
             label="Souls"
             id="rule-souls"
-            value={gameRules.rules.souls}
+            value={rules.souls}
             limits={RULE_LIMITS.souls}
-            onChange={(souls) => gameRules.set({ ...gameRules.rules, souls })}
+            onChange={(souls) => setRule({ souls })}
+          />
+          <RuleChoice
+            label="Who goes first"
+            hint="The host is whoever creates the game (Player 1 on one screen)."
+            value={rules.firstPlayer}
+            options={[
+              ['random', 'Coin toss'],
+              ['host', 'Host first'],
+              ['guest', 'Host second'],
+            ]}
+            onChange={(firstPlayer) => setRule({ firstPlayer })}
+          />
+          <RuleChoice
+            label="Turn timer"
+            hint="Out of time: the turn ends (or the response is skipped)."
+            value={String(rules.turnSeconds)}
+            options={[
+              ['60', '60s'],
+              ['120', '2 min'],
+              ['300', '5 min'],
+              ['null', 'Never'],
+            ]}
+            onChange={(v) => setRule({ turnSeconds: v === 'null' ? null : Number(v) })}
+          />
+          <RuleChoice
+            label="Spectators"
+            hint="Online games: up to 3 people can join to watch."
+            value={String(rules.spectators)}
+            options={[
+              ['true', 'Allowed'],
+              ['false', 'Not allowed'],
+            ]}
+            onChange={(v) => setRule({ spectators: v === 'true' })}
+          />
+          <RuleChoice
+            label="Claim the win after"
+            hint="Online games: how long an opponent must be disconnected."
+            value={String(rules.claimWinSeconds)}
+            options={[
+              ['60', '1 min'],
+              ['180', '3 min'],
+              ['300', '5 min'],
+            ]}
+            onChange={(v) => setRule({ claimWinSeconds: Number(v) })}
           />
         </div>
         <div className="flex items-center gap-2 text-xs text-window-foreground/70">
-          {gameRules.standard ? 'Standard rules: 10 life and 10 souls.' : 'House rules in use.'}
+          {gameRules.standard ? 'Standard settings.' : 'Custom settings in use.'}
           {!gameRules.standard && (
             <Button size="sm" variant="ghost" className="ml-auto h-7" onClick={gameRules.reset}>
               Reset to standard
@@ -166,6 +213,37 @@ export function PlayPage() {
           )}
         </div>
       </Window>
+    </div>
+  );
+}
+
+function RuleChoice<T extends string>(props: {
+  label: string;
+  hint: string;
+  value: string;
+  options: [T, string][];
+  onChange: (v: T) => void;
+}) {
+  return (
+    <div className="flex flex-col gap-2">
+      <Label>{props.label}</Label>
+      <ToggleGroup
+        type="single"
+        variant="outline"
+        size="sm"
+        spacing={0}
+        value={props.value}
+        onValueChange={(v) => v && props.onChange(v as T)}
+        aria-label={props.label}
+        className="w-full"
+      >
+        {props.options.map(([value, label]) => (
+          <ToggleGroupItem key={value} value={value} className="flex-1">
+            {label}
+          </ToggleGroupItem>
+        ))}
+      </ToggleGroup>
+      <p className="text-xs text-window-foreground/70">{props.hint}</p>
     </div>
   );
 }

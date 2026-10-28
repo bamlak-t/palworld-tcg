@@ -255,3 +255,42 @@ describe('house rules', () => {
     ).toThrow();
   });
 });
+
+describe('turn clock and timeouts', () => {
+  it('the turn player keeps their remaining time across an opponent response', async () => {
+    const { advanceClock, deadline } = await import('./clock.ts');
+    const s = toMain();
+    let clock = advanceClock(null, s, 0)!;
+    expect(deadline(clock, s, 60)).toBe(60_000);
+    // 20s in, the opponent has to respond: they get a full minute of their own.
+    const responding = { ...s, pending: { kind: 'quickStep' as const, seat: 1 as const } };
+    clock = advanceClock(clock, responding, 20_000)!;
+    expect(deadline(clock, responding, 60)).toBe(80_000);
+    // Back to the turn player 5s later: 40s left.
+    clock = advanceClock(clock, s, 25_000)!;
+    expect(deadline(clock, s, 60)).toBe(65_000);
+  });
+
+  it('expire: ends the turn, even if Pals still had to attack', async () => {
+    const { expire } = await import('./engine.ts');
+    let s = toMain();
+    s.turnFlags = { mustAttack: [0], noAssign: [] };
+    put(s, 0, 'base', PYRIN);
+    const r = expire(s);
+    expect(r.ok && r.state.activeSeat).toBe(1);
+    expect(r.ok && r.events[0]).toEqual({ type: 'timedOut', seat: 0 });
+    s = r.ok ? r.state : s;
+  });
+
+  it('expire: an unanswered choice takes the fewest picks allowed', async () => {
+    const { expire } = await import('./engine.ts');
+    registerScripts({ [NOX]: { onDeploy: (e) => e.chooseUpTo(1, 'Pick', e.pals()).forEach((c) => e.rest(c)) } });
+    let s = toMain();
+    put(s, 1, 'base', PYRIN);
+    s = play(s, 0, NOX).s;
+    expect(s.pending?.kind).toBe('effectChoice');
+    const r = expire(s);
+    expect(r.ok && r.state.pending).toBeNull();
+    registerScripts({ [NOX]: {} });
+  });
+});
