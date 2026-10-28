@@ -1,4 +1,5 @@
 import type { CardDef, Printing } from '@pal/cards';
+import { Heart } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { CardFace } from './CardFace';
 
@@ -96,11 +97,13 @@ export function GameCard({
             </span>
           )}
           {damage > 0 && (
+            // What it can still take this turn: "500 left" reads better than "−900" next to "1400".
             <span
-              className="rounded-full bg-red-600 px-1.5 text-[11px] font-bold text-white shadow tabular-nums"
-              title="Damage taken this turn"
+              className="flex items-center gap-0.5 rounded-full bg-red-600 px-1.5 text-[11px] font-bold text-white shadow tabular-nums"
+              title={`Took ${damage} damage this turn: ${Math.max(0, power - damage)} of ${power} left. Damage clears at the end of the turn.`}
             >
-              −{damage}
+              <Heart className="size-2.5" fill="currentColor" />
+              {Math.max(0, power - damage)}
             </span>
           )}
         </div>

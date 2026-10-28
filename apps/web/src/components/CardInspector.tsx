@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { getCard } from '@pal/cards';
-import type { CardInstance } from '@pal/engine';
+import type { CardInstance, CardStats } from '@pal/engine';
 import { Button } from '@/components/ui/button';
 import { X } from 'lucide-react';
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
@@ -10,14 +10,26 @@ import { SharpCard } from '@/components/SharpCard';
  * Full-size view of a card during a game. The card itself carries its name, type and
  * (sharp) text, so the only extra line is what has changed it this turn, if anything.
  */
-export function CardInspector({ instance, onClose }: { instance: CardInstance | null; onClose: () => void }) {
+export function CardInspector({
+  instance,
+  stats,
+  onClose,
+}: {
+  instance: CardInstance | null;
+  /** Its current stats in a game, for the health it has left. */
+  stats?: CardStats;
+  onClose: () => void;
+}) {
   const [sharp, setSharp] = useState(true);
   const def = instance ? getCard(instance.cardId) : undefined;
   const landscape = def?.kind === 'Structure';
 
   const changes: string[] = [];
   if (instance && def) {
-    if (instance.damage > 0) changes.push(`−${instance.damage} damage`);
+    if (instance.damage > 0) {
+      const power = stats?.power ?? def.power ?? 0;
+      changes.push(`${instance.damage} damage taken, ${Math.max(0, power - instance.damage)} left this turn`);
+    }
     for (const m of instance.modifiers) {
       changes.push(
         m.stat === 'keyword'

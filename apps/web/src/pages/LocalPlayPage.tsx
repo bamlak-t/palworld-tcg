@@ -108,8 +108,8 @@ function LocalGame({ setup, onQuit }: { setup: Setup; onQuit: () => void }) {
   // House rules are fixed when the game starts (New game uses them too).
   const { rules } = useGameRules();
   const [startRules] = useState(rules);
-  const game = useLocalGame(players, startRules);
-  const { skin } = useSettings();
+  const { skin, settings } = useSettings();
+  const game = useLocalGame(players, startRules, { hold: !settings.reduceMotion });
   const result = game.view.result;
 
   return (

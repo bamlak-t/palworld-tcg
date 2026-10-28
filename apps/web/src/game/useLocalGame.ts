@@ -31,12 +31,28 @@ export interface EventBatch {
 }
 
 /**
+ * How long the board keeps showing the old seat after a move hands play to the other
+ * player, so its effects (FxLayer) finish before the board flips.
+ */
+const HOLD_MS: Partial<Record<GameEvent['type'], number>> = {
+  attackDeclared: 650,
+  battleDamage: 1000,
+  damageDealt: 1000,
+  destroyed: 1000,
+  playerDamage: 900,
+};
+const holdFor = (batch: EventBatch | undefined) =>
+  Math.max(0, ...(batch?.events ?? []).map((e) => HOLD_MS[e.type] ?? 0));
+
+/**
  * Hot-seat game: both players share this browser. The board shows whichever seat must
- * act next, so each player only sees their own hand when it's their move.
+ * act next, so each player only sees their own hand when it's their move. With `hold`,
+ * it switches seats only once the move's effects have played.
  */
 export function useLocalGame(
   players: [{ name: string; deck: DeckChoice }, { name: string; deck: DeckChoice }],
   rules?: GameRules,
+  { hold = true }: { hold?: boolean } = {},
 ) {
   const [state, setState] = useState<GameState>(() => newGame(players, rules));
   const timed = rules?.turnSeconds ?? null;
@@ -44,9 +60,17 @@ export function useLocalGame(
   const [batches, setBatches] = useState<EventBatch[]>([]);
   const [error, setError] = useState<string | null>(null);
 
-  const seat: Seat = state.pending ? state.pending.seat : state.activeSeat;
+  const acting: Seat = state.pending ? state.pending.seat : state.activeSeat;
+  const [seat, setSeat] = useState<Seat>(acting);
+  const holdMs = hold ? holdFor(batches.at(-1)) : 0;
+  useEffect(() => {
+    if (seat === acting) return;
+    const t = setTimeout(() => setSeat(acting), holdMs);
+    return () => clearTimeout(t);
+  }, [seat, acting, holdMs]);
   const view = useMemo(() => viewFor(state, seat), [state, seat]);
-  const legal = useMemo(() => getLegalActions(state, seat), [state, seat]);
+  // While the old seat is still shown, nobody can act.
+  const legal = useMemo(() => (seat === acting ? getLegalActions(state, seat) : []), [state, seat, acting]);
 
   const accept = useCallback(
     (r: Extract<ApplyResult, { ok: true }>) => {
@@ -64,11 +88,11 @@ export function useLocalGame(
 
   const dispatch = useCallback(
     (action: Action) => {
-      const r = apply(state, seat, action);
+      const r = apply(state, acting, action);
       if (!r.ok) setError(r.error);
       else accept(r);
     },
-    [state, seat, accept],
+    [state, acting, accept],
   );
 
   // Out of time: the game makes the default move for whoever is up.
@@ -88,6 +112,7 @@ export function useLocalGame(
   const restart = useCallback(() => {
     const fresh = newGame(players, rules);
     setState(fresh);
+    setSeat(fresh.pending ? fresh.pending.seat : fresh.activeSeat);
     setClock(timed ? advanceClock(null, fresh, Date.now()) : null);
     setBatches([]);
     setError(null);

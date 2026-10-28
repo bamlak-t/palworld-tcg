@@ -517,7 +517,11 @@ export function Board({
         />
       )}
       <FxLayer batch={last} view={view} enabled={!settings.reduceMotion} />
-      <CardInspector instance={inspect} onClose={() => setInspect(null)} />
+      <CardInspector
+        instance={inspect}
+        stats={inspect ? view.stats[inspect.id] : undefined}
+        onClose={() => setInspect(null)}
+      />
 
       <Dialog open={!!costPick} onOpenChange={(o) => !o && setCostPick(null)}>
         <DialogContent className="sm:max-w-sm">
