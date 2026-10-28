@@ -28,6 +28,22 @@ export interface MemberRow {
   secondsAway: number;
 }
 
+export interface AccountRow {
+  id: string;
+  /** Lowercase. */
+  username: string;
+  passwordHash: string;
+}
+
+export interface DeckRow {
+  id: string;
+  name: string;
+  /** Card id → copies. */
+  cards: Record<string, number>;
+  /** When it was last saved (ms, by the server's clock). */
+  updatedAt: number;
+}
+
 export interface EventBatchRow {
   version: number;
   events: unknown[];
@@ -51,6 +67,17 @@ export interface Tx {
 
   insertEvents(sessionId: string, version: number, events: unknown[]): Promise<void>;
   eventsSince(sessionId: string, version: number): Promise<EventBatchRow[]>;
+
+  accountByUsername(username: string): Promise<AccountRow | null>;
+  insertAccount(username: string, passwordHash: string): Promise<AccountRow>;
+  insertToken(accountId: string, tokenHash: string): Promise<void>;
+  /** The account a sign-in token belongs to, if it's still valid (and marks it used). */
+  accountByToken(tokenHash: string): Promise<AccountRow | null>;
+  deleteToken(tokenHash: string): Promise<void>;
+  /** Newest first. */
+  decks(accountId: string): Promise<DeckRow[]>;
+  upsertDeck(accountId: string, deck: Omit<DeckRow, 'updatedAt'>): Promise<DeckRow>;
+  deleteDeck(accountId: string, id: string): Promise<void>;
 }
 
 export interface Store {

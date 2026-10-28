@@ -2,7 +2,8 @@
  * palworld-game: online play for the Palworld TCG web app.
  *
  * POST JSON { op: 'create' | 'join' | 'view' | 'action' | 'leave', ... } (see @pal/server).
- * Players are identified by the seat token they got when joining; there are no accounts.
+ * Players are identified by the seat token they got when joining. Accounts (signUp, signIn,
+ * decks, saveDeck, …) only store decks; games don't need one.
  * After any change it broadcasts { version } on Realtime channel "palworld:<code>", and
  * clients then fetch their own redacted view, so a forged broadcast can't show anyone a
  * fake game state.

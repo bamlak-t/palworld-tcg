@@ -1,4 +1,4 @@
-import type { EventBatchRow, MemberRow, SessionRow, Store, Tx } from './store.ts';
+import type { AccountRow, DeckRow, EventBatchRow, MemberRow, SessionRow, Store, Tx } from './store.ts';
 
 /** In-memory store for tests. Transactions run one at a time. */
 export function memoryStore(
@@ -9,6 +9,9 @@ export function memoryStore(
   const sessions = new Map<string, SessionRow & { updatedAt: number }>();
   const members = new Map<string, MemberRow>();
   const events: (EventBatchRow & { sessionId: string })[] = [];
+  const accounts = new Map<string, AccountRow>();
+  const tokens = new Map<string, string>(); // token hash → account id
+  const decks = new Map<string, DeckRow & { accountId: string }>(); // keyed by account id + deck id
   let ids = 0;
   let queue = Promise.resolve();
   const uuid = () => `00000000-0000-4000-8000-${String(++ids).padStart(12, '0')}`;
@@ -80,6 +83,41 @@ export function memoryStore(
       return events
         .filter((e) => e.sessionId === sessionId && e.version > version)
         .map(({ version, events }) => ({ version, events }));
+    },
+    async accountByUsername(username) {
+      const a = [...accounts.values()].find((x) => x.username === username);
+      return a ? { ...a } : null;
+    },
+    async insertAccount(username, passwordHash) {
+      const row = { id: uuid(), username, passwordHash };
+      accounts.set(row.id, row);
+      return { ...row };
+    },
+    async insertToken(accountId, tokenHash) {
+      tokens.set(tokenHash, accountId);
+    },
+    async accountByToken(tokenHash) {
+      const id = tokens.get(tokenHash);
+      const a = id ? accounts.get(id) : undefined;
+      return a ? { ...a } : null;
+    },
+    async deleteToken(tokenHash) {
+      tokens.delete(tokenHash);
+    },
+    async decks(accountId) {
+      return [...decks.values()]
+        .filter((d) => d.accountId === accountId)
+        .sort((a, b) => b.updatedAt - a.updatedAt)
+        .map(({ accountId: _, ...d }) => structuredClone(d));
+    },
+    async upsertDeck(accountId, deck) {
+      const row = { ...structuredClone(deck), updatedAt: now(), accountId };
+      decks.set(`${accountId}/${deck.id}`, row);
+      const { accountId: _, ...d } = row;
+      return structuredClone(d);
+    },
+    async deleteDeck(accountId, id) {
+      decks.delete(`${accountId}/${id}`);
     },
   };
 

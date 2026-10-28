@@ -22,6 +22,7 @@ import { Input } from '@/components/ui/input';
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from '@/components/ui/sheet';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { CardInspector } from '@/components/CardInspector';
+import { SyncStatus } from '@/components/AccountDialog';
 import { CardFace } from '@/components/game/CardFace';
 import { useMediaQuery } from '@/hooks/useIsMobile';
 import { applyFilters, DEFAULT_FILTERS, FILTER_OPTIONS } from '@/lib/cardFilters';
@@ -105,6 +106,7 @@ export function DecksPage() {
             <Plus data-icon="inline-start" /> New deck
           </Button>
         </div>
+        <SyncStatus />
         <DeckGroup
           title="Your decks"
           decks={shown(fresh ? [fresh, ...decks.saved] : decks.saved)}

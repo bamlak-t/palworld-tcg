@@ -1,12 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { TRIAL_DECKS } from '@pal/engine';
-import {
-  handle,
-  MAX_SPECTATORS,
-  memoryStore,
-  type Request,
-  type SessionInfo,
-} from './index.ts';
+import { handle, MAX_SPECTATORS, memoryStore, type Request, type SessionInfo } from './index.ts';
 
 const ETD01 = [...TRIAL_DECKS.ETD01.cards];
 const ETD02 = [...TRIAL_DECKS.ETD02.cards];

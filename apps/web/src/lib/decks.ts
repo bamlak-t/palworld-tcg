@@ -1,7 +1,13 @@
-/** Saved decks (in this browser) plus the built-in trial decks. */
-import { useSyncExternalStore } from 'react';
+/**
+ * Saved decks plus the built-in trial decks. Signed out, decks live in this browser;
+ * signed in, they belong to your account (stored by the palworld-game function) and sync
+ * between devices, with a local copy so they show at once and changes work offline.
+ */
+import { useEffect, useSyncExternalStore } from 'react';
 import { getCard, getCardByName, isLuckyPal } from '@pal/cards';
 import { MAX_COPIES, MAX_LUCKY, MAIN_DECK_SIZE, TRIAL_DECKS, validateDeck } from '@pal/engine';
+import { call, GameApiError } from '@/game/online';
+import { getAccount, setAccount, subscribeAccount, type Account } from '@/lib/accountStore';
 
 export interface DeckList {
   id: string;
@@ -13,8 +19,14 @@ export interface DeckList {
   updatedAt: number;
 }
 
-const STORAGE_KEY = 'pal-decks';
+const GUEST_KEY = 'pal-decks';
 const CHANGE_EVENT = 'pal-decks-changed';
+/** A signed-in account's decks as last synced, with unsynced changes applied. */
+const cacheKey = (username: string) => `pal-decks@${username}`;
+/** Changes the server hasn't confirmed yet, oldest first. */
+const queueKey = (username: string) => `pal-deck-queue@${username}`;
+
+type PendingOp = { op: 'save'; deck: DeckList } | { op: 'delete'; id: string };
 
 const counts = (ids: readonly string[]) =>
   ids.reduce<Record<string, number>>((acc, id) => ({ ...acc, [id]: (acc[id] ?? 0) + 1 }), {});
@@ -27,57 +39,239 @@ export const BUILT_IN_DECKS: DeckList[] = Object.entries(TRIAL_DECKS).map(([key,
   updatedAt: 0,
 }));
 
-let cache: { raw: string | null; decks: DeckList[] } = { raw: null, decks: [] };
+// Parsed lists per storage key, so snapshots stay identical until the stored text changes.
+const parsed = new Map<string, { raw: string | null; value: unknown[] }>();
 
-function readSaved(): DeckList[] {
+function readList<T>(key: string): T[] {
   let raw: string | null = null;
   try {
-    raw = localStorage.getItem(STORAGE_KEY);
+    raw = localStorage.getItem(key);
   } catch {
-    // Storage unavailable: no saved decks.
+    // Storage unavailable: nothing saved.
   }
-  if (raw === cache.raw) return cache.decks;
-  let decks: DeckList[] = [];
+  const hit = parsed.get(key);
+  if (hit && hit.raw === raw) return hit.value as T[];
+  let value: T[] = [];
   try {
-    decks = raw ? (JSON.parse(raw) as DeckList[]) : [];
+    value = raw ? (JSON.parse(raw) as T[]) : [];
   } catch {
-    decks = [];
+    value = [];
   }
-  cache = { raw, decks };
-  return decks;
+  parsed.set(key, { raw, value });
+  return value;
 }
 
-function writeSaved(decks: DeckList[]) {
+/** null removes the key. */
+function writeList(key: string, list: unknown[] | null) {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(decks));
+    if (list) localStorage.setItem(key, JSON.stringify(list));
+    else localStorage.removeItem(key);
   } catch {
-    // Non-fatal: the deck just won't persist.
+    // Non-fatal: the change just won't persist.
   }
   window.dispatchEvent(new Event(CHANGE_EVENT));
+}
+
+/** The decks you see: this browser's when signed out, your account's when signed in. */
+function readSaved(): DeckList[] {
+  const account = getAccount();
+  return readList<DeckList>(account ? cacheKey(account.username) : GUEST_KEY);
 }
 
 const subscribe = (onChange: () => void) => {
   window.addEventListener(CHANGE_EVENT, onChange);
   window.addEventListener('storage', onChange);
+  const offAccount = subscribeAccount(onChange);
   return () => {
     window.removeEventListener(CHANGE_EVENT, onChange);
     window.removeEventListener('storage', onChange);
+    offAccount();
   };
 };
 
+function applyOps(decks: DeckList[], ops: PendingOp[]): DeckList[] {
+  let list = decks;
+  for (const o of ops) {
+    list = o.op === 'save' ? [o.deck, ...list.filter((d) => d.id !== o.deck.id)] : list.filter((d) => d.id !== o.id);
+  }
+  return list;
+}
+
+/** A change for the signed-in account: shown at once, uploaded by syncDecks. */
+function enqueue(account: Account, op: PendingOp) {
+  writeList(queueKey(account.username), [...readList<PendingOp>(queueKey(account.username)), op]);
+  writeList(cacheKey(account.username), applyOps(readList<DeckList>(cacheKey(account.username)), [op]));
+  void syncDecks();
+}
+
+// ---------------------------------------------------------------------------
+// Syncing with the account
+// ---------------------------------------------------------------------------
+
+export type DeckSync =
+  | { state: 'local' | 'syncing' | 'synced' }
+  /** Changes are kept on this device and upload once the connection is back. */
+  | { state: 'offline' }
+  | { state: 'error'; message: string };
+
+const SYNC_EVENT = 'pal-deck-sync';
+let sync: DeckSync = { state: 'syncing' };
+const setSync = (next: DeckSync) => {
+  sync = next;
+  window.dispatchEvent(new Event(SYNC_EVENT));
+};
+
+let running: Promise<void> | null = null;
+let again = false;
+let lastSync = 0;
+
+const isConnectionProblem = (e: unknown) => !(e instanceof GameApiError) || e.status === 0 || e.status >= 500;
+
+/**
+ * Uploads queued changes, then fetches the account's decks. Safe to call any time: a call
+ * during a sync runs one more pass after it.
+ */
+export function syncDecks(): Promise<void> {
+  if (running) {
+    again = true;
+    return running;
+  }
+  running = (async () => {
+    do {
+      again = false;
+      await syncOnce();
+    } while (again);
+  })().finally(() => {
+    running = null;
+    lastSync = Date.now();
+  });
+  return running;
+}
+
+async function syncOnce() {
+  const account = getAccount();
+  if (!account) return;
+  const queue = queueKey(account.username);
+  setSync({ state: 'syncing' });
+  let rejected: string | null = null;
+  try {
+    for (let op = readList<PendingOp>(queue)[0]; op; op = readList<PendingOp>(queue)[0]) {
+      try {
+        if (op.op === 'save') {
+          const { id, name, cards } = op.deck;
+          await call({ op: 'saveDeck', token: account.token, deck: { id, name, cards } });
+        } else await call({ op: 'deleteDeck', token: account.token, id: op.id });
+      } catch (e) {
+        // The server refused this change (rather than being unreachable): drop it and go on.
+        if (isConnectionProblem(e) || (e as GameApiError).status === 401) throw e;
+        rejected = (e as GameApiError).message;
+      }
+      writeList(queue, readList<PendingOp>(queue).slice(1));
+    }
+    const { decks } = await call<{ decks: DeckList[] }>({ op: 'decks', token: account.token });
+    if (getAccount()?.token !== account.token) return;
+    // Changes made while the list was loading still count.
+    writeList(cacheKey(account.username), applyOps(decks, readList<PendingOp>(queue)));
+    setSync(rejected ? { state: 'error', message: `A change wasn't saved: ${rejected}` } : { state: 'synced' });
+  } catch (e) {
+    if (e instanceof GameApiError && e.status === 401) {
+      signedOutByServer(account);
+      setSync({ state: 'error', message: 'You were signed out. Sign in again to sync your decks.' });
+    } else if (isConnectionProblem(e)) setSync({ state: 'offline' });
+    else setSync({ state: 'error', message: (e as Error).message });
+  }
+}
+
+/** The sign-in expired: keep its decks on this device; they move back on the next sign-in. */
+function signedOutByServer(account: Account) {
+  const mine = readList<DeckList>(cacheKey(account.username));
+  const guest = readList<DeckList>(GUEST_KEY);
+  writeList(GUEST_KEY, [...mine, ...guest.filter((g) => !mine.some((d) => d.id === g.id))]);
+  forgetAccountDecks(account.username);
+  setAccount(null);
+}
+
+/** After signing in: decks made on this device while signed out move into the account. */
+export function adoptGuestDecks(account: Account): number {
+  const guest = readList<DeckList>(GUEST_KEY);
+  if (guest.length === 0) return 0;
+  writeList(queueKey(account.username), [
+    ...readList<PendingOp>(queueKey(account.username)),
+    ...guest.map((deck): PendingOp => ({ op: 'save', deck })),
+  ]);
+  writeList(
+    cacheKey(account.username),
+    applyOps(
+      readList<DeckList>(cacheKey(account.username)),
+      guest.map((deck) => ({ op: 'save', deck })),
+    ),
+  );
+  writeList(GUEST_KEY, null);
+  return guest.length;
+}
+
+/** How many changes haven't reached the server yet. */
+export const unsyncedChanges = (username: string) => readList<PendingOp>(queueKey(username)).length;
+
+export function forgetAccountDecks(username: string) {
+  writeList(cacheKey(username), null);
+  writeList(queueKey(username), null);
+}
+
+const subscribeSync = (onChange: () => void) => {
+  window.addEventListener(SYNC_EVENT, onChange);
+  return () => window.removeEventListener(SYNC_EVENT, onChange);
+};
+
+/** Where your decks are kept and whether they're up to date. */
+export function useDeckSync(): DeckSync {
+  const account = useSyncExternalStore(subscribeAccount, getAccount, () => null);
+  const status = useSyncExternalStore(
+    subscribeSync,
+    () => sync,
+    () => sync,
+  );
+  return account ? status : { state: 'local' };
+}
+
+/** Coming back to the tab syncs again (decks may have changed on another device), at most this often. */
+const RESYNC_AFTER_MS = 10_000;
+
 export function useDecks() {
   const saved = useSyncExternalStore(subscribe, readSaved, () => []);
+  const account = useSyncExternalStore(subscribeAccount, getAccount, () => null);
+  const token = account?.token;
+  useEffect(() => {
+    if (!token) return;
+    const resync = () => {
+      if (document.visibilityState === 'visible' && Date.now() - lastSync > RESYNC_AFTER_MS) void syncDecks();
+    };
+    resync();
+    window.addEventListener('focus', resync);
+    window.addEventListener('online', resync);
+    return () => {
+      window.removeEventListener('focus', resync);
+      window.removeEventListener('online', resync);
+    };
+  }, [token]);
   return {
     saved,
     all: [...BUILT_IN_DECKS, ...saved],
     save(deck: DeckList) {
       const next = { ...deck, builtIn: undefined, updatedAt: Date.now() };
-      const rest = readSaved().filter((d) => d.id !== deck.id);
-      writeSaved([next, ...rest]);
+      const current = getAccount();
+      if (current) enqueue(current, { op: 'save', deck: next });
+      else writeList(GUEST_KEY, [next, ...readList<DeckList>(GUEST_KEY).filter((d) => d.id !== deck.id)]);
       return next;
     },
     remove(id: string) {
-      writeSaved(readSaved().filter((d) => d.id !== id));
+      const current = getAccount();
+      if (current) enqueue(current, { op: 'delete', id });
+      else
+        writeList(
+          GUEST_KEY,
+          readList<DeckList>(GUEST_KEY).filter((d) => d.id !== id),
+        );
     },
   };
 }

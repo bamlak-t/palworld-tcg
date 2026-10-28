@@ -1,5 +1,6 @@
 import { NavLink, Outlet, useLocation } from 'react-router';
 import { SettingsDialog } from '@/components/SettingsDialog';
+import { AccountDialog } from '@/components/AccountDialog';
 import { cn } from '@/lib/utils';
 import { HelpDialog } from '@/components/HelpDialog';
 import { ThemeToggle } from '@/components/ThemeToggle';
@@ -31,8 +32,12 @@ export function Layout() {
           </NavLink>
           <div className="ml-auto flex items-center">
             <HelpDialog />
-            <ThemeToggle />
+            {/* On phones the theme lives in Settings, to leave room for the account button. */}
+            <span className="hidden sm:contents">
+              <ThemeToggle />
+            </span>
             <SettingsDialog />
+            <AccountDialog />
           </div>
         </nav>
       </header>

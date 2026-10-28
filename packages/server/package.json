@@ -6,6 +6,7 @@
     ".": "./src/index.ts"
   },
   "dependencies": {
+    "@pal/cards": "*",
     "@pal/engine": "*"
   }
 }

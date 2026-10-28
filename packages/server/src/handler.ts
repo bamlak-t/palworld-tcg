@@ -22,6 +22,7 @@ import {
   type Seat,
 } from '@pal/engine';
 import type { MemberRow, Role, SessionRow, SessionStatus, Store, Tx } from './store.ts';
+import { ACCOUNT_OPS, AccountError, handleAccount, type AccountRequest, type AccountResponse } from './accounts.ts';
 
 export const MAX_SPECTATORS = 3;
 /** Clients check in at least this often while a game is open (see useOnlineGame). */
@@ -33,6 +34,7 @@ const CODE_ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // no 0/O or 1/I
 const CODE_LENGTH = 6;
 
 export type Request =
+  | AccountRequest
   /** rules: house rules for this game (missing: standard). */
   | { op: 'create'; name: string; avatarId: string; deck: string[]; rules?: Partial<GameRules> }
   /** deck is only needed (and checked) if you get a player seat. */
@@ -74,7 +76,7 @@ export interface SessionInfo {
   seatToken?: string;
 }
 
-export type Response = { status: number; body: SessionInfo | { error: string } | { ok: true } };
+export type Response = { status: number; body: SessionInfo | AccountResponse | { error: string } | { ok: true } };
 
 export interface Deps {
   store: Store;
@@ -102,13 +104,14 @@ export async function handle(req: Request, deps: Deps): Promise<Response> {
     const result = await route(req, deps);
     return { status: 200, body: result };
   } catch (e) {
-    if (e instanceof HttpError) return { status: e.status, body: { error: e.message } };
+    if (e instanceof HttpError || e instanceof AccountError) return { status: e.status, body: { error: e.message } };
     throw e;
   }
 }
 
-async function route(req: Request, deps: Deps): Promise<SessionInfo | { ok: true }> {
+async function route(req: Request, deps: Deps): Promise<SessionInfo | AccountResponse | { ok: true }> {
   if (!req || typeof req !== 'object') bad('Invalid request.');
+  if (ACCOUNT_OPS.has(req.op)) return deps.store.transaction((tx) => handleAccount(req as AccountRequest, tx));
   switch (req.op) {
     case 'create':
       return create(req, deps);

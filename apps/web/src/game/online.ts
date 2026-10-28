@@ -1,4 +1,4 @@
-/** Client for the palworld-game Edge Function and its Realtime pings. */
+/** Client for the palworld-game Edge Function (games and accounts) and its Realtime pings. */
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import type { Action, GameRules } from '@pal/engine';
 import type { SessionInfo } from '@pal/server';
@@ -19,7 +19,7 @@ export class GameApiError extends Error {
   }
 }
 
-async function call<T>(body: object): Promise<T> {
+export async function call<T>(body: object): Promise<T> {
   if (!onlineConfigured) throw new GameApiError(0, 'Online play is not configured.');
   const res = await fetch(`${URL}/functions/v1/palworld-game`, {
     method: 'POST',

@@ -1,6 +1,6 @@
 /** Postgres implementation of the session store, using the function's direct database URL. */
 import type postgres from 'postgres';
-import type { MemberRow, SessionRow, Store, Tx } from '@pal/server';
+import type { AccountRow, DeckRow, MemberRow, SessionRow, Store, Tx } from '@pal/server';
 
 type TxSql = postgres.TransactionSql;
 
@@ -24,6 +24,22 @@ const member = (r: Record<string, unknown>): MemberRow => ({
   deck: (r.deck as string[] | null) ?? null,
   secondsAway: Number(r.seconds_away ?? 0),
 });
+
+const account = (r: Record<string, unknown>): AccountRow => ({
+  id: r.id as string,
+  username: r.username as string,
+  passwordHash: r.password_hash as string,
+});
+
+const deck = (r: Record<string, unknown>): DeckRow => ({
+  id: r.id as string,
+  name: r.name as string,
+  cards: r.cards as DeckRow['cards'],
+  updatedAt: new Date(r.updated_at as string).getTime(),
+});
+
+/** Sign-in tokens unused for this long stop working. */
+const TOKEN_DAYS = 180;
 
 function tx(sql: TxSql): Tx {
   return {
@@ -82,6 +98,45 @@ function tx(sql: TxSql): Tx {
         where session_id = ${sessionId} and version > ${version}
         order by version limit 50`;
       return rows.map((r) => ({ version: r.version as number, events: r.events as unknown[] }));
+    },
+    async accountByUsername(username) {
+      const [r] = await sql`select * from palworld.accounts where username = ${username}`;
+      return r ? account(r) : null;
+    },
+    async insertAccount(username, passwordHash) {
+      const [r] =
+        await sql`insert into palworld.accounts (username, password_hash) values (${username}, ${passwordHash}) returning *`;
+      return account(r!);
+    },
+    async insertToken(accountId, tokenHash) {
+      await sql`insert into palworld.account_tokens (token_hash, account_id) values (${tokenHash}, ${accountId})`;
+    },
+    async accountByToken(tokenHash) {
+      const [r] = await sql`
+        update palworld.account_tokens t set last_used = now()
+        from palworld.accounts a
+        where t.token_hash = ${tokenHash} and a.id = t.account_id
+          and t.last_used > now() - make_interval(days => ${TOKEN_DAYS})
+        returning a.*`;
+      return r ? account(r) : null;
+    },
+    async deleteToken(tokenHash) {
+      await sql`delete from palworld.account_tokens where token_hash = ${tokenHash}`;
+    },
+    async decks(accountId) {
+      const rows = await sql`select * from palworld.decks where account_id = ${accountId} order by updated_at desc`;
+      return rows.map(deck);
+    },
+    async upsertDeck(accountId, d) {
+      const [r] = await sql`
+        insert into palworld.decks (account_id, id, name, cards)
+        values (${accountId}, ${d.id}, ${d.name}, ${sql.json(d.cards)})
+        on conflict (account_id, id) do update set name = excluded.name, cards = excluded.cards, updated_at = now()
+        returning *`;
+      return deck(r!);
+    },
+    async deleteDeck(accountId, id) {
+      await sql`delete from palworld.decks where account_id = ${accountId} and id = ${id}`;
     },
   };
 }
